@@ -376,6 +376,29 @@
         "label": "t:options.accent"
       },
       {
+        "type": "select",
+        "id": "openrunde_font_usage",
+        "label": "OpenRunde custom font",
+        "options": [
+          {
+            "value": "disabled",
+            "label": "Use Shopify font picker only"
+          },
+          {
+            "value": "body_heading",
+            "label": "Use OpenRunde for body and headings"
+          },
+          {
+            "value": "body_only",
+            "label": "Use OpenRunde only for body text"
+          },
+          {
+            "value": "heading_only",
+            "label": "Use OpenRunde only for headings"
+          }
+        ],
+      },
+      {
         "type": "header",
         "content": "t:content.text_presets"
       },

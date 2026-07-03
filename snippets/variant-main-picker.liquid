@@ -7,6 +7,13 @@
 
 {% assign block_settings = block.settings %}
 
+<style>
+  fieldset label.variant-option__button-label{
+    padding: 10px 30px;
+    border-radius: 200px;
+  }
+</style>
+
 {% unless product_resource.has_only_default_variant %}
   {% liquid
     assign button_background_brightness = section.settings.color_scheme.settings.foreground | color_brightness
@@ -62,7 +69,17 @@
             {{ option_id_attribute }}
           >
             <legend>
-              {{ product_option.name | escape -}}
+              <div class="variant-option__legend-row">
+                {{ product_option.name | escape -}}
+                {% if product_option.name == 'Dimensione' and block_settings.size_guide_link != blank %}
+                  <a
+                    href="{{ block_settings.size_guide_link }}"
+                    class="variant-option__swatch-value variant-option__size-guide-link"
+                  >
+                    Guida alle misure
+                  </a>
+                {% endif %}
+              </div>
               {%- if variant_style == 'swatch' -%}
                 <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
               {%- endif %}
@@ -214,6 +231,10 @@
     width: 100%;
   }
 
+  legend {
+    width: 100%;
+  }
+
   .variant-picker__form {
     width: 100%;
   }
@@ -266,9 +287,21 @@
     margin-block-end: var(--margin-xs);
   }
 
+  .variant-option__legend-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-sm);
+  }
+
   .variant-option__swatch-value {
     padding-inline-start: var(--padding-xs);
     color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
+  }
+
+  .variant-option__size-guide-link {
+    text-decoration: underline;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -503,8 +536,9 @@
     }
   }
 
-  .variant-option__button-label:has([data-option-available='false']) {
-    color: rgb(var(--color-variant-text-rgb) / var(--opacity-60));
+  .variant-option__button-label:has([data-option-available='false']),
+  .variant-option__button-label input[data-option-available='false'] {
+    display: none;
   }
 
   .facets__inputs-list--swatches-grid .variant-option__button-label--has-swatch:hover .swatch {

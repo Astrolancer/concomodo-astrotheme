@@ -1,0 +1,24 @@
+{%- doc -%}
+  Renders a comparison row header pill (spans both columns) with an optional "?" tooltip.
+
+  @param {string} label - The row label, e.g. "Sensazione del materasso"
+  @param {string} [tooltip] - Optional help text shown on click
+{%- enddoc -%}
+<div class="mattress-comparison__row-header">
+  <div class="mattress-comparison__pill">
+    <span class="mattress-comparison__pill-label">{{ label }}</span>
+    {%- if tooltip != blank -%}
+      <span class="mattress-comparison__tip" data-tip>
+        <button
+          type="button"
+          class="mattress-comparison__tip-btn"
+          data-tip-btn
+          aria-expanded="false"
+          aria-label="{{ label | strip_html | escape }}"
+          on:click="/toggleTip"
+        >?</button>
+        <span class="mattress-comparison__tip-bubble" role="tooltip">{{ tooltip }}</span>
+      </span>
+    {%- endif -%}
+  </div>
+</div>

@@ -1,0 +1,50 @@
+{%- doc -%}
+  Renders one mattress's value cell for a comparison row.
+
+  @param {string} type - 'feel' | 'text' | 'value'
+  @param {object} [spec] - The mattress_comparison metaobject (used by 'feel')
+  @param {string} [title] - Bold value title (used by 'text')
+  @param {string} [description] - Value description (used by 'text')
+  @param {string} [value] - Big value, e.g. "22 cm" (used by 'value')
+  @param {string} [subtext] - Small caption under the big value (used by 'value')
+  @param {string} [min_label] - Left end of the firmness scale (used by 'feel')
+  @param {string} [max_label] - Right end of the firmness scale (used by 'feel')
+{%- enddoc -%}
+<div class="mattress-comparison__cell mattress-comparison__cell--{{ type }}">
+  {%- case type -%}
+    {%- when 'feel' -%}
+      {%- if spec.firmness_label != blank -%}
+        <div class="mattress-comparison__scale-label">{{ spec.firmness_label }}</div>
+      {%- endif -%}
+      <div class="mattress-comparison__scale" style="--v: {{ spec.firmness_value | default: 50 }};">
+        <span class="mattress-comparison__scale-fill"></span>
+        <span class="mattress-comparison__scale-knob"></span>
+      </div>
+      {%- if min_label != blank or max_label != blank -%}
+        <div class="mattress-comparison__scale-ends">
+          <span>{{ min_label }}</span>
+          <span>{{ max_label }}</span>
+        </div>
+      {%- endif -%}
+      {%- if spec.feel_title != blank -%}
+        <div class="mattress-comparison__value-title">{{ spec.feel_title }}</div>
+      {%- endif -%}
+      {%- if spec.feel_description != blank -%}
+        <div class="mattress-comparison__value-text">{{ spec.feel_description | newline_to_br }}</div>
+      {%- endif -%}
+
+    {%- when 'text' -%}
+      {%- if title != blank -%}
+        <div class="mattress-comparison__value-title">{{ title }}</div>
+      {%- endif -%}
+      {%- if description != blank -%}
+        <div class="mattress-comparison__value-text">{{ description | newline_to_br }}</div>
+      {%- endif -%}
+
+    {%- when 'value' -%}
+      <div class="mattress-comparison__value-big">{{ value }}</div>
+      {%- if subtext != blank -%}
+        <div class="mattress-comparison__value-sub">{{ subtext }}</div>
+      {%- endif -%}
+  {%- endcase -%}
+</div>

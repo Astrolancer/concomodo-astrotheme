@@ -1,0 +1,485 @@
+{%- liquid
+  assign layers = product.metafields.custom.mattress_layers.value
+
+  assign has_layers = false
+  if layers != blank and layers.size > 0
+    assign has_layers = true
+  endif
+
+  assign content_side_class = 'mattress-layers--content-right'
+  if section.settings.content_position == 'left'
+    assign content_side_class = 'mattress-layers--content-left'
+  endif
+-%}
+
+{%- if has_layers -%}
+  <script
+    src="{{ 'mattress-layers.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+
+  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+  <mattress-layers-component
+    class="section section--{{ section.settings.section_width }} mattress-layers color-{{ section.settings.color_scheme }} spacing-style {{ content_side_class }}"
+    {% unless section.settings.animate_on_scroll %}data-no-animation{% endunless %}
+    style="
+      {%- render 'spacing-style', settings: section.settings %}
+      --ml-gap-open: {{ section.settings.explode_gap }}px;
+      --ml-gap-open-mobile: {{ section.settings.explode_gap | times: 0.6 | round }}px;
+      --ml-dim: {{ section.settings.dim_opacity | divided_by: 100.0 }};
+      --ml-stagger: {{ section.settings.stagger }}ms;
+    "
+    {% if request.visual_preview_mode %}data-shopify-visual-preview{% endif %}
+  >
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="mattress-layers__header">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="mattress-layers__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <div class="mattress-layers__subheading">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} ── Visual: stacked mattress layers ── {%- endcomment -%}
+    <div class="mattress-layers__visual">
+      <div class="mattress-layers__stage" ref="stage">
+        {%- for layer in layers -%}
+          {%- liquid
+            assign img = layer.layer_image
+            if img.image != blank
+              assign img = img.image
+            endif
+            assign label = layer.title | default: ''
+          -%}
+          <button
+            type="button"
+            class="mattress-layers__layer"
+            ref="layers[]"
+            data-index="{{ forloop.index0 }}"
+            style="--index: {{ forloop.index0 }}; --layer-src: url('{{ img | image_url: width: 1200 }}');"
+            aria-pressed="false"
+            {% if label != blank %}aria-label="{{ label | strip_html | escape }}"{% endif %}
+            on:click="/select"
+          >
+            <span class="mattress-layers__layer-inner">
+              {% render 'image', image: img, class: 'mattress-layers__layer-image' %}
+            </span>
+          </button>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- comment -%} ── Content: captions linked to layers by index ── {%- endcomment -%}
+    <div class="mattress-layers__content">
+      <ul class="mattress-layers__list" role="list">
+        {%- for layer in layers -%}
+          {%- liquid
+            assign title = layer.title
+            assign description = layer.description
+            if title == blank and description == blank
+              continue
+            endif
+          -%}
+          <li class="mattress-layers__caption-item">
+            <button
+              type="button"
+              class="mattress-layers__caption"
+              ref="captions[]"
+              data-index="{{ forloop.index0 }}"
+              aria-pressed="false"
+              on:click="/select"
+            >
+              {%- if title != blank -%}
+                <span class="mattress-layers__caption-title">{{ title }}</span>
+              {%- endif -%}
+              {%- if description != blank -%}
+                <span class="mattress-layers__caption-text">{{ description | newline_to_br }}</span>
+              {%- endif -%}
+            </button>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </mattress-layers-component>
+{%- elsif request.design_mode -%}
+  <div class="section section--page-width color-{{ section.settings.color_scheme }} spacing-style">
+    <div class="mattress-layers__placeholder">
+      Add a list of <code>mattress_layer</code> metaobjects to this product’s
+      <code>custom.mattress_layers</code> metafield (each with an image, title and description)
+      to display the exploded mattress view.
+    </div>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .mattress-layers {
+    --ml-gap-open: 28px;
+    --ml-gap-open-mobile: 16px;
+    --ml-gap-closed: 0px;
+    --ml-dim: 0.5;
+    --ml-stagger: 90ms;
+
+    display: grid;
+    gap: var(--gap, 2rem);
+    grid-template-areas: 'header' 'visual' 'content';
+    align-items: center;
+  }
+
+  @media screen and (min-width: 750px) {
+    .mattress-layers {
+      grid-template-columns: 3fr 2fr; /* 60% images / 40% text */
+      grid-template-areas: 'header header' 'visual content';
+      column-gap: clamp(2rem, 5vw, 5rem);
+    }
+
+    .mattress-layers--content-left {
+      grid-template-columns: 2fr 3fr;
+      grid-template-areas: 'header header' 'content visual';
+    }
+  }
+
+  .mattress-layers__visual {
+    grid-area: visual;
+  }
+
+  .mattress-layers__content {
+    grid-area: content;
+  }
+
+  /* ── Stacked layers ── */
+  .mattress-layers__stage {
+    display: flex;
+    flex-direction: column; /* index 0 (first caption) sits at the top */
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mattress-layers__layer {
+    position: relative;
+    /* Higher layers stack above lower ones (index 0 = top = highest) */
+    z-index: calc(7 - var(--index));
+    display: grid;
+    grid-template-rows: 1fr; /* first & last stay expanded */
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    margin-block-start: 0;
+    transition:
+      grid-template-rows 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.6s ease,
+      margin 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--index) * var(--ml-stagger));
+  }
+
+  .mattress-layers__layer-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  /* ── Closed state: only first (top) + last (base) visible, adjacent ── */
+  .mattress-layers__layer:not(:first-child):not(:last-child) {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+
+  /* ── Exploded state ── */
+  .mattress-layers[data-open] .mattress-layers__layer {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-block-start: var(--ml-gap-open-mobile);
+  }
+
+  .mattress-layers[data-open] .mattress-layers__layer:first-child {
+    margin-block-start: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .mattress-layers[data-open] .mattress-layers__layer {
+      margin-block-start: var(--ml-gap-open);
+    }
+
+    .mattress-layers[data-open] .mattress-layers__layer:first-child {
+      margin-block-start: 0;
+    }
+  }
+
+  .mattress-layers__layer-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+  }
+
+  /* Color overlay that follows the layer image silhouette (via mask) */
+  .mattress-layers__layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #b2c8d180;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    -webkit-mask-image: var(--layer-src);
+    mask-image: var(--layer-src);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+
+  /* Tint the non-selected layer images */
+  .mattress-layers[data-active] .mattress-layers__layer:not(.is-active)::after {
+    opacity: 1;
+  }
+
+  .mattress-layers__layer:focus-visible {
+    outline: 2px solid currentcolor;
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  /* ── Header (spans both columns, centered) ── */
+  .mattress-layers__header {
+    grid-area: header;
+    margin-block-end: 1rem;
+    text-align: center;
+  }
+
+  .mattress-layers__heading {
+    margin: 0;
+  }
+
+  .mattress-layers__subheading {
+    margin-block-start: 0.5rem;
+    margin-inline: auto;
+    max-width: 60ch;
+    opacity: 0.75;
+  }
+
+  .mattress-layers__list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Long separator between every layer text, none below the last one */
+  .mattress-layers__caption-item + .mattress-layers__caption-item {
+    border-block-start: 1px solid rgb(from currentcolor r g b / 15%);
+  }
+
+  .mattress-layers__caption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    width: 100%;
+    margin: 0;
+    padding: 1.25rem 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    text-align: start;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    /* Text 50% larger than the base body size */
+    font-size: 1.5em;
+    transition: opacity 0.35s ease;
+  }
+
+  /* Dim the non-selected captions */
+  .mattress-layers[data-active] .mattress-layers__caption:not(.is-active) {
+    opacity: var(--ml-dim);
+  }
+
+  .mattress-layers__caption:focus-visible {
+    outline: 2px solid currentcolor;
+    outline-offset: 2px;
+  }
+
+  .mattress-layers__caption-title {
+    font-weight: 600;
+  }
+
+  .mattress-layers__caption-text {
+    opacity: 0.8;
+    font-size: 0.95em;
+    line-height: 1.5;
+  }
+
+  .mattress-layers__caption-text > :first-child {
+    margin-block-start: 0;
+  }
+
+  .mattress-layers__caption-text > :last-child {
+    margin-block-end: 0;
+  }
+
+  .mattress-layers__placeholder {
+    padding: 3rem;
+    text-align: center;
+    border: 1px dashed rgb(from currentcolor r g b / 30%);
+    border-radius: 8px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mattress-layers__stage,
+    .mattress-layers__layer {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Mattress layers",
+  "tag": "section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Layers come from the product's 'custom.mattress_layers' metafield (a list of 'mattress_layer' metaobjects, each with image + title + description), ordered top to bottom. Titles/descriptions are managed per product there, not here."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Every layer, engineered for sleep"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Text position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Animation & layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "animate_on_scroll",
+      "label": "Explode on scroll into view",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "explode_gap",
+      "label": "Gap between exploded layers",
+      "min": -60,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "stagger",
+      "label": "Stagger between layers",
+      "min": 0,
+      "max": 300,
+      "step": 10,
+      "unit": "ms",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "dim_opacity",
+      "label": "Dim opacity of unselected items",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mattress layers"
+    }
+  ]
+}
+{% endschema %}

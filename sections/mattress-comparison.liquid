@@ -1,0 +1,692 @@
+{%- liquid
+  assign product_a = product
+  assign product_b = product.metafields.custom.compare_with.value
+  assign spec_a = product_a.metafields.custom.comparison.value
+  assign spec_b = product_b.metafields.custom.comparison.value
+
+  assign has_data = false
+  if product_b != blank and spec_a != blank and spec_b != blank
+    assign has_data = true
+  endif
+-%}
+
+{%- if has_data -%}
+  <script
+    src="{{ 'mattress-comparison.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+
+  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+  <mattress-comparison-component
+    class="section section--{{ section.settings.section_width }} mattress-comparison color-{{ section.settings.color_scheme }} spacing-style"
+    style="{% render 'spacing-style', settings: section.settings %}"
+    {% if request.visual_preview_mode %}data-shopify-visual-preview{% endif %}
+  >
+    {%- if section.settings.heading != blank -%}
+      <h2 class="mattress-comparison__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="mattress-comparison__card">
+      <div class="mattress-comparison__divider" aria-hidden="true"></div>
+      <div class="mattress-comparison__grid">
+        {%- comment -%} ── Product images (scroll away) ── {%- endcomment -%}
+        {%- for i in (1..2) -%}
+          {%- liquid
+            if forloop.first
+              assign p = product_a
+              assign s = spec_a
+            else
+              assign p = product_b
+              assign s = spec_b
+            endif
+            assign head_img = s.card_image | default: p.featured_image
+          -%}
+          <a href="{{ p.url }}" class="mattress-comparison__head-media">
+            {%- if s.badge != blank -%}
+              <span class="mattress-comparison__badge">{{ s.badge }}</span>
+            {%- endif -%}
+            {% render 'image', image: head_img, class: 'mattress-comparison__head-image' %}
+          </a>
+        {%- endfor -%}
+
+        {%- comment -%} ── Product info (sticky bar: title + desc + price) ── {%- endcomment -%}
+        <div class="mattress-comparison__info-row" ref="stickyBar">
+          {%- for i in (1..2) -%}
+            {%- liquid
+              if forloop.first
+                assign p = product_a
+                assign s = spec_a
+              else
+                assign p = product_b
+                assign s = spec_b
+              endif
+              assign head_desc = s.short_description | default: p.description
+
+              assign min_price = 0
+              for v in p.variants
+                if v.price > 0 and min_price == 0
+                  assign min_price = v.price
+                elsif v.price > 0 and v.price < min_price
+                  assign min_price = v.price
+                endif
+              endfor
+            -%}
+            <div class="mattress-comparison__info">
+              <a href="{{ p.url }}" class="mattress-comparison__head-title">{{ p.title }}</a>
+              {%- if head_desc != blank -%}
+                <div class="mattress-comparison__head-desc">{{ head_desc | strip_html | truncatewords: 22 }}</div>
+              {%- endif -%}
+              {%- if min_price > 0 -%}
+                <div class="mattress-comparison__head-price">{{ min_price | money }}</div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%} ── Row: Sensazione (scale + title/description) ── {%- endcomment -%}
+        {%- if section.settings.show_feel -%}
+          {% render 'comparison-tooltip', label: section.settings.feel_label, tooltip: section.settings.feel_tooltip %}
+          {%- for i in (1..2) -%}
+            {%- if forloop.first %}{% assign s = spec_a %}{% else %}{% assign s = spec_b %}{% endif -%}
+            {% render 'comparison-cell',
+              type: 'feel',
+              spec: s,
+              min_label: section.settings.firmness_min_label,
+              max_label: section.settings.firmness_max_label
+            %}
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- comment -%} ── Row: Supporto ergonomico ── {%- endcomment -%}
+        {%- if section.settings.show_support -%}
+          {% render 'comparison-tooltip', label: section.settings.support_label, tooltip: section.settings.support_tooltip %}
+          {%- for i in (1..2) -%}
+            {%- if forloop.first %}{% assign s = spec_a %}{% else %}{% assign s = spec_b %}{% endif -%}
+            {% render 'comparison-cell', type: 'text', title: s.support_title, description: s.support_description %}
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- comment -%} ── Row: Raffreddamento e traspirabilità ── {%- endcomment -%}
+        {%- if section.settings.show_cooling -%}
+          {% render 'comparison-tooltip', label: section.settings.cooling_label, tooltip: section.settings.cooling_tooltip %}
+          {%- for i in (1..2) -%}
+            {%- if forloop.first %}{% assign s = spec_a %}{% else %}{% assign s = spec_b %}{% endif -%}
+            {% render 'comparison-cell', type: 'text', title: s.cooling_title, description: s.cooling_description %}
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- comment -%} ── Row: Altezza del materasso ── {%- endcomment -%}
+        {%- if section.settings.show_height -%}
+          {% render 'comparison-tooltip', label: section.settings.height_label, tooltip: section.settings.height_tooltip %}
+          {%- for i in (1..2) -%}
+            {%- if forloop.first %}{% assign s = spec_a %}{% else %}{% assign s = spec_b %}{% endif -%}
+            {% render 'comparison-cell', type: 'value', value: s.height_value, subtext: s.height_subtext %}
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- comment -%} ── Row: Strati del materasso ── {%- endcomment -%}
+        {%- if section.settings.show_layers -%}
+          {% render 'comparison-tooltip', label: section.settings.layers_label, tooltip: section.settings.layers_tooltip %}
+          {%- for i in (1..2) -%}
+            {%- if forloop.first %}{% assign s = spec_a %}{% else %}{% assign s = spec_b %}{% endif -%}
+            {% render 'comparison-cell', type: 'value', value: s.layers_count, subtext: s.layers_subtext %}
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- comment -%} ── CTA ── {%- endcomment -%}
+        {%- if section.settings.cta_label != blank -%}
+          <div class="mattress-comparison__footer">
+            <a
+              class="mattress-comparison__cta button"
+              {% if section.settings.cta_link != blank %}href="{{ section.settings.cta_link }}"{% else %}href="{{ product_b.url }}"{% endif %}
+            >
+              {{ section.settings.cta_label }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </mattress-comparison-component>
+
+{%- elsif request.design_mode -%}
+  <div class="section section--page-width color-{{ section.settings.color_scheme }} spacing-style">
+    <div class="mattress-comparison__placeholder">
+      <p>To display the comparison, this product needs:</p>
+      <ul>
+        <li>a <code>custom.compare_with</code> product reference — {% if product_b != blank %}✓ set{% else %}✗ missing{% endif %}</li>
+        <li>a <code>custom.comparison</code> metaobject on this product — {% if spec_a != blank %}✓ set{% else %}✗ missing{% endif %}</li>
+        <li>a <code>custom.comparison</code> metaobject on the compared product — {% if spec_b != blank %}✓ set{% else %}✗ missing{% endif %}</li>
+      </ul>
+    </div>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .mattress-comparison {
+    --cmp-muted: rgb(var(--color-foreground-rgb) / 0.06);
+    --cmp-line: rgb(var(--color-foreground-rgb) / 0.12);
+
+    /* Bump every text ~30%: root base + em-based child sizes */
+    font-size: 1.3rem;
+  }
+
+  .mattress-comparison__heading {
+    margin: 0 0 5rem;
+    text-align: center;
+  }
+
+  .mattress-comparison__card {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid var(--cmp-line);
+    border-radius: 20px;
+    padding: clamp(1rem, 3vw, 2.5rem);
+    box-shadow: 0 20px 50px rgb(var(--color-foreground-rgb) / 0.05);
+  }
+
+  /* Vertical divider between the two columns */
+  .mattress-comparison__divider {
+    position: absolute;
+    inset-block: clamp(1rem, 3vw, 2.5rem);
+    inset-inline-start: 50%;
+    width: 1px;
+    background: var(--cmp-line);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .mattress-comparison__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(1.5rem, 6vw, 4.5rem);
+    row-gap: 1.5rem;
+    align-items: start;
+  }
+
+  /* ── Product headers ── */
+  .mattress-comparison__head-media {
+    position: relative;
+    display: block;
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  /* Sticky bar: full-width white background + soft bottom shadow */
+  .mattress-comparison__info-row {
+    grid-column: 1 / -1;
+    position: sticky;
+    top: calc(var(--header-height, 0px) - 0.1rem);
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(1.5rem, 6vw, 4.5rem);
+    background: #fff;
+    box-shadow: 0 12px 14px -8px rgb(var(--color-foreground-rgb) / 0);
+    transition: box-shadow 0.25s ease;
+  }
+
+  /* Shadow only once the bar is pinned to the top */
+  .mattress-comparison__info-row.is-stuck {
+    box-shadow: 0 12px 14px -8px rgb(var(--color-foreground-rgb) / 0.18);
+  }
+
+  .mattress-comparison__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding-block: 1rem;
+    text-align: center;
+  }
+
+  .mattress-comparison__head-price {
+    font-weight: 700;
+    font-size: 1.1em;
+    margin-block-start: 0.25rem;
+  }
+
+  .mattress-comparison__head-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .mattress-comparison__badge {
+    position: absolute;
+    inset-block-start: 0.75rem;
+    inset-inline-start: 0.75rem;
+    padding: 0.35em 0.85em;
+    border-radius: 999px;
+    background: var(--color-background);
+    font-size: 0.8em;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgb(var(--color-foreground-rgb) / 0.15);
+  }
+
+  .mattress-comparison__head-title {
+    font-size: clamp(1.25em, 2.5vw, 1.75em);
+    font-weight: 700;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .mattress-comparison__head-desc {
+    font-size: 0.9em;
+    opacity: 0.7;
+    max-width: 32ch;
+  }
+
+  /* ── Row header pill (spans both columns) ── */
+  .mattress-comparison__row-header {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    margin-block: 0.75rem;
+  }
+
+  .mattress-comparison__pill {
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.5rem;
+    width: min(100%, 640px);
+    padding: 0.6em 1.25em;
+    border-radius: 999px;
+    background: #cbc4bc;
+    font-weight: 400;
+    font-size: 1.2em;
+    text-align: center;
+  }
+
+  /* ── Tooltip ── */
+  .mattress-comparison__tip {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .mattress-comparison__tip-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5em;
+    height: 1.5em;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(var(--color-foreground-rgb) / 0.55);
+    color: var(--color-background);
+    font-size: 0.5em;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .mattress-comparison__tip-btn:focus-visible {
+    outline: 2px solid currentcolor;
+    outline-offset: 2px;
+  }
+
+  .mattress-comparison__tip-bubble {
+    position: absolute;
+    inset-block-start: calc(100% + 8px);
+    inset-inline-start: 50%;
+    z-index: 5;
+    width: max-content;
+    max-width: min(260px, 70vw);
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    background: rgb(var(--color-foreground-rgb) / 0.92);
+    color: var(--color-background);
+    font-size: 0.6em;
+    font-weight: 400;
+    line-height: 1.4;
+    text-align: start;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    box-shadow: 0 10px 30px rgb(var(--color-foreground-rgb) / 0.25);
+  }
+
+  .mattress-comparison__tip.is-open .mattress-comparison__tip-bubble {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+
+  /* ── Value cells ── */
+  .mattress-comparison__cell {
+    text-align: center;
+    padding-block: 0.5rem 1.25rem;
+  }
+
+  .mattress-comparison__value-title {
+    font-weight: 600;
+    margin-block-end: 0.35rem;
+  }
+
+  .mattress-comparison__value-text {
+    font-size: 0.9em;
+    line-height: 1.5;
+    opacity: 0.75;
+    max-width: 34ch;
+    margin-inline: auto;
+  }
+
+  .mattress-comparison__value-big {
+    font-size: clamp(2em, 4vw, 2.75em);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .mattress-comparison__value-sub {
+    font-size: 0.9em;
+    opacity: 0.7;
+    margin-block-start: 0.25rem;
+  }
+
+  /* ── Firmness scale ── */
+  .mattress-comparison__scale-label {
+    font-weight: 600;
+    margin-block-end: 0.6rem;
+  }
+
+  .mattress-comparison__scale {
+    position: relative;
+    height: 6px;
+    margin-inline: auto;
+    max-width: 240px;
+    border-radius: 999px;
+    background: rgb(var(--color-foreground-rgb) / 0.12);
+  }
+
+  .mattress-comparison__scale-fill {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: clamp(0%, calc(var(--v, 50) * 1%), 100%);
+    border-radius: 999px;
+    background: rgb(var(--color-foreground-rgb) / 0.55);
+  }
+
+  .mattress-comparison__scale-knob {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: clamp(0%, calc(var(--v, 50) * 1%), 100%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-foreground);
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 6px rgb(var(--color-foreground-rgb) / 0.3);
+  }
+
+  .mattress-comparison__scale-ends {
+    display: flex;
+    justify-content: space-between;
+    max-width: 240px;
+    margin: 0.5rem auto 0;
+    font-size: 0.8em;
+    opacity: 0.6;
+  }
+
+  .mattress-comparison__scale + .mattress-comparison__value-title,
+  .mattress-comparison__scale-ends + .mattress-comparison__value-title {
+    margin-block-start: 1rem;
+  }
+
+  /* ── Footer / CTA ── */
+  .mattress-comparison__footer {
+    grid-column: 2;
+    display: flex;
+    justify-content: center;
+    margin-block-start: 1.5rem;
+  }
+
+  .mattress-comparison__placeholder {
+    padding: 2rem;
+    border: 1px dashed var(--cmp-line, rgb(var(--color-foreground-rgb) / 0.3));
+    border-radius: 12px;
+  }
+
+  .mattress-comparison__placeholder ul {
+    margin-block: 0.5rem 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mattress-comparison__tip-bubble {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Mattress comparison",
+  "tag": "section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Compares the current product with the one set in its 'custom.compare_with' metafield. Both products need a 'custom.comparison' metaobject filled in."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Confronta questo materasso"
+    },
+    {
+      "type": "header",
+      "content": "Row · Feel (scale + text)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_feel",
+      "label": "Show row",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "feel_label",
+      "label": "Row label",
+      "default": "Sensazione del materasso"
+    },
+    {
+      "type": "textarea",
+      "id": "feel_tooltip",
+      "label": "Tooltip text"
+    },
+    {
+      "type": "text",
+      "id": "firmness_min_label",
+      "label": "Scale start label",
+      "default": "Morbido"
+    },
+    {
+      "type": "text",
+      "id": "firmness_max_label",
+      "label": "Scale end label",
+      "default": "Duro"
+    },
+    {
+      "type": "header",
+      "content": "Row · Ergonomic support"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_support",
+      "label": "Show row",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "support_label",
+      "label": "Row label",
+      "default": "Supporto ergonomico"
+    },
+    {
+      "type": "textarea",
+      "id": "support_tooltip",
+      "label": "Tooltip text"
+    },
+    {
+      "type": "header",
+      "content": "Row · Cooling & breathability"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cooling",
+      "label": "Show row",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cooling_label",
+      "label": "Row label",
+      "default": "Raffreddamento e traspirabilità"
+    },
+    {
+      "type": "textarea",
+      "id": "cooling_tooltip",
+      "label": "Tooltip text"
+    },
+    {
+      "type": "header",
+      "content": "Row · Height"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_height",
+      "label": "Show row",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "height_label",
+      "label": "Row label",
+      "default": "Altezza del materasso"
+    },
+    {
+      "type": "textarea",
+      "id": "height_tooltip",
+      "label": "Tooltip text"
+    },
+    {
+      "type": "header",
+      "content": "Row · Layers"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_layers",
+      "label": "Show row",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "layers_label",
+      "label": "Row label",
+      "default": "Strati del materasso"
+    },
+    {
+      "type": "textarea",
+      "id": "layers_tooltip",
+      "label": "Tooltip text"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Acquista quello giusto"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link",
+      "info": "Leave empty to link to the compared product."
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mattress comparison"
+    }
+  ]
+}
+{% endschema %}
