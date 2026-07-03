@@ -223,11 +223,11 @@
       </section>
 
       {%- comment -%} ---------- D6: must-have (multi, max 2) ---------- {%- endcomment -%}
-      <section class="cq-step" data-step-type="question" data-key="features" data-multi="true" data-max="2">
+      <section class="cq-step" data-step-type="question" data-key="features" data-multi="true" data-max="{{ section.settings.multi_max | default: 2 }}">
         <div class="cq-step__inner">
           <p class="cq__kicker"><span class="cq__kicker-num">6</span> Le priorità</p>
           <h2 class="cq__title">Cosa non deve proprio mancare?</h2>
-          <p class="cq__hint">Scegli fino a 2 risposte.</p>
+          <p class="cq__hint">Scegli fino a {{ section.settings.multi_max | default: 2 }} risposte.</p>
           <div class="cq__options" role="group" aria-label="Cosa non deve proprio mancare?">
             <button type="button" class="cq-opt" role="checkbox" aria-checked="false" data-value="isolamento" data-points='{"m3b":2,"m3a":1,"m2":1}'>
               <span class="cq-opt__key">A</span><span class="cq-opt__label">Isolamento dei movimenti</span>
@@ -477,6 +477,15 @@
       "id": "intro_cta",
       "label": "Testo bottone",
       "default": "Inizia il quiz"
+    },
+    {
+      "type": "range",
+      "id": "multi_max",
+      "label": "Scelte multiple massime (domanda 6)",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 2
     },
     {
       "type": "header",

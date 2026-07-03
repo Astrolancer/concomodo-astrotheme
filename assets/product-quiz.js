@@ -9,6 +9,9 @@
   'use strict';
 
   const AUTO_ADVANCE_DELAY = 420;
+  // Nell'editor tema di Shopify l'anteprima ricarica se cambia l'URL:
+  // in design mode saltiamo ogni riscrittura dell'URL.
+  const DESIGN_MODE = !!(window.Shopify && window.Shopify.designMode);
 
   class ProductQuiz {
     constructor(root) {
@@ -156,7 +159,7 @@
 
       if (prevStep && prevStep !== nextStep) {
         prevStep.classList.remove('is-active');
-        prevStep.classList.add(index > this.current ? 'is-leaving-up' : '');
+        if (index > this.current) prevStep.classList.add('is-leaving-up');
         window.setTimeout(() => prevStep.classList.remove('is-leaving-up'), 500);
       }
 
@@ -317,16 +320,48 @@
       this.show(resultIndex);
       this.track('quiz_completed', { result: winner, scores });
 
-      try {
-        const url = new URL(window.location.href);
-        url.searchParams.set('quiz_result', winner);
-        window.history.replaceState({}, '', url.toString());
-      } catch (e) {
-        /* niente URL API: pazienza */
+      if (!DESIGN_MODE) {
+        try {
+          const url = new URL(window.location.href);
+          url.searchParams.set('quiz_result', winner);
+          window.history.replaceState({}, '', url.toString());
+        } catch (e) {
+          /* niente URL API: pazienza */
+        }
       }
     }
 
+    /* anteprima risultato per l'editor tema (selezione blocco) */
+    previewResult(key) {
+      const resultStep = this.steps.find((s) => s.dataset.stepType === 'result');
+      if (!resultStep) return;
+      this.resultCards.forEach((card) => {
+        card.classList.toggle('is-visible', card.dataset.key === key);
+      });
+      let anyXsell = false;
+      this.xsellCards.forEach((card) => {
+        const forList = (card.dataset.crossFor || '').split(',').map((s) => s.trim());
+        const visible = forList.includes(key);
+        card.classList.toggle('is-visible', visible);
+        if (visible) anyXsell = true;
+      });
+      if (this.xsellWrap) this.xsellWrap.style.display = anyXsell ? '' : 'none';
+      this.show(this.steps.indexOf(resultStep));
+    }
+
+    previewXsell(card) {
+      const resultStep = this.steps.find((s) => s.dataset.stepType === 'result');
+      if (!resultStep) return;
+      if (!this.resultCards.some((c) => c.classList.contains('is-visible')) && this.resultCards[0]) {
+        this.resultCards[0].classList.add('is-visible');
+      }
+      card.classList.add('is-visible');
+      if (this.xsellWrap) this.xsellWrap.style.display = '';
+      this.show(this.steps.indexOf(resultStep));
+    }
+
     restoreFromUrl() {
+      if (DESIGN_MODE) return;
       // permette di riaprire/condividere un risultato: ?quiz_result=m3b
       try {
         const url = new URL(window.location.href);
@@ -357,12 +392,14 @@
         o.setAttribute('aria-checked', 'false');
       });
       this.resultCards.forEach((c) => c.classList.remove('is-visible'));
-      try {
-        const url = new URL(window.location.href);
-        url.searchParams.delete('quiz_result');
-        window.history.replaceState({}, '', url.toString());
-      } catch (e) {
-        /* ignora */
+      if (!DESIGN_MODE) {
+        try {
+          const url = new URL(window.location.href);
+          url.searchParams.delete('quiz_result');
+          window.history.replaceState({}, '', url.toString());
+        } catch (e) {
+          /* ignora */
+        }
       }
       this.show(0);
       this.track('quiz_restarted');
@@ -374,5 +411,28 @@
     }
   }
 
-  document.querySelectorAll('[data-product-quiz]').forEach((el) => new ProductQuiz(el));
+  function init(scope) {
+    (scope || document).querySelectorAll('[data-product-quiz]').forEach((el) => {
+      if (!el.__cqInstance) el.__cqInstance = new ProductQuiz(el);
+    });
+  }
+
+  init();
+
+  if (DESIGN_MODE) {
+    // ricrea il quiz quando l'editor tema ricarica la sezione
+    document.addEventListener('shopify:section:load', (e) => init(e.target));
+    // selezionando un blocco risultato/cross-sell nell'editor, mostra la sua anteprima
+    document.addEventListener('shopify:block:select', (e) => {
+      const root = e.target.closest('[data-product-quiz]');
+      if (!root || !root.__cqInstance) return;
+      const resultCard = e.target.closest('.cq__result-card');
+      if (resultCard) {
+        root.__cqInstance.previewResult(resultCard.dataset.key);
+        return;
+      }
+      const xsellCard = e.target.closest('.cq__xsell-card');
+      if (xsellCard) root.__cqInstance.previewXsell(xsellCard);
+    });
+  }
 })();
