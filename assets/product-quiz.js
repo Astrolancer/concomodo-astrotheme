@@ -280,6 +280,13 @@
 
       // dopo il POST (ed eventuale captcha) Shopify riporta qui, sul risultato
       const { winner } = this.computeWinner();
+      // il flusso captcha può ignorare return_to: salviamo il risultato anche
+      // in sessionStorage, così viene ripristinato ovunque si atterri dopo
+      try {
+        sessionStorage.setItem('cq_pending', JSON.stringify({ winner: winner, ts: Date.now() }));
+      } catch (e) {
+        /* storage non disponibile */
+      }
       const returnInput = this.emailForm.querySelector('[data-cq-return]');
       if (returnInput) {
         try {
@@ -374,9 +381,30 @@
       if (DESIGN_MODE) return;
       // permette di riaprire/condividere un risultato: ?quiz_result=m3b
       try {
-        const url = new URL(window.location.href);
-        const saved = url.searchParams.get('quiz_result');
+        let saved = null;
+        try {
+          const url = new URL(window.location.href);
+          saved = url.searchParams.get('quiz_result');
+        } catch (e) {
+          /* ignora */
+        }
+        if (!saved) {
+          // ritorno dal captcha di Shopify: recupera il risultato in sospeso
+          try {
+            const pending = JSON.parse(sessionStorage.getItem('cq_pending') || 'null');
+            if (pending && pending.winner && Date.now() - pending.ts < 3600000) {
+              saved = pending.winner;
+            }
+          } catch (e) {
+            /* ignora */
+          }
+        }
         if (saved && this.resultCards.some((c) => c.dataset.key === saved)) {
+          try {
+            sessionStorage.removeItem('cq_pending');
+          } catch (e) {
+            /* ignora */
+          }
           this.resultCards.forEach((card) => {
             card.classList.toggle('is-visible', card.dataset.key === saved);
           });
@@ -402,6 +430,11 @@
         o.setAttribute('aria-checked', 'false');
       });
       this.resultCards.forEach((c) => c.classList.remove('is-visible'));
+      try {
+        sessionStorage.removeItem('cq_pending');
+      } catch (e) {
+        /* ignora */
+      }
       if (!DESIGN_MODE) {
         try {
           const url = new URL(window.location.href);
