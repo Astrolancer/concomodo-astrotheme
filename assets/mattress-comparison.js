@@ -3,20 +3,15 @@ import { Component } from '@theme/component';
 /**
  * Two-mattress comparison section.
  *
- * Handles the "?" tooltips (click to toggle, close on outside click / Escape)
- * and toggles an `is-stuck` class on the sticky info bar so its shadow only
- * appears while the bar is pinned to the top.
+ * Only behaviour needed here is the "?" tooltips: clicking a tooltip button
+ * toggles its bubble, closes any other open one, and closes on outside click
+ * or Escape. Everything else is static Liquid + CSS.
  *
- * @typedef {Object} MattressComparisonRefs
- * @property {HTMLElement} [stickyBar]
- *
- * @extends {Component<MattressComparisonRefs>}
+ * @extends {Component}
  */
 export class MattressComparisonComponent extends Component {
   /** @type {AbortController | null} */
   #abort = null;
-  /** @type {IntersectionObserver | null} */
-  #stuckObserver = null;
 
   connectedCallback() {
     super.connectedCallback();
@@ -24,30 +19,11 @@ export class MattressComparisonComponent extends Component {
     const { signal } = this.#abort;
     document.addEventListener('click', this.#handleOutsideClick, { signal });
     document.addEventListener('keydown', this.#handleKeydown, { signal });
-
-    this.#observeStuck();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.#abort?.abort();
-    this.#stuckObserver?.disconnect();
-    this.#stuckObserver = null;
-  }
-
-  #observeStuck() {
-    const bar = this.refs.stickyBar;
-    if (!bar) return;
-
-    // Detection line sits 1px above the bar's resting sticky position, so the
-    // element gets clipped (ratio < 1) exactly when it becomes pinned.
-    const stuckTop = parseFloat(getComputedStyle(bar).top) || 0;
-
-    this.#stuckObserver = new IntersectionObserver(
-      ([entry]) => bar.classList.toggle('is-stuck', entry.intersectionRatio < 1),
-      { threshold: [1], rootMargin: `${-(stuckTop + 1)}px 0px 0px 0px` }
-    );
-    this.#stuckObserver.observe(bar);
   }
 
   /**

@@ -47,21 +47,18 @@ export class MattressLayersComponent extends Component {
       return;
     }
 
-    // Explode when the section is in view, collapse back when it leaves.
+    // Reveal (explode) the layers once the section scrolls into view.
     this.#io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
-            window.clearTimeout(this.#openTimer);
-            // Show the closed mattress briefly, then explode.
-            this.#openTimer = window.setTimeout(() => this.#open(), 250);
-          } else {
-            window.clearTimeout(this.#openTimer);
-            this.#close();
-          }
+          if (!entry.isIntersecting) continue;
+          this.#io?.disconnect();
+          this.#io = null;
+          // Show the closed mattress briefly, then explode.
+          this.#openTimer = window.setTimeout(() => this.#open(), 450);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.35 }
     );
 
     this.#io.observe(this);
@@ -77,11 +74,6 @@ export class MattressLayersComponent extends Component {
 
   #open() {
     this.setAttribute('data-open', '');
-  }
-
-  #close() {
-    this.removeAttribute('data-open');
-    this.#setActive(null);
   }
 
   /**
