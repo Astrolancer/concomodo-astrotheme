@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "quiz": {
@@ -11,6 +20,7 @@
             "hint": "Scegli una risposta.",
             "layout": "list",
             "multi": false,
+            "max": 2,
             "key": "who"
           }
         },
@@ -18,6 +28,11 @@
           "type": "answer",
           "settings": {
             "label": "Per me",
+            "p_m1": 0,
+            "p_m2": 0,
+            "p_m3a": 0,
+            "p_m3b": 0,
+            "icon": "none",
             "value": "me"
           }
         },
@@ -25,18 +40,24 @@
           "type": "answer",
           "settings": {
             "label": "Per me e il mio partner",
-            "value": "partner",
+            "p_m1": 0,
+            "p_m2": 0,
             "p_m3a": 1,
-            "p_m3b": 2
+            "p_m3b": 2,
+            "icon": "none",
+            "value": "partner"
           }
         },
         "domanda_1_risposta_3": {
           "type": "answer",
           "settings": {
             "label": "Per la camera degli ospiti",
-            "value": "ospiti",
             "p_m1": 2,
-            "p_m2": 2
+            "p_m2": 2,
+            "p_m3a": 0,
+            "p_m3b": 0,
+            "icon": "none",
+            "value": "ospiti"
           }
         },
         "domanda_2": {
@@ -47,6 +68,7 @@
             "hint": "Scegli una risposta.",
             "layout": "grid",
             "multi": false,
+            "max": 2,
             "key": "size"
           }
         },
@@ -54,32 +76,48 @@
           "type": "answer",
           "settings": {
             "label": "Singolo",
-            "value": "singolo",
-            "icon": "singolo"
+            "p_m1": 0,
+            "p_m2": 0,
+            "p_m3a": 0,
+            "p_m3b": 0,
+            "icon": "singolo",
+            "value": "singolo"
           }
         },
         "domanda_2_risposta_2": {
           "type": "answer",
           "settings": {
             "label": "Una piazza e mezza",
-            "value": "francese",
-            "icon": "francese"
+            "p_m1": 0,
+            "p_m2": 0,
+            "p_m3a": 0,
+            "p_m3b": 0,
+            "icon": "francese",
+            "value": "francese"
           }
         },
         "domanda_2_risposta_3": {
           "type": "answer",
           "settings": {
             "label": "Matrimoniale",
-            "value": "matrimoniale",
-            "icon": "matrimoniale"
+            "p_m1": 0,
+            "p_m2": 0,
+            "p_m3a": 0,
+            "p_m3b": 0,
+            "icon": "schiena",
+            "value": "matrimoniale"
           }
         },
         "domanda_2_risposta_4": {
           "type": "answer",
           "settings": {
             "label": "Non lo so ancora",
-            "value": "unknown",
-            "icon": "domanda"
+            "p_m1": 0,
+            "p_m2": 0,
+            "p_m3a": 0,
+            "p_m3b": 0,
+            "icon": "domanda",
+            "value": "unknown"
           }
         },
         "domanda_3": {
@@ -87,9 +125,10 @@
           "settings": {
             "kicker": "Oggi",
             "title": "Cosa non sopporti del tuo materasso attuale?",
-            "hint": "Scegli una risposta.",
+            "hint": "Scegli fino a 3 opzioni",
             "layout": "list",
-            "multi": false,
+            "multi": true,
+            "max": 2,
             "key": "complaint"
           }
         },
@@ -97,64 +136,83 @@
           "type": "answer",
           "settings": {
             "label": "È troppo morbido",
-            "value": "troppo_morbido",
             "p_m1": 3,
-            "p_m3b": 2
+            "p_m2": 0,
+            "p_m3a": 0,
+            "p_m3b": 2,
+            "icon": "none",
+            "value": "troppo_morbido"
           }
         },
         "domanda_3_risposta_2": {
           "type": "answer",
           "settings": {
             "label": "È troppo rigido",
-            "value": "troppo_rigido",
+            "p_m1": 0,
             "p_m2": 3,
-            "p_m3a": 2
+            "p_m3a": 2,
+            "p_m3b": 0,
+            "icon": "none",
+            "value": "troppo_rigido"
           }
         },
         "domanda_3_risposta_3": {
           "type": "answer",
           "settings": {
             "label": "Si è afflosciato o deformato",
-            "value": "afflosciato",
             "p_m1": 2,
+            "p_m2": 0,
             "p_m3a": 1,
-            "p_m3b": 2
+            "p_m3b": 2,
+            "icon": "none",
+            "value": "afflosciato"
           }
         },
         "domanda_3_risposta_4": {
           "type": "answer",
           "settings": {
             "label": "Sento tutti i movimenti del partner",
-            "value": "movimenti_partner",
+            "p_m1": 0,
             "p_m2": 2,
             "p_m3a": 2,
-            "p_m3b": 3
+            "p_m3b": 3,
+            "icon": "none",
+            "value": "movimenti_partner"
           }
         },
         "domanda_3_risposta_5": {
           "type": "answer",
           "settings": {
             "label": "Dormo caldo, mi sveglio sudato",
-            "value": "caldo",
             "p_m1": 3,
+            "p_m2": 0,
             "p_m3a": 1,
-            "p_m3b": 3
+            "p_m3b": 3,
+            "icon": "none",
+            "value": "caldo"
           }
         },
         "domanda_3_risposta_6": {
           "type": "answer",
           "settings": {
             "label": "Mi sveglio con dolori o indolenzito",
-            "value": "dolori",
+            "p_m1": 0,
             "p_m2": 1,
             "p_m3a": 3,
-            "p_m3b": 3
+            "p_m3b": 3,
+            "icon": "none",
+            "value": "dolori"
           }
         },
         "domanda_3_risposta_7": {
           "type": "answer",
           "settings": {
             "label": "Niente: ne sto cercando uno nuovo",
+            "p_m1": 0,
+            "p_m2": 0,
+            "p_m3a": 0,
+            "p_m3b": 0,
+            "icon": "none",
             "value": "niente"
           }
         },
@@ -166,6 +224,7 @@
             "hint": "Scegli una risposta.",
             "layout": "grid",
             "multi": false,
+            "max": 2,
             "key": "position"
           }
         },
@@ -173,42 +232,48 @@
           "type": "answer",
           "settings": {
             "label": "Sul fianco",
-            "value": "fianco",
-            "icon": "fianco",
+            "p_m1": 0,
             "p_m2": 1,
             "p_m3a": 2,
-            "p_m3b": 2
+            "p_m3b": 2,
+            "icon": "fianco",
+            "value": "fianco"
           }
         },
         "domanda_4_risposta_2": {
           "type": "answer",
           "settings": {
             "label": "Sulla schiena",
-            "value": "schiena",
-            "icon": "schiena",
             "p_m1": 1,
+            "p_m2": 0,
             "p_m3a": 2,
-            "p_m3b": 2
+            "p_m3b": 2,
+            "icon": "schiena",
+            "value": "schiena"
           }
         },
         "domanda_4_risposta_3": {
           "type": "answer",
           "settings": {
             "label": "A pancia in giù",
-            "value": "pancia",
-            "icon": "pancia",
             "p_m1": 3,
-            "p_m3b": 1
+            "p_m2": 0,
+            "p_m3a": 0,
+            "p_m3b": 1,
+            "icon": "pancia",
+            "value": "pancia"
           }
         },
         "domanda_4_risposta_4": {
           "type": "answer",
           "settings": {
             "label": "Cambio di continuo",
-            "value": "cambio",
-            "icon": "cambio",
+            "p_m1": 0,
+            "p_m2": 0,
             "p_m3a": 1,
-            "p_m3b": 2
+            "p_m3b": 2,
+            "icon": "cambio",
+            "value": "cambio"
           }
         },
         "domanda_5": {
@@ -219,6 +284,7 @@
             "hint": "Scegli una risposta.",
             "layout": "list",
             "multi": false,
+            "max": 2,
             "key": "feel"
           }
         },
@@ -226,27 +292,36 @@
           "type": "answer",
           "settings": {
             "label": "Morbido e avvolgente: voglio “affondare” nel comfort",
-            "value": "morbido",
+            "p_m1": 0,
             "p_m2": 4,
-            "p_m3a": 1
+            "p_m3a": 1,
+            "p_m3b": 0,
+            "icon": "none",
+            "value": "morbido"
           }
         },
         "domanda_5_risposta_2": {
           "type": "answer",
           "settings": {
             "label": "Equilibrato: accogliente ma con sostegno",
-            "value": "equilibrato",
+            "p_m1": 0,
+            "p_m2": 0,
             "p_m3a": 3,
-            "p_m3b": 3
+            "p_m3b": 3,
+            "icon": "none",
+            "value": "equilibrato"
           }
         },
         "domanda_5_risposta_3": {
           "type": "answer",
           "settings": {
             "label": "Sostenuto e deciso: preferisco dormire “sopra” il materasso",
-            "value": "deciso",
             "p_m1": 4,
-            "p_m3b": 1
+            "p_m2": 0,
+            "p_m3a": 0,
+            "p_m3b": 1,
+            "icon": "none",
+            "value": "deciso"
           }
         },
         "domanda_6": {
@@ -265,50 +340,60 @@
           "type": "answer",
           "settings": {
             "label": "Isolamento dei movimenti",
-            "value": "isolamento",
+            "p_m1": 0,
             "p_m2": 1,
             "p_m3a": 1,
-            "p_m3b": 2
+            "p_m3b": 2,
+            "icon": "none",
+            "value": "isolamento"
           }
         },
         "domanda_6_risposta_2": {
           "type": "answer",
           "settings": {
             "label": "Freschezza e traspirabilità",
-            "value": "freschezza",
             "p_m1": 2,
+            "p_m2": 0,
             "p_m3a": 1,
-            "p_m3b": 2
+            "p_m3b": 2,
+            "icon": "none",
+            "value": "freschezza"
           }
         },
         "domanda_6_risposta_3": {
           "type": "answer",
           "settings": {
             "label": "Supporto ergonomico a zone",
-            "value": "ergonomia",
             "p_m1": 1,
+            "p_m2": 0,
             "p_m3a": 2,
-            "p_m3b": 2
+            "p_m3b": 2,
+            "icon": "none",
+            "value": "ergonomia"
           }
         },
         "domanda_6_risposta_4": {
           "type": "answer",
           "settings": {
             "label": "Rivestimento sfoderabile e lavabile",
-            "value": "sfoderabile",
+            "p_m1": 0,
             "p_m2": 2,
             "p_m3a": 2,
-            "p_m3b": 2
+            "p_m3b": 2,
+            "icon": "none",
+            "value": "sfoderabile"
           }
         },
         "domanda_6_risposta_5": {
           "type": "answer",
           "settings": {
             "label": "Durata nel tempo",
-            "value": "durata",
             "p_m1": 1,
+            "p_m2": 0,
             "p_m3a": 1,
-            "p_m3b": 2
+            "p_m3b": 2,
+            "icon": "none",
+            "value": "durata"
           }
         },
         "domanda_7": {
@@ -319,6 +404,7 @@
             "hint": "Scegli una risposta.",
             "layout": "list",
             "multi": false,
+            "max": 2,
             "key": "budget"
           }
         },
@@ -326,28 +412,36 @@
           "type": "answer",
           "settings": {
             "label": "Dormire bene non ha prezzo: voglio il massimo",
-            "value": "top",
+            "p_m1": 0,
+            "p_m2": 0,
             "p_m3a": 2,
-            "p_m3b": 3
+            "p_m3b": 3,
+            "icon": "none",
+            "value": "top"
           }
         },
         "domanda_7_risposta_2": {
           "type": "answer",
           "settings": {
             "label": "Cerco il giusto equilibrio qualità-prezzo",
-            "value": "equilibrio",
+            "p_m1": 0,
             "p_m2": 1,
             "p_m3a": 2,
-            "p_m3b": 1
+            "p_m3b": 1,
+            "icon": "none",
+            "value": "equilibrio"
           }
         },
         "domanda_7_risposta_3": {
           "type": "answer",
           "settings": {
             "label": "Ho un budget contenuto",
-            "value": "contenuto",
             "p_m1": 3,
-            "p_m2": 3
+            "p_m2": 3,
+            "p_m3a": 0,
+            "p_m3b": 0,
+            "icon": "none",
+            "value": "contenuto"
           }
         },
         "result_m1": {
@@ -492,6 +586,7 @@
         "intro_heading": "Troviamo il materasso perfetto per te",
         "intro_text": "Rispondi a 7 domande veloci sul tuo modo di dormire: ti consigliamo il materasso Con comodo più adatto alle tue reali esigenze di riposo.",
         "intro_cta": "Inizia il quiz",
+        "multi_max": 2,
         "enable_email": true,
         "email_heading": "Il tuo abbinamento è pronto!",
         "email_text": "Lascia la tua email per ricevere il risultato del quiz e le offerte riservate Con comodo.",
