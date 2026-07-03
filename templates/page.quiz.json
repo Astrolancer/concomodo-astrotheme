@@ -1,0 +1,112 @@
+{
+  "sections": {
+    "quiz": {
+      "type": "product-quiz",
+      "blocks": {
+        "result_m1": {
+          "type": "result",
+          "settings": {
+            "key": "m1",
+            "badge": "Consigliato per te",
+            "title": "CC Rigido",
+            "subtitle": "Materasso a molle insacchettate · 7 zone",
+            "description": "Stabile, reattivo e con un sostegno deciso. Il rivestimento imbottito aggiunge comfort al primo contatto, ma la sensazione resta ferma e solida: ideale per chi ama dormire “sopra” il materasso.",
+            "tag_1": "Sostegno deciso",
+            "tag_2": "Traspirabilità ottima",
+            "feat_1": "Molle insacchettate a 7 zone di portanza differenziata",
+            "feat_2": "Fascia perimetrale 3D Air che disperde calore e umidità",
+            "feat_3": "Ribaltabile e modulare: abbinalo a un topper per più comfort",
+            "cta_label": "Scopri il materasso"
+          }
+        },
+        "result_m2": {
+          "type": "result",
+          "settings": {
+            "key": "m2",
+            "badge": "Consigliato per te",
+            "title": "CC Morbido",
+            "subtitle": "Materasso in memory sagomato · sfoderabile",
+            "description": "Il più morbido e accogliente della gamma. Pensato per chi vuole un materasso comodo fin da subito, con una sensazione avvolgente ma comunque equilibrata.",
+            "tag_1": "Morbido e avvolgente",
+            "tag_2": "Sfoderabile e lavabile",
+            "feat_1": "Memory sagomato a 7 zone che distribuisce la pressione",
+            "feat_2": "Base in poliuretano sagomato per stabilità e sostegno",
+            "feat_3": "Fascia 3D Air e sagomature che favoriscono l’aerazione",
+            "cta_label": "Scopri il materasso"
+          }
+        },
+        "result_m3a": {
+          "type": "result",
+          "settings": {
+            "key": "m3a",
+            "badge": "Consigliato per te",
+            "title": "CC Completo",
+            "subtitle": "Memory bugnato + strato di rinforzo · sfoderabile",
+            "description": "Comfort evoluto e strutturato: superficie accogliente grazie al memory bugnato e più sostegno grazie allo strato strutturale. Rivestimento premium con filamenti d’argento.",
+            "tag_1": "Comfort strutturato",
+            "tag_2": "Tessuto premium",
+            "feat_1": "Memory bugnato che lavora sulle diverse zone di appoggio",
+            "feat_2": "Strato strutturale in poliuretano per sostegno e consistenza",
+            "feat_3": "Filamenti d’argento e 3D Air per la dispersione termica",
+            "cta_label": "Scopri il materasso"
+          }
+        },
+        "result_m3b": {
+          "type": "result",
+          "settings": {
+            "key": "m3b",
+            "badge": "Consigliato per te",
+            "title": "CC Ibrido",
+            "subtitle": "Molle a 7 zone + memory bugnato · sfoderabile",
+            "description": "Stabile sotto, accogliente sopra. Il modello più completo della gamma: comfort, sostegno, traspirabilità e durata in un’unica soluzione.",
+            "tag_1": "Ibrido premium",
+            "tag_2": "Traspirabilità eccellente",
+            "feat_1": "Molle insacchettate a 7 zone: sostegno indipendente e progressivo",
+            "feat_2": "Memory bugnato che accompagna le zone di appoggio del corpo",
+            "feat_3": "Rivestimento sfoderabile con filamenti d’argento e 3D Air",
+            "cta_label": "Scopri il materasso"
+          }
+        },
+        "xsell_topper": {
+          "type": "cross_sell",
+          "settings": {
+            "show_for": "m1",
+            "title": "Topper CC Memory",
+            "subtitle": "Aggiungi accoglienza al sostegno deciso delle molle"
+          }
+        },
+        "xsell_cuscino": {
+          "type": "cross_sell",
+          "settings": {
+            "show_for": "m1,m2,m3a,m3b",
+            "title": "Cuscino CC",
+            "subtitle": "Completa il riposo con il supporto giusto per il collo"
+          }
+        }
+      },
+      "block_order": [
+        "result_m1",
+        "result_m2",
+        "result_m3a",
+        "result_m3b",
+        "xsell_topper",
+        "xsell_cuscino"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "intro_heading": "Troviamo il materasso perfetto per te",
+        "intro_text": "Rispondi a 7 domande veloci sul tuo modo di dormire: ti consigliamo il materasso Con comodo più adatto alle tue reali esigenze di riposo.",
+        "intro_cta": "Inizia il quiz",
+        "enable_email": true,
+        "email_heading": "Il tuo abbinamento è pronto!",
+        "email_text": "Lascia la tua email per ricevere il risultato del quiz e le offerte riservate Con comodo.",
+        "email_cta": "Mostrami il risultato",
+        "email_privacy": "Iscrivendoti accetti di ricevere comunicazioni da Con comodo. Puoi disiscriverti quando vuoi. Maggiori informazioni nella",
+        "result_kicker": "Risultato del quiz",
+        "result_heading": "Il tuo abbinamento perfetto è qui!",
+        "xsell_heading": "Completa il tuo riposo"
+      }
+    }
+  },
+  "order": ["quiz"]
+}
