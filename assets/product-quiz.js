@@ -475,7 +475,16 @@
         return;
       }
       const xsellCard = e.target.closest('.cq__xsell-card');
-      if (xsellCard) root.__cqInstance.previewXsell(xsellCard);
+      if (xsellCard) {
+        root.__cqInstance.previewXsell(xsellCard);
+        return;
+      }
+      // blocchi Domanda/Risposta: porta l'anteprima sullo step corrispondente
+      const step = e.target.closest('.cq-step');
+      if (step) {
+        const idx = root.__cqInstance.steps.indexOf(step);
+        if (idx >= 0) root.__cqInstance.show(idx);
+      }
     });
   }
 })();

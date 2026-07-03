@@ -4,9 +4,22 @@
 {%- comment -%}
   Quiz materasso "Con comodo" — stile Typeform (ispirato al quiz Casper).
   Una domanda alla volta, punteggio pesato per prodotto (m1, m2, m3a, m3b),
-  step email facoltativo e schermata risultato con cross-sell configurabile
-  dai blocchi della sezione.
+  step email facoltativo e schermata risultato con cross-sell.
+
+  Domande e risposte sono blocchi della sezione, modificabili dall'editor
+  tema (testi, ordine, icone e punti per materasso). Se la sezione non
+  contiene nessun blocco "Domanda", vengono usate le 7 domande predefinite.
 {%- endcomment -%}
+
+{%- liquid
+  assign has_question_blocks = false
+  for block in section.blocks
+    if block.type == 'question'
+      assign has_question_blocks = true
+    endif
+  endfor
+  assign letters = 'ABCDEFGHIJKL' | split: ''
+-%}
 
 <div class="section color-{{ section.settings.color_scheme }}">
   <div class="cq" data-product-quiz>
@@ -45,240 +58,318 @@
             </span>
             <span>
               <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10.5 8 15l9-10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              7 domande, un consiglio su misura
+              Poche domande, un consiglio su misura
             </span>
           </div>
         </div>
       </section>
 
-      {%- comment -%} ---------- D1: per chi ---------- {%- endcomment -%}
-      <section class="cq-step" data-step-type="question" data-key="who">
-        <div class="cq-step__inner">
-          <p class="cq__kicker"><span class="cq__kicker-num">1</span> Iniziamo</p>
-          <h2 class="cq__title">Per chi stai cercando il materasso?</h2>
-          <p class="cq__hint">Scegli una risposta.</p>
-          <div class="cq__options" role="radiogroup" aria-label="Per chi stai cercando il materasso?">
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="me" data-points="{}">
-              <span class="cq-opt__key">A</span><span class="cq-opt__label">Per me</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="partner" data-points='{"m3b":2,"m3a":1}'>
-              <span class="cq-opt__key">B</span><span class="cq-opt__label">Per me e il mio partner</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="ospiti" data-points='{"m1":2,"m2":2}'>
-              <span class="cq-opt__key">C</span><span class="cq-opt__label">Per la camera degli ospiti</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
+      {%- if has_question_blocks -%}
+        {%- comment -%} ---------- DOMANDE DA BLOCCHI (editor tema) ---------- {%- endcomment -%}
+        {%- assign qnum = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'question' -%}
+            {%- assign qnum = qnum | plus: 1 -%}
+            {%- assign q = block.settings -%}
+            <section
+              class="cq-step"
+              data-step-type="question"
+              data-key="{{ q.key | default: qnum }}"
+              {% if q.multi %}data-multi="true" data-max="{{ q.max | default: 2 }}"{% endif %}
+              {{ block.shopify_attributes }}
+            >
+              <div class="cq-step__inner">
+                <p class="cq__kicker"><span class="cq__kicker-num">{{ qnum }}</span> {{ q.kicker }}</p>
+                <h2 class="cq__title">{{ q.title }}</h2>
+                {%- if q.hint != blank -%}<p class="cq__hint">{{ q.hint }}</p>{%- endif -%}
+                <div
+                  class="cq__options{% if q.layout == 'grid' %} cq__options--pictures{% endif %}"
+                  role="{% if q.multi %}group{% else %}radiogroup{% endif %}"
+                  aria-label="{{ q.title | escape }}"
+                >
+                  {%- assign aidx = 0 -%}
+                  {%- for inner in section.blocks offset: forloop.index -%}
+                    {%- if inner.type != 'answer' -%}{%- break -%}{%- endif -%}
+                    {%- assign a = inner.settings -%}
+                    {%- assign letter = letters[aidx] -%}
+                    {%- assign aidx = aidx | plus: 1 -%}
+                    {%- assign aval = a.value -%}
+                    {%- if aval == blank -%}{%- assign aval = a.label | handleize -%}{%- endif -%}
+                    <button
+                      type="button"
+                      class="cq-opt{% if q.layout == 'grid' %} cq-opt--picture{% endif %}"
+                      role="{% if q.multi %}checkbox{% else %}radio{% endif %}"
+                      aria-checked="false"
+                      data-value="{{ aval }}"
+                      data-points='{"m1":{{ a.p_m1 | default: 0 }},"m2":{{ a.p_m2 | default: 0 }},"m3a":{{ a.p_m3a | default: 0 }},"m3b":{{ a.p_m3b | default: 0 }}}'
+                      {{ inner.shopify_attributes }}
+                    >
+                      <span class="cq-opt__key">{{ letter }}</span>
+                      {%- if q.layout == 'grid' -%}
+                        <span class="cq-opt__art" aria-hidden="true">
+                          {%- if a.image != blank -%}
+                            {{ a.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}
+                          {%- else -%}
+                            {%- case a.icon -%}
+                              {%- when 'singolo' -%}
+                                <svg viewBox="0 0 84 64" fill="none"><rect x="27" y="6" width="30" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="27" y="6" width="30" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><rect x="32" y="11" width="20" height="10" rx="4" stroke="currentColor" stroke-width="1.5"/></svg>
+                              {%- when 'francese' -%}
+                                <svg viewBox="0 0 84 64" fill="none"><rect x="21" y="6" width="42" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="21" y="6" width="42" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><rect x="27" y="11" width="30" height="10" rx="4" stroke="currentColor" stroke-width="1.5"/></svg>
+                              {%- when 'matrimoniale' -%}
+                                <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><rect x="20" y="11" width="20" height="10" rx="4" stroke="currentColor" stroke-width="1.5"/><rect x="44" y="11" width="20" height="10" rx="4" stroke="currentColor" stroke-width="1.5"/></svg>
+                              {%- when 'domanda' -%}
+                                <svg viewBox="0 0 84 64" fill="none"><rect x="17" y="6" width="50" height="52" rx="8" stroke="currentColor" stroke-width="1.6" stroke-dasharray="5 5"/><path d="M37 26c0-3.5 2.6-5.6 5.6-5.6 3 0 5.4 2 5.4 5 0 4.4-5.2 4.5-5.2 8.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="42.8" cy="40.5" r="1.6" fill="currentColor"/></svg>
+                              {%- when 'fianco' -%}
+                                <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><circle cx="34" cy="20" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M37 27c8 2 10 7 6 12s-9 6-9 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                              {%- when 'schiena' -%}
+                                <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><circle cx="42" cy="19" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M42 27v18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M42 31l-8 6m8-6 8 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                              {%- when 'pancia' -%}
+                                <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><circle cx="36" cy="20" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M42 24c2 6 1 12-2 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M31 14l-4-4m22 12 6-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                              {%- when 'cambio' -%}
+                                <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><circle cx="42" cy="24" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M28 42c4-5 9-7 14-7s10 2 14 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M24 22c-2 3-2 7 0 10m36-10c2 3 2 7 0 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="3 4"/></svg>
+                            {%- endcase -%}
+                          {%- endif -%}
+                        </span>
+                      {%- endif -%}
+                      <span class="cq-opt__label">{{ a.label }}</span>
+                      <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                  {%- endfor -%}
+                </div>
+                {%- if q.multi -%}
+                  <div class="cq__actions">
+                    <button type="button" class="cq-btn" data-cq-ok disabled>OK</button>
+                    <span class="cq__enter-hint">premi <kbd>Invio ↵</kbd></span>
+                  </div>
+                {%- endif -%}
+              </div>
+            </section>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} ---------- DOMANDE PREDEFINITE (fallback senza blocchi) ---------- {%- endcomment -%}
+        <section class="cq-step" data-step-type="question" data-key="who">
+          <div class="cq-step__inner">
+            <p class="cq__kicker"><span class="cq__kicker-num">1</span> Iniziamo</p>
+            <h2 class="cq__title">Per chi stai cercando il materasso?</h2>
+            <p class="cq__hint">Scegli una risposta.</p>
+            <div class="cq__options" role="radiogroup" aria-label="Per chi stai cercando il materasso?">
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="me" data-points="{}">
+                <span class="cq-opt__key">A</span><span class="cq-opt__label">Per me</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="partner" data-points='{"m3b":2,"m3a":1}'>
+                <span class="cq-opt__key">B</span><span class="cq-opt__label">Per me e il mio partner</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="ospiti" data-points='{"m1":2,"m2":2}'>
+                <span class="cq-opt__key">C</span><span class="cq-opt__label">Per la camera degli ospiti</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {%- comment -%} ---------- D2: misura (picture choice) ---------- {%- endcomment -%}
-      <section class="cq-step" data-step-type="question" data-key="size">
-        <div class="cq-step__inner">
-          <p class="cq__kicker"><span class="cq__kicker-num">2</span> La misura</p>
-          <h2 class="cq__title">Che misura ti serve?</h2>
-          <p class="cq__hint">Scegli una risposta.</p>
-          <div class="cq__options cq__options--pictures" role="radiogroup" aria-label="Che misura ti serve?">
-            <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="singolo" data-points="{}">
-              <span class="cq-opt__key">A</span>
-              <span class="cq-opt__art" aria-hidden="true">
-                <svg viewBox="0 0 84 64" fill="none"><rect x="27" y="6" width="30" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="27" y="6" width="30" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><rect x="32" y="11" width="20" height="10" rx="4" stroke="currentColor" stroke-width="1.5"/></svg>
-              </span>
-              <span class="cq-opt__label">Singolo</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="francese" data-points="{}">
-              <span class="cq-opt__key">B</span>
-              <span class="cq-opt__art" aria-hidden="true">
-                <svg viewBox="0 0 84 64" fill="none"><rect x="21" y="6" width="42" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="21" y="6" width="42" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><rect x="27" y="11" width="30" height="10" rx="4" stroke="currentColor" stroke-width="1.5"/></svg>
-              </span>
-              <span class="cq-opt__label">Una piazza e mezza</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="matrimoniale" data-points="{}">
-              <span class="cq-opt__key">C</span>
-              <span class="cq-opt__art" aria-hidden="true">
-                <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><rect x="20" y="11" width="20" height="10" rx="4" stroke="currentColor" stroke-width="1.5"/><rect x="44" y="11" width="20" height="10" rx="4" stroke="currentColor" stroke-width="1.5"/></svg>
-              </span>
-              <span class="cq-opt__label">Matrimoniale</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="unknown" data-points="{}">
-              <span class="cq-opt__key">D</span>
-              <span class="cq-opt__art" aria-hidden="true">
-                <svg viewBox="0 0 84 64" fill="none"><rect x="17" y="6" width="50" height="52" rx="8" stroke="currentColor" stroke-width="1.6" stroke-dasharray="5 5"/><path d="M37 26c0-3.5 2.6-5.6 5.6-5.6 3 0 5.4 2 5.4 5 0 4.4-5.2 4.5-5.2 8.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="42.8" cy="40.5" r="1.6" fill="currentColor"/></svg>
-              </span>
-              <span class="cq-opt__label">Non lo so ancora</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
+        <section class="cq-step" data-step-type="question" data-key="size">
+          <div class="cq-step__inner">
+            <p class="cq__kicker"><span class="cq__kicker-num">2</span> La misura</p>
+            <h2 class="cq__title">Che misura ti serve?</h2>
+            <p class="cq__hint">Scegli una risposta.</p>
+            <div class="cq__options cq__options--pictures" role="radiogroup" aria-label="Che misura ti serve?">
+              <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="singolo" data-points="{}">
+                <span class="cq-opt__key">A</span>
+                <span class="cq-opt__art" aria-hidden="true">
+                  <svg viewBox="0 0 84 64" fill="none"><rect x="27" y="6" width="30" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="27" y="6" width="30" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><rect x="32" y="11" width="20" height="10" rx="4" stroke="currentColor" stroke-width="1.5"/></svg>
+                </span>
+                <span class="cq-opt__label">Singolo</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="francese" data-points="{}">
+                <span class="cq-opt__key">B</span>
+                <span class="cq-opt__art" aria-hidden="true">
+                  <svg viewBox="0 0 84 64" fill="none"><rect x="21" y="6" width="42" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="21" y="6" width="42" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><rect x="27" y="11" width="30" height="10" rx="4" stroke="currentColor" stroke-width="1.5"/></svg>
+                </span>
+                <span class="cq-opt__label">Una piazza e mezza</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="matrimoniale" data-points="{}">
+                <span class="cq-opt__key">C</span>
+                <span class="cq-opt__art" aria-hidden="true">
+                  <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><rect x="20" y="11" width="20" height="10" rx="4" stroke="currentColor" stroke-width="1.5"/><rect x="44" y="11" width="20" height="10" rx="4" stroke="currentColor" stroke-width="1.5"/></svg>
+                </span>
+                <span class="cq-opt__label">Matrimoniale</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="unknown" data-points="{}">
+                <span class="cq-opt__key">D</span>
+                <span class="cq-opt__art" aria-hidden="true">
+                  <svg viewBox="0 0 84 64" fill="none"><rect x="17" y="6" width="50" height="52" rx="8" stroke="currentColor" stroke-width="1.6" stroke-dasharray="5 5"/><path d="M37 26c0-3.5 2.6-5.6 5.6-5.6 3 0 5.4 2 5.4 5 0 4.4-5.2 4.5-5.2 8.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="42.8" cy="40.5" r="1.6" fill="currentColor"/></svg>
+                </span>
+                <span class="cq-opt__label">Non lo so ancora</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {%- comment -%} ---------- D3: problema materasso attuale ---------- {%- endcomment -%}
-      <section class="cq-step" data-step-type="question" data-key="complaint">
-        <div class="cq-step__inner">
-          <p class="cq__kicker"><span class="cq__kicker-num">3</span> Oggi</p>
-          <h2 class="cq__title">Cosa non sopporti del tuo materasso attuale?</h2>
-          <p class="cq__hint">Scegli una risposta.</p>
-          <div class="cq__options" role="radiogroup" aria-label="Cosa non sopporti del tuo materasso attuale?">
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="troppo_morbido" data-points='{"m1":3,"m3b":2}'>
-              <span class="cq-opt__key">A</span><span class="cq-opt__label">È troppo morbido</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="troppo_rigido" data-points='{"m2":3,"m3a":2}'>
-              <span class="cq-opt__key">B</span><span class="cq-opt__label">È troppo rigido</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="afflosciato" data-points='{"m3b":2,"m1":2,"m3a":1}'>
-              <span class="cq-opt__key">C</span><span class="cq-opt__label">Si è afflosciato o deformato</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="movimenti_partner" data-points='{"m3b":3,"m3a":2,"m2":2}'>
-              <span class="cq-opt__key">D</span><span class="cq-opt__label">Sento tutti i movimenti del partner</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="caldo" data-points='{"m1":3,"m3b":3,"m3a":1}'>
-              <span class="cq-opt__key">E</span><span class="cq-opt__label">Dormo caldo, mi sveglio sudato</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="dolori" data-points='{"m3a":3,"m3b":3,"m2":1}'>
-              <span class="cq-opt__key">F</span><span class="cq-opt__label">Mi sveglio con dolori o indolenzito</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="niente" data-points="{}">
-              <span class="cq-opt__key">G</span><span class="cq-opt__label">Niente: ne sto cercando uno nuovo</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
+        <section class="cq-step" data-step-type="question" data-key="complaint">
+          <div class="cq-step__inner">
+            <p class="cq__kicker"><span class="cq__kicker-num">3</span> Oggi</p>
+            <h2 class="cq__title">Cosa non sopporti del tuo materasso attuale?</h2>
+            <p class="cq__hint">Scegli una risposta.</p>
+            <div class="cq__options" role="radiogroup" aria-label="Cosa non sopporti del tuo materasso attuale?">
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="troppo_morbido" data-points='{"m1":3,"m3b":2}'>
+                <span class="cq-opt__key">A</span><span class="cq-opt__label">È troppo morbido</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="troppo_rigido" data-points='{"m2":3,"m3a":2}'>
+                <span class="cq-opt__key">B</span><span class="cq-opt__label">È troppo rigido</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="afflosciato" data-points='{"m3b":2,"m1":2,"m3a":1}'>
+                <span class="cq-opt__key">C</span><span class="cq-opt__label">Si è afflosciato o deformato</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="movimenti_partner" data-points='{"m3b":3,"m3a":2,"m2":2}'>
+                <span class="cq-opt__key">D</span><span class="cq-opt__label">Sento tutti i movimenti del partner</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="caldo" data-points='{"m1":3,"m3b":3,"m3a":1}'>
+                <span class="cq-opt__key">E</span><span class="cq-opt__label">Dormo caldo, mi sveglio sudato</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="dolori" data-points='{"m3a":3,"m3b":3,"m2":1}'>
+                <span class="cq-opt__key">F</span><span class="cq-opt__label">Mi sveglio con dolori o indolenzito</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="niente" data-points="{}">
+                <span class="cq-opt__key">G</span><span class="cq-opt__label">Niente: ne sto cercando uno nuovo</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {%- comment -%} ---------- D4: posizione (picture choice) ---------- {%- endcomment -%}
-      <section class="cq-step" data-step-type="question" data-key="position">
-        <div class="cq-step__inner">
-          <p class="cq__kicker"><span class="cq__kicker-num">4</span> Come dormi</p>
-          <h2 class="cq__title">In che posizione dormi più spesso?</h2>
-          <p class="cq__hint">Scegli una risposta.</p>
-          <div class="cq__options cq__options--pictures" role="radiogroup" aria-label="In che posizione dormi più spesso?">
-            <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="fianco" data-points='{"m2":1,"m3a":2,"m3b":2}'>
-              <span class="cq-opt__key">A</span>
-              <span class="cq-opt__art" aria-hidden="true">
-                <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><circle cx="34" cy="20" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M37 27c8 2 10 7 6 12s-9 6-9 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-              </span>
-              <span class="cq-opt__label">Sul fianco</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="schiena" data-points='{"m1":1,"m3a":2,"m3b":2}'>
-              <span class="cq-opt__key">B</span>
-              <span class="cq-opt__art" aria-hidden="true">
-                <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><circle cx="42" cy="19" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M42 27v18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M42 31l-8 6m8-6 8 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-              </span>
-              <span class="cq-opt__label">Sulla schiena</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="pancia" data-points='{"m1":3,"m3b":1}'>
-              <span class="cq-opt__key">C</span>
-              <span class="cq-opt__art" aria-hidden="true">
-                <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><circle cx="36" cy="20" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M42 24c2 6 1 12-2 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M31 14l-4-4m22 12 6-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-              </span>
-              <span class="cq-opt__label">A pancia in giù</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="cambio" data-points='{"m3b":2,"m3a":1}'>
-              <span class="cq-opt__key">D</span>
-              <span class="cq-opt__art" aria-hidden="true">
-                <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><circle cx="42" cy="24" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M28 42c4-5 9-7 14-7s10 2 14 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M24 22c-2 3-2 7 0 10m36-10c2 3 2 7 0 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="3 4"/></svg>
-              </span>
-              <span class="cq-opt__label">Cambio di continuo</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
+        <section class="cq-step" data-step-type="question" data-key="position">
+          <div class="cq-step__inner">
+            <p class="cq__kicker"><span class="cq__kicker-num">4</span> Come dormi</p>
+            <h2 class="cq__title">In che posizione dormi più spesso?</h2>
+            <p class="cq__hint">Scegli una risposta.</p>
+            <div class="cq__options cq__options--pictures" role="radiogroup" aria-label="In che posizione dormi più spesso?">
+              <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="fianco" data-points='{"m2":1,"m3a":2,"m3b":2}'>
+                <span class="cq-opt__key">A</span>
+                <span class="cq-opt__art" aria-hidden="true">
+                  <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><circle cx="34" cy="20" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M37 27c8 2 10 7 6 12s-9 6-9 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </span>
+                <span class="cq-opt__label">Sul fianco</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="schiena" data-points='{"m1":1,"m3a":2,"m3b":2}'>
+                <span class="cq-opt__key">B</span>
+                <span class="cq-opt__art" aria-hidden="true">
+                  <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><circle cx="42" cy="19" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M42 27v18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M42 31l-8 6m8-6 8 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </span>
+                <span class="cq-opt__label">Sulla schiena</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="pancia" data-points='{"m1":3,"m3b":1}'>
+                <span class="cq-opt__key">C</span>
+                <span class="cq-opt__art" aria-hidden="true">
+                  <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><circle cx="36" cy="20" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M42 24c2 6 1 12-2 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M31 14l-4-4m22 12 6-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </span>
+                <span class="cq-opt__label">A pancia in giù</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt cq-opt--picture" role="radio" aria-checked="false" data-value="cambio" data-points='{"m3b":2,"m3a":1}'>
+                <span class="cq-opt__key">D</span>
+                <span class="cq-opt__art" aria-hidden="true">
+                  <svg viewBox="0 0 84 64" fill="none"><rect x="14" y="6" width="56" height="52" rx="8" class="cq-svg-accent" fill="#B2C8D1" opacity=".3"/><rect x="14" y="6" width="56" height="52" rx="8" stroke="currentColor" stroke-width="1.6"/><circle cx="42" cy="24" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M28 42c4-5 9-7 14-7s10 2 14 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M24 22c-2 3-2 7 0 10m36-10c2 3 2 7 0 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="3 4"/></svg>
+                </span>
+                <span class="cq-opt__label">Cambio di continuo</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {%- comment -%} ---------- D5: sensazione ---------- {%- endcomment -%}
-      <section class="cq-step" data-step-type="question" data-key="feel">
-        <div class="cq-step__inner">
-          <p class="cq__kicker"><span class="cq__kicker-num">5</span> La sensazione</p>
-          <h2 class="cq__title">Come deve accoglierti il materasso quando ti sdrai?</h2>
-          <p class="cq__hint">Scegli una risposta.</p>
-          <div class="cq__options" role="radiogroup" aria-label="Come deve accoglierti il materasso quando ti sdrai?">
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="morbido" data-points='{"m2":4,"m3a":1}'>
-              <span class="cq-opt__key">A</span><span class="cq-opt__label">Morbido e avvolgente: voglio “affondare” nel comfort</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="equilibrato" data-points='{"m3a":3,"m3b":3}'>
-              <span class="cq-opt__key">B</span><span class="cq-opt__label">Equilibrato: accogliente ma con sostegno</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="deciso" data-points='{"m1":4,"m3b":1}'>
-              <span class="cq-opt__key">C</span><span class="cq-opt__label">Sostenuto e deciso: preferisco dormire “sopra” il materasso</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
+        <section class="cq-step" data-step-type="question" data-key="feel">
+          <div class="cq-step__inner">
+            <p class="cq__kicker"><span class="cq__kicker-num">5</span> La sensazione</p>
+            <h2 class="cq__title">Come deve accoglierti il materasso quando ti sdrai?</h2>
+            <p class="cq__hint">Scegli una risposta.</p>
+            <div class="cq__options" role="radiogroup" aria-label="Come deve accoglierti il materasso quando ti sdrai?">
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="morbido" data-points='{"m2":4,"m3a":1}'>
+                <span class="cq-opt__key">A</span><span class="cq-opt__label">Morbido e avvolgente: voglio “affondare” nel comfort</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="equilibrato" data-points='{"m3a":3,"m3b":3}'>
+                <span class="cq-opt__key">B</span><span class="cq-opt__label">Equilibrato: accogliente ma con sostegno</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="deciso" data-points='{"m1":4,"m3b":1}'>
+                <span class="cq-opt__key">C</span><span class="cq-opt__label">Sostenuto e deciso: preferisco dormire “sopra” il materasso</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {%- comment -%} ---------- D6: must-have (multi, max 2) ---------- {%- endcomment -%}
-      <section class="cq-step" data-step-type="question" data-key="features" data-multi="true" data-max="{{ section.settings.multi_max | default: 2 }}">
-        <div class="cq-step__inner">
-          <p class="cq__kicker"><span class="cq__kicker-num">6</span> Le priorità</p>
-          <h2 class="cq__title">Cosa non deve proprio mancare?</h2>
-          <p class="cq__hint">Scegli fino a {{ section.settings.multi_max | default: 2 }} risposte.</p>
-          <div class="cq__options" role="group" aria-label="Cosa non deve proprio mancare?">
-            <button type="button" class="cq-opt" role="checkbox" aria-checked="false" data-value="isolamento" data-points='{"m3b":2,"m3a":1,"m2":1}'>
-              <span class="cq-opt__key">A</span><span class="cq-opt__label">Isolamento dei movimenti</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="checkbox" aria-checked="false" data-value="freschezza" data-points='{"m1":2,"m3b":2,"m3a":1}'>
-              <span class="cq-opt__key">B</span><span class="cq-opt__label">Freschezza e traspirabilità</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="checkbox" aria-checked="false" data-value="ergonomia" data-points='{"m3a":2,"m3b":2,"m1":1}'>
-              <span class="cq-opt__key">C</span><span class="cq-opt__label">Supporto ergonomico a zone</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="checkbox" aria-checked="false" data-value="sfoderabile" data-points='{"m2":2,"m3a":2,"m3b":2}'>
-              <span class="cq-opt__key">D</span><span class="cq-opt__label">Rivestimento sfoderabile e lavabile</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="checkbox" aria-checked="false" data-value="durata" data-points='{"m3b":2,"m3a":1,"m1":1}'>
-              <span class="cq-opt__key">E</span><span class="cq-opt__label">Durata nel tempo</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
+        <section class="cq-step" data-step-type="question" data-key="features" data-multi="true" data-max="{{ section.settings.multi_max | default: 2 }}">
+          <div class="cq-step__inner">
+            <p class="cq__kicker"><span class="cq__kicker-num">6</span> Le priorità</p>
+            <h2 class="cq__title">Cosa non deve proprio mancare?</h2>
+            <p class="cq__hint">Scegli fino a {{ section.settings.multi_max | default: 2 }} risposte.</p>
+            <div class="cq__options" role="group" aria-label="Cosa non deve proprio mancare?">
+              <button type="button" class="cq-opt" role="checkbox" aria-checked="false" data-value="isolamento" data-points='{"m3b":2,"m3a":1,"m2":1}'>
+                <span class="cq-opt__key">A</span><span class="cq-opt__label">Isolamento dei movimenti</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="checkbox" aria-checked="false" data-value="freschezza" data-points='{"m1":2,"m3b":2,"m3a":1}'>
+                <span class="cq-opt__key">B</span><span class="cq-opt__label">Freschezza e traspirabilità</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="checkbox" aria-checked="false" data-value="ergonomia" data-points='{"m3a":2,"m3b":2,"m1":1}'>
+                <span class="cq-opt__key">C</span><span class="cq-opt__label">Supporto ergonomico a zone</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="checkbox" aria-checked="false" data-value="sfoderabile" data-points='{"m2":2,"m3a":2,"m3b":2}'>
+                <span class="cq-opt__key">D</span><span class="cq-opt__label">Rivestimento sfoderabile e lavabile</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="checkbox" aria-checked="false" data-value="durata" data-points='{"m3b":2,"m3a":1,"m1":1}'>
+                <span class="cq-opt__key">E</span><span class="cq-opt__label">Durata nel tempo</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+            <div class="cq__actions">
+              <button type="button" class="cq-btn" data-cq-ok disabled>OK</button>
+              <span class="cq__enter-hint">premi <kbd>Invio ↵</kbd></span>
+            </div>
           </div>
-          <div class="cq__actions">
-            <button type="button" class="cq-btn" data-cq-ok disabled>OK</button>
-            <span class="cq__enter-hint">premi <kbd>Invio ↵</kbd></span>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {%- comment -%} ---------- D7: budget ---------- {%- endcomment -%}
-      <section class="cq-step" data-step-type="question" data-key="budget">
-        <div class="cq-step__inner">
-          <p class="cq__kicker"><span class="cq__kicker-num">7</span> Ultima domanda</p>
-          <h2 class="cq__title">Quanto conta il budget nella tua scelta?</h2>
-          <p class="cq__hint">Scegli una risposta.</p>
-          <div class="cq__options" role="radiogroup" aria-label="Quanto conta il budget nella tua scelta?">
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="top" data-points='{"m3b":3,"m3a":2}'>
-              <span class="cq-opt__key">A</span><span class="cq-opt__label">Dormire bene non ha prezzo: voglio il massimo</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="equilibrio" data-points='{"m3a":2,"m3b":1,"m2":1}'>
-              <span class="cq-opt__key">B</span><span class="cq-opt__label">Cerco il giusto equilibrio qualità-prezzo</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="contenuto" data-points='{"m1":3,"m2":3}'>
-              <span class="cq-opt__key">C</span><span class="cq-opt__label">Ho un budget contenuto</span>
-              <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
+        <section class="cq-step" data-step-type="question" data-key="budget">
+          <div class="cq-step__inner">
+            <p class="cq__kicker"><span class="cq__kicker-num">7</span> Ultima domanda</p>
+            <h2 class="cq__title">Quanto conta il budget nella tua scelta?</h2>
+            <p class="cq__hint">Scegli una risposta.</p>
+            <div class="cq__options" role="radiogroup" aria-label="Quanto conta il budget nella tua scelta?">
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="top" data-points='{"m3b":3,"m3a":2}'>
+                <span class="cq-opt__key">A</span><span class="cq-opt__label">Dormire bene non ha prezzo: voglio il massimo</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="equilibrio" data-points='{"m3a":2,"m3b":1,"m2":1}'>
+                <span class="cq-opt__key">B</span><span class="cq-opt__label">Cerco il giusto equilibrio qualità-prezzo</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button type="button" class="cq-opt" role="radio" aria-checked="false" data-value="contenuto" data-points='{"m1":3,"m2":3}'>
+                <span class="cq-opt__key">C</span><span class="cq-opt__label">Ho un budget contenuto</span>
+                <svg class="cq-opt__check" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      {%- endif -%}
 
       {%- comment -%} ---------- STEP EMAIL (facoltativo) ---------- {%- endcomment -%}
       {%- if section.settings.enable_email -%}
@@ -487,7 +578,8 @@
     {
       "type": "range",
       "id": "multi_max",
-      "label": "Scelte multiple massime (domanda 6)",
+      "label": "Scelte multiple massime (solo domande predefinite)",
+      "info": "Vale solo se il quiz usa le domande predefinite; con i blocchi Domanda si imposta per ogni domanda.",
       "min": 1,
       "max": 5,
       "step": 1,
@@ -557,6 +649,89 @@
   ],
   "blocks": [
     {
+      "type": "question",
+      "name": "Domanda",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Le risposte di questa domanda sono i blocchi \"Risposta\" che la seguono, fino alla domanda successiva. Trascina i blocchi per riordinare."
+        },
+        { "type": "text", "id": "kicker", "label": "Etichetta piccola", "default": "Domanda" },
+        { "type": "text", "id": "title", "label": "Testo della domanda", "default": "La tua domanda?" },
+        { "type": "text", "id": "hint", "label": "Sottotitolo", "default": "Scegli una risposta." },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Aspetto delle risposte",
+          "options": [
+            { "value": "list", "label": "Elenco" },
+            { "value": "grid", "label": "Griglia con icone" }
+          ],
+          "default": "list"
+        },
+        { "type": "checkbox", "id": "multi", "label": "Scelta multipla", "default": false },
+        {
+          "type": "range",
+          "id": "max",
+          "label": "Numero massimo di scelte (se multipla)",
+          "min": 1,
+          "max": 6,
+          "step": 1,
+          "default": 2
+        },
+        {
+          "type": "text",
+          "id": "key",
+          "label": "Chiave tecnica (opzionale)",
+          "info": "Es. size: la risposta della domanda con chiave size viene aggiunta al link del prodotto consigliato (quiz_size)."
+        }
+      ]
+    },
+    {
+      "type": "answer",
+      "name": "Risposta",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Testo della risposta", "default": "Risposta" },
+        {
+          "type": "header",
+          "content": "Punti assegnati ai materassi",
+          "info": "A fine quiz vince il materasso con più punti."
+        },
+        { "type": "number", "id": "p_m1", "label": "Punti M1 — molle, sostegno deciso", "default": 0 },
+        { "type": "number", "id": "p_m2", "label": "Punti M2 — memory, morbido", "default": 0 },
+        { "type": "number", "id": "p_m3a", "label": "Punti M3A — memory bugnato, premium", "default": 0 },
+        { "type": "number", "id": "p_m3b", "label": "Punti M3B — ibrido molle + memory", "default": 0 },
+        {
+          "type": "header",
+          "content": "Illustrazione (per layout a griglia)"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icona integrata",
+          "options": [
+            { "value": "none", "label": "Nessuna" },
+            { "value": "singolo", "label": "Letto singolo" },
+            { "value": "francese", "label": "Letto piazza e mezza" },
+            { "value": "matrimoniale", "label": "Letto matrimoniale" },
+            { "value": "domanda", "label": "Punto interrogativo" },
+            { "value": "fianco", "label": "Dormire sul fianco" },
+            { "value": "schiena", "label": "Dormire sulla schiena" },
+            { "value": "pancia", "label": "Dormire a pancia in giù" },
+            { "value": "cambio", "label": "Cambio posizione" }
+          ],
+          "default": "none"
+        },
+        { "type": "image_picker", "id": "image", "label": "Oppure immagine personalizzata" },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Valore tecnico (opzionale)",
+          "info": "Identificatore usato nelle statistiche; se vuoto viene ricavato dal testo."
+        }
+      ]
+    },
+    {
       "type": "result",
       "name": "Prodotto risultato",
       "settings": [
@@ -611,6 +786,49 @@
     {
       "name": "Quiz materasso",
       "blocks": [
+        { "type": "question", "settings": { "kicker": "Iniziamo", "title": "Per chi stai cercando il materasso?", "hint": "Scegli una risposta.", "layout": "list", "multi": false, "key": "who" } },
+        { "type": "answer", "settings": { "label": "Per me", "value": "me" } },
+        { "type": "answer", "settings": { "label": "Per me e il mio partner", "value": "partner", "p_m3a": 1, "p_m3b": 2 } },
+        { "type": "answer", "settings": { "label": "Per la camera degli ospiti", "value": "ospiti", "p_m1": 2, "p_m2": 2 } },
+
+        { "type": "question", "settings": { "kicker": "La misura", "title": "Che misura ti serve?", "hint": "Scegli una risposta.", "layout": "grid", "multi": false, "key": "size" } },
+        { "type": "answer", "settings": { "label": "Singolo", "value": "singolo", "icon": "singolo" } },
+        { "type": "answer", "settings": { "label": "Una piazza e mezza", "value": "francese", "icon": "francese" } },
+        { "type": "answer", "settings": { "label": "Matrimoniale", "value": "matrimoniale", "icon": "matrimoniale" } },
+        { "type": "answer", "settings": { "label": "Non lo so ancora", "value": "unknown", "icon": "domanda" } },
+
+        { "type": "question", "settings": { "kicker": "Oggi", "title": "Cosa non sopporti del tuo materasso attuale?", "hint": "Scegli una risposta.", "layout": "list", "multi": false, "key": "complaint" } },
+        { "type": "answer", "settings": { "label": "È troppo morbido", "value": "troppo_morbido", "p_m1": 3, "p_m3b": 2 } },
+        { "type": "answer", "settings": { "label": "È troppo rigido", "value": "troppo_rigido", "p_m2": 3, "p_m3a": 2 } },
+        { "type": "answer", "settings": { "label": "Si è afflosciato o deformato", "value": "afflosciato", "p_m1": 2, "p_m3a": 1, "p_m3b": 2 } },
+        { "type": "answer", "settings": { "label": "Sento tutti i movimenti del partner", "value": "movimenti_partner", "p_m2": 2, "p_m3a": 2, "p_m3b": 3 } },
+        { "type": "answer", "settings": { "label": "Dormo caldo, mi sveglio sudato", "value": "caldo", "p_m1": 3, "p_m3a": 1, "p_m3b": 3 } },
+        { "type": "answer", "settings": { "label": "Mi sveglio con dolori o indolenzito", "value": "dolori", "p_m2": 1, "p_m3a": 3, "p_m3b": 3 } },
+        { "type": "answer", "settings": { "label": "Niente: ne sto cercando uno nuovo", "value": "niente" } },
+
+        { "type": "question", "settings": { "kicker": "Come dormi", "title": "In che posizione dormi più spesso?", "hint": "Scegli una risposta.", "layout": "grid", "multi": false, "key": "position" } },
+        { "type": "answer", "settings": { "label": "Sul fianco", "value": "fianco", "icon": "fianco", "p_m2": 1, "p_m3a": 2, "p_m3b": 2 } },
+        { "type": "answer", "settings": { "label": "Sulla schiena", "value": "schiena", "icon": "schiena", "p_m1": 1, "p_m3a": 2, "p_m3b": 2 } },
+        { "type": "answer", "settings": { "label": "A pancia in giù", "value": "pancia", "icon": "pancia", "p_m1": 3, "p_m3b": 1 } },
+        { "type": "answer", "settings": { "label": "Cambio di continuo", "value": "cambio", "icon": "cambio", "p_m3a": 1, "p_m3b": 2 } },
+
+        { "type": "question", "settings": { "kicker": "La sensazione", "title": "Come deve accoglierti il materasso quando ti sdrai?", "hint": "Scegli una risposta.", "layout": "list", "multi": false, "key": "feel" } },
+        { "type": "answer", "settings": { "label": "Morbido e avvolgente: voglio “affondare” nel comfort", "value": "morbido", "p_m2": 4, "p_m3a": 1 } },
+        { "type": "answer", "settings": { "label": "Equilibrato: accogliente ma con sostegno", "value": "equilibrato", "p_m3a": 3, "p_m3b": 3 } },
+        { "type": "answer", "settings": { "label": "Sostenuto e deciso: preferisco dormire “sopra” il materasso", "value": "deciso", "p_m1": 4, "p_m3b": 1 } },
+
+        { "type": "question", "settings": { "kicker": "Le priorità", "title": "Cosa non deve proprio mancare?", "hint": "Scegli fino a 2 risposte.", "layout": "list", "multi": true, "max": 2, "key": "features" } },
+        { "type": "answer", "settings": { "label": "Isolamento dei movimenti", "value": "isolamento", "p_m2": 1, "p_m3a": 1, "p_m3b": 2 } },
+        { "type": "answer", "settings": { "label": "Freschezza e traspirabilità", "value": "freschezza", "p_m1": 2, "p_m3a": 1, "p_m3b": 2 } },
+        { "type": "answer", "settings": { "label": "Supporto ergonomico a zone", "value": "ergonomia", "p_m1": 1, "p_m3a": 2, "p_m3b": 2 } },
+        { "type": "answer", "settings": { "label": "Rivestimento sfoderabile e lavabile", "value": "sfoderabile", "p_m2": 2, "p_m3a": 2, "p_m3b": 2 } },
+        { "type": "answer", "settings": { "label": "Durata nel tempo", "value": "durata", "p_m1": 1, "p_m3a": 1, "p_m3b": 2 } },
+
+        { "type": "question", "settings": { "kicker": "Ultima domanda", "title": "Quanto conta il budget nella tua scelta?", "hint": "Scegli una risposta.", "layout": "list", "multi": false, "key": "budget" } },
+        { "type": "answer", "settings": { "label": "Dormire bene non ha prezzo: voglio il massimo", "value": "top", "p_m3a": 2, "p_m3b": 3 } },
+        { "type": "answer", "settings": { "label": "Cerco il giusto equilibrio qualità-prezzo", "value": "equilibrio", "p_m2": 1, "p_m3a": 2, "p_m3b": 1 } },
+        { "type": "answer", "settings": { "label": "Ho un budget contenuto", "value": "contenuto", "p_m1": 3, "p_m2": 3 } },
+
         {
           "type": "result",
           "settings": {

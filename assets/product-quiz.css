@@ -298,6 +298,14 @@
   display: block;
 }
 
+.cq-opt__art img {
+  width: 84px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+
 .cq-opt--picture[aria-checked='true'] .cq-opt__art svg .cq-svg-accent {
   fill: rgba(244, 239, 232, 0.35);
 }
