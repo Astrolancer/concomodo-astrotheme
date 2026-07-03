@@ -2356,8 +2356,8 @@
                   "type": "button",
                   "name": "t:names.button",
                   "settings": {
-                    "label": "Acquista un topper",
-                    "link": "shopify://collections/all",
+                    "label": "I nostri materassi",
+                    "link": "shopify://collections/materassi",
                     "open_in_new_tab": false,
                     "style_class": "button",
                     "weight": "600",
