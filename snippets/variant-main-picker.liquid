@@ -8,6 +8,13 @@
 {% assign block_settings = block.settings %}
 
 {% liquid
+  assign option_names = product_resource.options_with_values | map: 'name'
+
+  assign staged_variant_selection = false
+  if block_settings.staged_variant_selection and option_names contains 'Dimensione' and option_names.size > 1
+    assign staged_variant_selection = true
+  endif
+
   assign size_guide_label = block_settings.size_guide_label | default: 'Guida alle misure'
   assign size_guide_title = block_settings.size_guide_title | default: size_guide_label
 
@@ -80,9 +87,12 @@
         {%- if variant_style == 'swatch' or block_settings.variant_style == 'buttons' -%}
           {%- assign fieldset_index = forloop.index0 -%}
           <fieldset
-            class="variant-option variant-option--buttons{% if variant_style == 'swatch' %} variant-option--swatches{% else %} variant-option--{{ settings.variant_button_width }}{% endif %}"
+            class="variant-option variant-option--buttons{% if variant_style == 'swatch' %} variant-option--swatches{% else %} variant-option--{{ settings.variant_button_width }}{% endif %}{% if staged_variant_selection and product_option.name != 'Dimensione' %} variant-option--gated{% endif %}"
             data-fieldset-index="{{ fieldset_index }}"
             ref="fieldsets[]"
+            {% if staged_variant_selection and product_option.name == 'Dimensione' %}
+              data-gate-trigger
+            {% endif %}
             {{ option_id_attribute }}
           >
             <legend>
@@ -191,7 +201,12 @@
             endif
           %}
 
-          <div class="variant-option variant-option--dropdowns">
+          <div
+            class="variant-option variant-option--dropdowns{% if staged_variant_selection and product_option.name != 'Dimensione' %} variant-option--gated{% endif %}"
+            {% if staged_variant_selection and product_option.name == 'Dimensione' %}
+              data-gate-trigger
+            {% endif %}
+          >
             <label for="Option-{{ block.id }}-{{ forloop.index0 }}">{{ product_option.name | escape }}</label>
             <div
               class="variant-option__select-wrapper"
@@ -244,9 +259,43 @@
     </form>
   </variant-picker>
 
-  {% liquid
-    assign option_names = product_resource.options_with_values | map: 'name'
-  %}
+  {% if staged_variant_selection %}
+    <script>
+      if (!window.stagedVariantSelectionInit) {
+        window.stagedVariantSelectionInit = true;
+
+        var revealGatedOptions = function (picker) {
+          picker.classList.add('variant-picker--dimension-chosen');
+        };
+
+        // Al primo cambio dell'opzione Dimensione, rivela le opzioni successive
+        document.addEventListener(
+          'change',
+          function (event) {
+            var target = event.target;
+            if (!(target instanceof HTMLInputElement) && !(target instanceof HTMLSelectElement)) return;
+            if (!target.closest('[data-gate-trigger]')) return;
+
+            var picker = target.closest('variant-picker');
+            if (!picker) return;
+
+            picker.dimensionChosen = true;
+            revealGatedOptions(picker);
+          },
+          true
+        );
+
+        // Il morph post-fetch rigenera le classi dal server: ri-applica lo stato
+        document.addEventListener('variant:update', function (event) {
+          var picker = event.target;
+          if (picker instanceof HTMLElement && picker.dimensionChosen) {
+            revealGatedOptions(picker);
+          }
+        });
+      }
+    </script>
+  {% endif %}
+
   {% if size_guide_has_content and option_names contains 'Dimensione' %}
     <script
       src="{{ 'dialog.js' | asset_url }}"
@@ -805,6 +854,33 @@
   .variant-picker--right .variant-option {
     text-align: right;
     justify-content: right;
+  }
+
+  /* Selezione progressiva: Lunghezza visibile solo dopo la scelta della Dimensione */
+  variant-picker:not(.variant-picker--dimension-chosen) .variant-option--gated {
+    display: none;
+  }
+
+  .variant-picker--dimension-chosen .variant-option--gated {
+    animation: variantOptionReveal calc(var(--animation-speed) * 1.5) var(--animation-easing) both;
+  }
+
+  @keyframes variantOptionReveal {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .variant-picker--dimension-chosen .variant-option--gated {
+      animation: none;
+    }
   }
 
   /* Size guide drawer (slide-in laterale) */
