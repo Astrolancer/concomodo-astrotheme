@@ -950,7 +950,7 @@
                 "padding-block-start": 10,
                 "padding-block-end": 10,
                 "padding-inline-start": 30,
-                "padding-inline-end": 30
+                "padding-inline-end": 10
               },
               "blocks": {
                 "text_EUpnXk": {
@@ -1078,7 +1078,7 @@
                 "content_direction": "row",
                 "vertical_on_mobile": true,
                 "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
+                "vertical_alignment": "flex-start",
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
@@ -1121,16 +1121,16 @@
                     "vertical_alignment": "center",
                     "align_baseline": false,
                     "horizontal_alignment_flex_direction_column": "center",
-                    "vertical_alignment_flex_direction_column": "center",
+                    "vertical_alignment_flex_direction_column": "flex-start",
                     "gap": 12,
-                    "width": "custom",
+                    "width": "fit-content",
                     "custom_width": 30,
                     "width_mobile": "fill",
                     "custom_width_mobile": 100,
-                    "height": "custom",
+                    "height": "fill",
                     "custom_height": 100,
                     "inherit_color_scheme": false,
-                    "color_scheme": "",
+                    "color_scheme": "scheme-9207dd0a-81bd-451c-8122-6cdb734d2ab2",
                     "background_media": "none",
                     "video_position": "cover",
                     "background_image_position": "cover",
@@ -1138,7 +1138,7 @@
                     "border_width": 1,
                     "border_opacity": 100,
                     "border_radius": 30,
-                    "toggle_overlay": true,
+                    "toggle_overlay": false,
                     "overlay_color": "#e4ded6",
                     "overlay_style": "solid",
                     "gradient_direction": "to top",
@@ -1147,8 +1147,8 @@
                     "placeholder": "",
                     "padding-block-start": 30,
                     "padding-block-end": 30,
-                    "padding-inline-start": 50,
-                    "padding-inline-end": 50
+                    "padding-inline-start": 30,
+                    "padding-inline-end": 30
                   },
                   "blocks": {
                     "icon_tWQb9P": {
@@ -1178,16 +1178,16 @@
                     "vertical_alignment": "center",
                     "align_baseline": false,
                     "horizontal_alignment_flex_direction_column": "center",
-                    "vertical_alignment_flex_direction_column": "center",
+                    "vertical_alignment_flex_direction_column": "flex-start",
                     "gap": 12,
-                    "width": "custom",
+                    "width": "fit-content",
                     "custom_width": 30,
                     "width_mobile": "fill",
                     "custom_width_mobile": 100,
-                    "height": "custom",
+                    "height": "fill",
                     "custom_height": 100,
                     "inherit_color_scheme": false,
-                    "color_scheme": "",
+                    "color_scheme": "scheme-9207dd0a-81bd-451c-8122-6cdb734d2ab2",
                     "background_media": "none",
                     "video_position": "cover",
                     "background_image_position": "cover",
@@ -1195,7 +1195,7 @@
                     "border_width": 1,
                     "border_opacity": 100,
                     "border_radius": 30,
-                    "toggle_overlay": true,
+                    "toggle_overlay": false,
                     "overlay_color": "#e4ded6",
                     "overlay_style": "solid",
                     "gradient_direction": "to top",
@@ -1204,8 +1204,8 @@
                     "placeholder": "",
                     "padding-block-start": 30,
                     "padding-block-end": 30,
-                    "padding-inline-start": 50,
-                    "padding-inline-end": 50
+                    "padding-inline-start": 30,
+                    "padding-inline-end": 30
                   },
                   "blocks": {
                     "icon_CLhGga": {
@@ -1214,7 +1214,7 @@
                       "settings": {
                         "icon": "price_tag",
                         "image_upload": "shopify://shop_images/icon-italy.svg",
-                        "width": 100,
+                        "width": 120,
                         "link": "",
                         "open_in_new_tab": false
                       },
