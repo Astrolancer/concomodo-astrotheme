@@ -1075,12 +1075,12 @@
               "type": "group",
               "name": "certificazioni",
               "settings": {
-                "content_direction": "row",
+                "content_direction": "column",
                 "vertical_on_mobile": true,
                 "horizontal_alignment": "flex-start",
                 "vertical_alignment": "flex-start",
                 "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
+                "horizontal_alignment_flex_direction_column": "center",
                 "vertical_alignment_flex_direction_column": "center",
                 "gap": 12,
                 "width": "fill",
@@ -1111,124 +1111,197 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "group_x8nfAr": {
-                  "type": "group",
-                  "name": "card",
+                "text_93AL6C": {
+                  "type": "text",
+                  "name": "t:names.heading",
                   "settings": {
-                    "content_direction": "column",
-                    "vertical_on_mobile": false,
-                    "horizontal_alignment": "flex-start",
-                    "vertical_alignment": "center",
-                    "align_baseline": false,
-                    "horizontal_alignment_flex_direction_column": "center",
-                    "vertical_alignment_flex_direction_column": "flex-start",
-                    "gap": 12,
+                    "text": "<h4>Certificazioni</h4>",
                     "width": "fit-content",
-                    "custom_width": 30,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "height": "fill",
-                    "custom_height": 100,
-                    "inherit_color_scheme": false,
-                    "color_scheme": "scheme-9207dd0a-81bd-451c-8122-6cdb734d2ab2",
-                    "background_media": "none",
-                    "video_position": "cover",
-                    "background_image_position": "cover",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 30,
-                    "toggle_overlay": false,
-                    "overlay_color": "#e4ded6",
-                    "overlay_style": "solid",
-                    "gradient_direction": "to top",
-                    "link": "",
-                    "open_in_new_tab": false,
-                    "placeholder": "",
-                    "padding-block-start": 30,
-                    "padding-block-end": 30,
-                    "padding-inline-start": 30,
-                    "padding-inline-end": 30
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "weight": "",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
-                  "blocks": {
-                    "icon_tWQb9P": {
-                      "type": "icon",
-                      "name": "t:names.icon",
-                      "settings": {
-                        "icon": "price_tag",
-                        "image_upload": "shopify://shop_images/cert-oeko.svg",
-                        "width": 100,
-                        "link": "",
-                        "open_in_new_tab": false
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "icon_tWQb9P"
-                  ]
+                  "blocks": {}
                 },
-                "group_am7pBW": {
+                "group_nMftf8": {
                   "type": "group",
-                  "name": "card",
+                  "name": "t:names.group",
                   "settings": {
-                    "content_direction": "column",
+                    "content_direction": "row",
                     "vertical_on_mobile": false,
-                    "horizontal_alignment": "flex-start",
-                    "vertical_alignment": "center",
+                    "horizontal_alignment": "center",
+                    "vertical_alignment": "flex-start",
                     "align_baseline": false,
-                    "horizontal_alignment_flex_direction_column": "center",
-                    "vertical_alignment_flex_direction_column": "flex-start",
-                    "gap": 12,
-                    "width": "fit-content",
-                    "custom_width": 30,
+                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "gap": 20,
+                    "width": "fill",
+                    "custom_width": 100,
                     "width_mobile": "fill",
                     "custom_width_mobile": 100,
-                    "height": "fill",
+                    "height": "fit",
                     "custom_height": 100,
-                    "inherit_color_scheme": false,
-                    "color_scheme": "scheme-9207dd0a-81bd-451c-8122-6cdb734d2ab2",
+                    "inherit_color_scheme": true,
+                    "color_scheme": "",
                     "background_media": "none",
                     "video_position": "cover",
                     "background_image_position": "cover",
                     "border": "none",
                     "border_width": 1,
                     "border_opacity": 100,
-                    "border_radius": 30,
+                    "border_radius": 0,
                     "toggle_overlay": false,
-                    "overlay_color": "#e4ded6",
+                    "overlay_color": "#00000026",
                     "overlay_style": "solid",
                     "gradient_direction": "to top",
                     "link": "",
                     "open_in_new_tab": false,
                     "placeholder": "",
-                    "padding-block-start": 30,
-                    "padding-block-end": 30,
-                    "padding-inline-start": 30,
-                    "padding-inline-end": 30
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {
-                    "icon_CLhGga": {
-                      "type": "icon",
-                      "name": "t:names.icon",
+                    "group_azaLN6": {
+                      "type": "group",
+                      "name": "card",
                       "settings": {
-                        "icon": "price_tag",
-                        "image_upload": "shopify://shop_images/icon-italy.svg",
-                        "width": 120,
+                        "content_direction": "column",
+                        "vertical_on_mobile": false,
+                        "horizontal_alignment": "flex-start",
+                        "vertical_alignment": "center",
+                        "align_baseline": false,
+                        "horizontal_alignment_flex_direction_column": "center",
+                        "vertical_alignment_flex_direction_column": "flex-start",
+                        "gap": 12,
+                        "width": "fit-content",
+                        "custom_width": 30,
+                        "width_mobile": "fill",
+                        "custom_width_mobile": 100,
+                        "height": "fill",
+                        "custom_height": 100,
+                        "inherit_color_scheme": false,
+                        "color_scheme": "scheme-9207dd0a-81bd-451c-8122-6cdb734d2ab2",
+                        "background_media": "none",
+                        "video_position": "cover",
+                        "background_image_position": "cover",
+                        "border": "none",
+                        "border_width": 1,
+                        "border_opacity": 100,
+                        "border_radius": 30,
+                        "toggle_overlay": false,
+                        "overlay_color": "#e4ded6",
+                        "overlay_style": "solid",
+                        "gradient_direction": "to top",
                         "link": "",
-                        "open_in_new_tab": false
+                        "open_in_new_tab": false,
+                        "placeholder": "",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
                       },
-                      "blocks": {}
+                      "blocks": {
+                        "icon_pfPcQC": {
+                          "type": "icon",
+                          "name": "t:names.icon",
+                          "settings": {
+                            "icon": "price_tag",
+                            "image_upload": "shopify://shop_images/cert-oeko.svg",
+                            "width": 80,
+                            "link": "",
+                            "open_in_new_tab": false
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "icon_pfPcQC"
+                      ]
+                    },
+                    "group_eFKnLr": {
+                      "type": "group",
+                      "name": "card",
+                      "settings": {
+                        "content_direction": "column",
+                        "vertical_on_mobile": false,
+                        "horizontal_alignment": "flex-start",
+                        "vertical_alignment": "center",
+                        "align_baseline": false,
+                        "horizontal_alignment_flex_direction_column": "center",
+                        "vertical_alignment_flex_direction_column": "flex-start",
+                        "gap": 12,
+                        "width": "fit-content",
+                        "custom_width": 30,
+                        "width_mobile": "fill",
+                        "custom_width_mobile": 100,
+                        "height": "fill",
+                        "custom_height": 100,
+                        "inherit_color_scheme": false,
+                        "color_scheme": "scheme-9207dd0a-81bd-451c-8122-6cdb734d2ab2",
+                        "background_media": "none",
+                        "video_position": "cover",
+                        "background_image_position": "cover",
+                        "border": "none",
+                        "border_width": 1,
+                        "border_opacity": 100,
+                        "border_radius": 30,
+                        "toggle_overlay": false,
+                        "overlay_color": "#e4ded6",
+                        "overlay_style": "solid",
+                        "gradient_direction": "to top",
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "placeholder": "",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {
+                        "icon_V9nKFU": {
+                          "type": "icon",
+                          "name": "t:names.icon",
+                          "settings": {
+                            "icon": "price_tag",
+                            "image_upload": "shopify://shop_images/icon-italy.svg",
+                            "width": 80,
+                            "link": "",
+                            "open_in_new_tab": false
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "icon_V9nKFU"
+                      ]
                     }
                   },
                   "block_order": [
-                    "icon_CLhGga"
+                    "group_azaLN6",
+                    "group_eFKnLr"
                   ]
                 }
               },
               "block_order": [
-                "group_x8nfAr",
-                "group_am7pBW"
+                "text_93AL6C",
+                "group_nMftf8"
               ]
             }
           },
