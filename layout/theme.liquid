@@ -37,57 +37,25 @@
 
     {{ content_for_header }}
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
     {% style %}
 
       body{
         background-color: #F4EFE8;
       }
 
-      @font-face {
-        font-family: 'OpenRunde';
-        src: url('{{ "OpenRunde-Regular.woff2" | asset_url }}') format('woff2'),
-             url('{{ "OpenRunde-Regular.woff" | asset_url }}') format('woff');
-        font-weight: 400;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: 'OpenRunde';
-        src: url('{{ "OpenRunde-Medium.woff2" | asset_url }}') format('woff2'),
-             url('{{ "OpenRunde-Medium.woff" | asset_url }}') format('woff');
-        font-weight: 500;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: 'OpenRunde';
-        src: url('{{ "OpenRunde-Semibold.woff2" | asset_url }}') format('woff2'),
-             url('{{ "OpenRunde-Semibold.woff" | asset_url }}') format('woff');
-        font-weight: 600;
-        font-style: normal;
-        font-display: swap;
-      }
-
-      @font-face {
-        font-family: 'OpenRunde';
-        src: url('{{ "OpenRunde-Bold.woff2" | asset_url }}') format('woff2'),
-             url('{{ "OpenRunde-Bold.woff" | asset_url }}') format('woff');
-        font-weight: 700;
-        font-style: normal;
-        font-display: swap;
-      }
-
       :root {
         {% if settings.openrunde_font_usage == 'body_heading' or settings.openrunde_font_usage == 'body_only' %}
-          --main-font-stack: 'OpenRunde', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          --main-font-stack: 'Red Hat Text', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
           --font-body--family: var(--main-font-stack);
           --font-subheading--family: var(--main-font-stack);
           --font-accent--family: var(--main-font-stack);
         {% endif %}
         {% if settings.openrunde_font_usage == 'body_heading' or settings.openrunde_font_usage == 'heading_only' %}
-          --heading-font-stack: 'OpenRunde', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          --heading-font-stack: 'Red Hat Text', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
           --font-heading--family: var(--heading-font-stack);
         {% endif %}
       }
