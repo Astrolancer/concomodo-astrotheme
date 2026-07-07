@@ -7,6 +7,23 @@
 
 {% assign block_settings = block.settings %}
 
+{% liquid
+  assign size_guide_label = block_settings.size_guide_label | default: 'Guida alle misure'
+  assign size_guide_title = block_settings.size_guide_title | default: size_guide_label
+
+  assign size_guide_has_content = false
+  if block_settings.size_guide_intro != blank
+    assign size_guide_has_content = true
+  endif
+  for i in (1..4)
+    assign size_guide_image_key = 'size_guide_image_' | append: i
+    assign size_guide_text_key = 'size_guide_text_' | append: i
+    if block_settings[size_guide_image_key] != blank or block_settings[size_guide_text_key] != blank
+      assign size_guide_has_content = true
+    endif
+  endfor
+%}
+
 <style>
   fieldset label.variant-option__button-label{
     padding: 10px 30px;
@@ -71,13 +88,15 @@
             <legend>
               <div class="variant-option__legend-row">
                 {{ product_option.name | escape -}}
-                {% if product_option.name == 'Dimensione' and block_settings.size_guide_link != blank %}
-                  <a
-                    href="{{ block_settings.size_guide_link }}"
-                    class="variant-option__swatch-value variant-option__size-guide-link"
+                {% if product_option.name == 'Dimensione' and size_guide_has_content %}
+                  <button
+                    type="button"
+                    class="button button-unstyled variant-option__swatch-value variant-option__size-guide-link"
+                    on:click="#SizeGuideDrawer-{{ block.id }}/showDialog"
+                    aria-haspopup="dialog"
                   >
-                    Guida alle misure
-                  </a>
+                    {{ size_guide_label }}
+                  </button>
                 {% endif %}
               </div>
               {%- if variant_style == 'swatch' -%}
@@ -224,6 +243,70 @@
       </script>
     </form>
   </variant-picker>
+
+  {% liquid
+    assign option_names = product_resource.options_with_values | map: 'name'
+  %}
+  {% if size_guide_has_content and option_names contains 'Dimensione' %}
+    <script
+      src="{{ 'dialog.js' | asset_url }}"
+      type="module"
+    ></script>
+
+    <dialog-component
+      id="SizeGuideDrawer-{{ block.id }}"
+      class="size-guide-drawer"
+    >
+      <dialog
+        ref="dialog"
+        class="size-guide-drawer__dialog dialog-modal dialog-drawer color-{{ settings.popover_color_scheme }}"
+        scroll-lock
+        aria-labelledby="SizeGuideDrawerTitle-{{ block.id }}"
+      >
+        <div class="size-guide-drawer__header">
+          <h2
+            id="SizeGuideDrawerTitle-{{ block.id }}"
+            class="size-guide-drawer__title h5"
+          >
+            {{ size_guide_title }}
+          </h2>
+          <button
+            ref="closeButton"
+            on:click="/closeDialog"
+            class="button button-unstyled close-button size-guide-drawer__close"
+            aria-label="{{ 'accessibility.close_dialog' | t }}"
+          >
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </button>
+        </div>
+        <div class="size-guide-drawer__content rte">
+          {{ block_settings.size_guide_intro }}
+          {% for i in (1..4) %}
+            {% liquid
+              assign size_guide_image_key = 'size_guide_image_' | append: i
+              assign size_guide_text_key = 'size_guide_text_' | append: i
+              assign size_guide_image = block_settings[size_guide_image_key]
+              assign size_guide_text = block_settings[size_guide_text_key]
+            %}
+            {% if size_guide_image != blank %}
+              {{
+                size_guide_image
+                | image_url: width: 1100
+                | image_tag:
+                  widths: '400, 600, 800, 1100',
+                  sizes: '(min-width: 750px) 480px, 92vw',
+                  class: 'size-guide-drawer__image',
+                  loading: 'lazy'
+              }}
+            {% endif %}
+            {% if size_guide_text != blank %}
+              {{ size_guide_text }}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </dialog>
+    </dialog-component>
+  {% endif %}
 {% endunless %}
 
 {% stylesheet %}
@@ -722,5 +805,78 @@
   .variant-picker--right .variant-option {
     text-align: right;
     justify-content: right;
+  }
+
+  /* Size guide drawer (slide-in laterale) */
+  .variant-option__size-guide-link {
+    cursor: pointer;
+    text-underline-offset: 3px;
+    font-size: inherit;
+  }
+
+  .size-guide-drawer__dialog {
+    position: fixed;
+    border-radius: 0;
+    width: 34rem;
+    max-width: 92vw;
+    height: 100%;
+    margin: 0 0 0 auto;
+    padding: 0;
+    box-shadow: var(--shadow-popover);
+  }
+
+  /* Needed to ensure the drawer is full height */
+  .size-guide-drawer__dialog:modal {
+    max-height: 100dvh;
+  }
+
+  .size-guide-drawer__dialog[open] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .size-guide-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-md);
+    flex-shrink: 0;
+    padding: var(--padding-lg) var(--padding-xl);
+    border-block-end: var(--style-border-width) solid var(--color-border);
+  }
+
+  .size-guide-drawer__title {
+    margin: 0;
+  }
+
+  .size-guide-drawer__close {
+    position: static;
+    flex-shrink: 0;
+  }
+
+  .size-guide-drawer__content {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: var(--padding-xl);
+  }
+
+  .size-guide-drawer__content img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .size-guide-drawer__image {
+    display: block;
+    width: 100%;
+    margin-block: var(--margin-lg) var(--margin-md);
+    border-radius: var(--style-border-radius-popover);
+  }
+
+  @media screen and (max-width: 749px) {
+    .size-guide-drawer__dialog {
+      width: 100dvw;
+      max-width: 100%;
+    }
   }
 {% endstylesheet %}
