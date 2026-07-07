@@ -629,7 +629,7 @@
                         "product_card_gallery_yWB6jf": {
                           "type": "_product-card-gallery",
                           "settings": {
-                            "image_ratio": "adapt",
+                            "image_ratio": "landscape",
                             "border": "none",
                             "border_width": 1,
                             "border_opacity": 100,
