@@ -530,7 +530,7 @@
                 "horizontal_alignment": "flex-start",
                 "vertical_alignment": "center",
                 "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "center",
+                "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
                 "gap": 0,
                 "width": "fill",
@@ -587,7 +587,7 @@
                       "type": "text",
                       "settings": {
                         "text": "<h4>Completa il tuo letto con</h4>",
-                        "width": "fit-content",
+                        "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
                         "type_preset": "rte",
