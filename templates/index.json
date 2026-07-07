@@ -1273,30 +1273,11 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {}
-                },
-                "button_nKcetk": {
-                  "type": "button",
-                  "name": "t:names.button",
-                  "settings": {
-                    "label": "Vedi tutte le recensioni",
-                    "link": "shopify://collections/all",
-                    "open_in_new_tab": false,
-                    "style_class": "button",
-                    "weight": "700",
-                    "font_size_desktop": "",
-                    "font_size_mobile": "",
-                    "width": "fit-content",
-                    "custom_width": 100,
-                    "width_mobile": "fit-content",
-                    "custom_width_mobile": 100
-                  },
-                  "blocks": {}
                 }
               },
               "block_order": [
                 "icon_M4tRrY",
-                "text_NGBzdz",
-                "button_nKcetk"
+                "text_NGBzdz"
               ]
             },
             "group_cKUPdQ": {
@@ -3359,6 +3340,7 @@
                   "name": "t:names.video",
                   "settings": {
                     "source": "uploaded",
+                    "video": "shopify://files/videos/WhatsApp Video 2026-07-06 at 10.33.48.mp4",
                     "video_url": "",
                     "video_autoplay": false,
                     "video_loop": false,
@@ -3427,6 +3409,7 @@
                   "name": "t:names.video",
                   "settings": {
                     "source": "uploaded",
+                    "video": "shopify://files/videos/WhatsApp Video 2026-07-06 at 10.33.48.mp4",
                     "video_url": "",
                     "video_autoplay": false,
                     "video_loop": false,
@@ -3495,6 +3478,7 @@
                   "name": "t:names.video",
                   "settings": {
                     "source": "uploaded",
+                    "video": "shopify://files/videos/WhatsApp Video 2026-07-06 at 10.33.48.mp4",
                     "video_url": "",
                     "video_autoplay": false,
                     "video_loop": false,
@@ -3563,6 +3547,7 @@
                   "name": "t:names.video",
                   "settings": {
                     "source": "uploaded",
+                    "video": "shopify://files/videos/WhatsApp Video 2026-07-06 at 10.33.48.mp4",
                     "video_url": "",
                     "video_autoplay": false,
                     "video_loop": false,
