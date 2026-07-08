@@ -289,7 +289,7 @@
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>10 notti di prova gratuita</p>",
+                        "text": "<p>100 notti di prova gratuita</p>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -2130,9 +2130,9 @@
                         "text_jrcKBC": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>Lavoreremo rapidamente per spedire il tuo ordine il prima possibile. Una volta spedito l'ordine, riceverai un'email con ulteriori informazioni. I tempi di consegna variano a seconda della tua posizione.</p>",
+                            "text": "<p><strong>Spedizione</strong></p><ul><li>Consegna <strong>gratuita in tutta Italia per </strong>ordini superiori a 500€</li><li>Per le isole minori e le località difficilmente raggiungibili la consegna può richiedere qualche giorno in più; eventuali supplementi vengono comunicati <strong>prima</strong> della conferma dell'ordine</li></ul><p><strong>Prova e reso</strong></p><ul><li>Hai <strong>100 notti di prova</strong>: al corpo servono alcune settimane per abituarsi a un materasso nuovo, per questo ti chiediamo di provarlo per almeno <strong>30 notti</strong> prima di richiedere il reso</li><li>Se non ti trovi bene, organizziamo noi il ritiro: <strong>reso gratuito e rimborso completo</strong></li><li>Resta sempre valido il diritto di recesso entro 14 giorni dalla consegna previsto dalla legge</li></ul><p><strong>Garanzia</strong></p><ul><li><strong>10 anni di garanzia</strong> sulla struttura interna del materasso (lastra e molleggio), contro difetti di produzione e cedimenti anomali</li><li>In più, tutti i prodotti sono coperti dalla <strong>garanzia legale di conformità di 24 mesi</strong></li><li>La garanzia non copre la normale usura, le variazioni di comfort percepito o i danni da uso improprio</li></ul><p>Per qualsiasi domanda su spedizioni, resi o garanzia scrivici a <strong>[email assistenza]</strong>: ti rispondiamo entro un giorno lavorativo.</p>",
                             "width": "100%",
-                            "max_width": "normal",
+                            "max_width": "none",
                             "alignment": "left",
                             "type_preset": "rte",
                             "font": "var(--font-body--family)",
