@@ -2050,7 +2050,7 @@
                           "settings": {
                             "text": "<p>Tutti i nostri materassi — <strong>Compatto</strong>, <strong>Morbido</strong>, <strong>Sostegno</strong> e <strong>Sostegno Ibrido</strong> — sono disponibili nelle stesse misure: scegli la dimensione, poi la lunghezza e la larghezza più adatte al tuo letto.</p><p><strong>Dimensioni e larghezze disponibili</strong></p><ul><li><strong>Singolo</strong> — larghezza 80, 85 o 90 cm</li><li><strong>Francese</strong> (una piazza e mezza) — larghezza 120 o 140 cm</li><li><strong>Matrimoniale</strong> — larghezza 160, 165, 170 o 180 cm</li></ul><p>Ogni larghezza è disponibile in <strong>tre lunghezze: 190, 195 o 200 cm</strong> — in tutto 27 combinazioni per ogni modello, sempre allo stesso prezzo a parità di misura del modello scelto.</p><p><strong>Altezze dei materassi</strong></p><ul><li><strong>Compatto</strong> — lastra interna 22 cm, altezza finita 25 cm circa</li><li><strong>Morbido</strong> — lastra interna 20 cm, altezza finita 23 cm circa</li><li><strong>Sostegno</strong> — lastra interna 23 cm, altezza finita 25 cm circa</li><li><strong>Sostegno Ibrido</strong> — lastra interna 25 cm, altezza finita 28 cm circa</li></ul><p>Le altezze indicate sono valori medi: piccole variazioni rientrano nelle normali tolleranze di produzione. Se non sei sicuro della misura giusta, apri la <strong>Guida alle misure</strong> nella pagina prodotto: ti aiuta a scegliere in base allo spazio e a chi dorme sul materasso.</p>",
                             "width": "100%",
-                            "max_width": "normal",
+                            "max_width": "none",
                             "alignment": "left",
                             "type_preset": "rte",
                             "font": "var(--font-body--family)",
@@ -2089,9 +2089,9 @@
                         "text_DLbezB": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>I nostri prodotti sono realizzati sia a livello locale che globale. Selezioniamo attentamente i nostri partner di produzione per garantire prodotti di alta qualità a un prezzo equo.</p>",
+                            "text": "<p>Tutti i nostri materassi nascono da <strong>Gli Artigiani del Riposo</strong>, laboratorio italiano specializzato in sistemi per il riposo: progettazione, materiali e produzione sono interamente italiani.</p><p><strong>I materiali</strong></p><ul><li><strong>Memory a zone</strong> — sagomato o bugnato, accoglie il corpo e distribuisce la pressione dove serve</li><li><strong>Schiume di supporto (WaterFoam e poliuretano)</strong> — lastre portanti e strati strutturali che danno stabilità e sostegno al materasso</li><li><strong>Molle insacchettate a 7 zone</strong> — su Compatto e Sostegno Ibrido, con circa 800 molle indipendenti nella misura matrimoniale</li><li><strong>Tessuti traspiranti</strong> — rivestimento stretch imbottito in fibra di poliestere e fascia perimetrale in tessuto 3D Air, che favorisce il ricircolo dell'aria; su Sostegno e Sostegno Ibrido il tessuto ha <strong>filamenti d'argento</strong> che aiutano a disperdere il calore</li><li><strong>Rivestimento sfoderabile e lavabile</strong> su Morbido, Sostegno e Sostegno Ibrido</li></ul><p><strong>Le certificazioni</strong></p><ul><li><strong>100% Made in Italy — ITPI (sistema IT01)</strong> — certifica che i nostri materassi sono ideati e costruiti interamente in Italia, con componenti italiani, piena tracciabilità delle lavorazioni e tecniche artigianali tradizionali, nel rispetto delle norme su lavoro, igiene e sicurezza</li><li><strong>OEKO-TEX® STANDARD 100 — Classe II</strong> — tessuti e imbottiture testati contro le sostanze nocive e certificati sicuri anche per il contatto diretto con la pelle</li></ul>",
                             "width": "100%",
-                            "max_width": "normal",
+                            "max_width": "none",
                             "alignment": "left",
                             "type_preset": "rte",
                             "font": "var(--font-body--family)",
