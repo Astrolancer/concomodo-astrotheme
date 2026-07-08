@@ -14,8 +14,8 @@
   --cq-radius: 20px;
   --cq-radius-lg: 28px;
   --cq-shadow: 0 10px 30px rgba(70, 70, 70, 0.08);
-  --cq-font-heading: var(--font-heading--family, 'Geologica', system-ui, sans-serif);
-  --cq-font-body: var(--font-body--family, 'Geologica', system-ui, sans-serif);
+  --cq-font-heading: var(--font-heading--family, 'Red Hat Text', system-ui, sans-serif);
+  --cq-font-body: var(--font-body--family, 'Red Hat Text', system-ui, sans-serif);
 
   position: relative;
   width: 100%;
