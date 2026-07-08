@@ -2356,7 +2356,7 @@
           "settings": {
             "content_direction": "row",
             "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
+            "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
@@ -2435,6 +2435,7 @@
                   "name": "t:names.video",
                   "settings": {
                     "source": "uploaded",
+                    "video": "shopify://files/videos/WhatsApp Video 2026-07-06 at 10.33.48.mp4",
                     "video_url": "",
                     "video_autoplay": false,
                     "video_loop": false,
@@ -2503,6 +2504,7 @@
                   "name": "t:names.video",
                   "settings": {
                     "source": "uploaded",
+                    "video": "shopify://files/videos/WhatsApp Video 2026-07-06 at 10.33.48.mp4",
                     "video_url": "",
                     "video_autoplay": false,
                     "video_loop": false,
@@ -2571,6 +2573,7 @@
                   "name": "t:names.video",
                   "settings": {
                     "source": "uploaded",
+                    "video": "shopify://files/videos/WhatsApp Video 2026-07-06 at 10.33.48.mp4",
                     "video_url": "",
                     "video_autoplay": false,
                     "video_loop": false,
@@ -2593,81 +2596,12 @@
               "block_order": [
                 "video_paHiP8"
               ]
-            },
-            "group_kGiPLL": {
-              "type": "group",
-              "name": "t:names.group",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
-                "width": "custom",
-                "custom_width": 25,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "custom",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {
-                "video_NBCCbP": {
-                  "type": "video",
-                  "name": "t:names.video",
-                  "settings": {
-                    "source": "uploaded",
-                    "video_url": "",
-                    "video_autoplay": false,
-                    "video_loop": false,
-                    "alt": "",
-                    "custom_width": 100,
-                    "custom_width_mobile": 100,
-                    "aspect_ratio": "auto",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 30,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "video_NBCCbP"
-              ]
             }
           },
           "block_order": [
             "group_rybwU8",
             "group_bAKFmP",
-            "group_kBAeGc",
-            "group_kGiPLL"
+            "group_kBAeGc"
           ]
         }
       },
@@ -2675,10 +2609,7 @@
         "text_AeVcgk",
         "group_xAYeNY"
       ],
-      "custom_css": [
-        "> div > div > div > div > div {margin-left: 60px;}",
-        "> div > div > div > div {overflow: scroll;}"
-      ],
+      "custom_css": [],
       "name": "Video",
       "settings": {
         "content_direction": "column",
