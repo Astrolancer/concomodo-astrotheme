@@ -542,6 +542,30 @@
           true
         );
 
+        // Un click su un valore già selezionato non genera alcun "change"
+        // (es. la Dimensione pre-selezionata all'apertura della pagina):
+        // gestisce comunque la rivelazione degli step successivi.
+        document.addEventListener('click', function (event) {
+          var target = event.target;
+          if (!(target instanceof Element)) return;
+
+          var gate = target.closest('[data-gate-trigger]');
+          if (gate) {
+            var picker = gate.closest('variant-picker');
+            if (picker) {
+              picker.dimensionChosen = true;
+              revealGatedOptions(picker);
+            }
+            return;
+          }
+
+          var lengthFieldset = target.closest('[data-misure-role="length"]');
+          if (lengthFieldset) {
+            var wrapper = lengthFieldset.closest('misure-split-picker');
+            if (wrapper) wrapper.classList.add('misure-split-picker--length-chosen');
+          }
+        });
+
         // Il morph post-fetch rigenera le classi dal server: ri-applica lo stato
         // e riallinea i selettori sintetici (che vivono fuori dal morph).
         document.addEventListener('variant:update', function (event) {
