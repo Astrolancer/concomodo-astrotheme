@@ -20,6 +20,25 @@
   >
     {% content_for 'blocks' %}
 
+    {%- if section.settings.show_tag_nav and blog.all_tags.size > 0 -%}
+      <nav class="blog-tag-nav" aria-label="{{ section.settings.tag_nav_all_label }}">
+        <a
+          href="{{ blog.url }}"
+          class="blog-tag-nav__chip{% unless current_tags %} blog-tag-nav__chip--active{% endunless %}"
+        >
+          {{- section.settings.tag_nav_all_label -}}
+        </a>
+        {%- for tag in blog.all_tags -%}
+          <a
+            href="{{ blog.url }}/tagged/{{ tag | handle }}"
+            class="blog-tag-nav__chip{% if current_tags contains tag %} blog-tag-nav__chip--active{% endif %}"
+          >
+            {{- tag -}}
+          </a>
+        {%- endfor -%}
+      </nav>
+    {%- endif -%}
+
     {%- paginate blog.articles by 12 -%}
       <span ref="viewMorePrevious"></span>
       <div
@@ -63,36 +82,15 @@
   }
 
   /**
-   * Apart from the first and second rows in the grid, all remaining blog posts
-   * are arranged in a three-column layout:
-   * +------------+------------+-------------+
-   * |            |            |             |
-   * |  (span 2)  |  (span 2)  |  (span 2)   |
-   * |            |            |             |
-   * +------------+------------+-------------+
-   */
-  .blog-post-item {
-    --blog-post-card-scale: 0.6;
-
-    grid-column: span 2;
-
-    @media screen and (max-width: 749px) {
-      --blog-post-card-scale: 0.5;
-
-      grid-column: span 6;
-    }
-  }
-
-  /**
-   * The second row of blog posts has two columns:
+   * Apart from the first article, blog posts are arranged
+   * in a two-column, editorial-style layout:
    * +-------------------+-------------------+
    * |                   |                   |
    * |  (column span 3)  |  (column span 3)  |
    * |                   |                   |
    * +-------------------+-------------------+
    */
-  .blog-post-item:nth-child(2),
-  .blog-post-item:nth-child(3) {
+  .blog-post-item {
     --blog-post-card-scale: 0.8;
 
     grid-column: span 3;
@@ -116,6 +114,45 @@
     --blog-post-card-scale: 1;
 
     grid-column: span 6;
+  }
+
+  /**
+   * Category (tag) navigation chips.
+   */
+  .blog-tag-nav {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+    margin-block-end: 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .blog-tag-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .blog-tag-nav__chip {
+    flex: 0 0 auto;
+    padding: 0.5rem 1.125rem;
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20));
+    border-radius: 100px;
+    text-decoration: none;
+    color: var(--color-foreground);
+    white-space: nowrap;
+    font-size: 0.875rem;
+  }
+
+  .blog-tag-nav__chip:hover {
+    border-color: var(--color-foreground);
+  }
+
+  .blog-tag-nav__chip--active {
+    background-color: var(--color-foreground);
+    border-color: var(--color-foreground);
+    color: var(--color-background);
   }
 
   /**
@@ -176,6 +213,19 @@
       "id": "color_scheme",
       "label": "t:settings.color_scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tag_nav",
+      "label": "Mostra categorie (tag)",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "tag_nav_all_label",
+      "label": "Etichetta \"tutti gli articoli\"",
+      "default": "Tutti",
+      "visible_if": "{{ section.settings.show_tag_nav }}"
     },
     {
       "type": "header",

@@ -32,6 +32,16 @@
   {%- endif -%}
 
   <div class="blog-post-card__content">
+    {%- if block_settings.show_tag and article.tags.size > 0 -%}
+      {%- if blog -%}
+        <a class="blog-post-card__tag" href="{{ blog.url }}/tagged/{{ article.tags.first | handle }}">
+          {{- article.tags.first -}}
+        </a>
+      {%- else -%}
+        <span class="blog-post-card__tag">{{ article.tags.first }}</span>
+      {%- endif -%}
+    {%- endif -%}
+
     <a href="{{ article.url }}">{{ title }}</a>
 
     {{ details }}
@@ -84,6 +94,25 @@
     }
   }
 
+  .blog-post-card__tag {
+    display: inline-block;
+    padding-block-start: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-primary);
+  }
+
+  a.blog-post-card__tag:hover {
+    color: var(--color-primary-hover);
+  }
+
+  .blog-post-card__tag + a {
+    padding-block-start: 0.25rem;
+  }
+
   .blog-post-card__content a {
     display: block;
     text-wrap: pretty;
@@ -114,6 +143,12 @@
       "id": "alignment",
       "label": "t:settings.alignment",
       "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tag",
+      "label": "Mostra categoria (primo tag)",
+      "default": false
     }
   ]
 }

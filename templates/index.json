@@ -285,8 +285,8 @@
                 "gap": 24,
                 "width": "fill",
                 "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
+                "width_mobile": "custom",
+                "custom_width_mobile": 47,
                 "height": "fill",
                 "custom_height": 100,
                 "inherit_color_scheme": true,
@@ -443,8 +443,8 @@
                 "gap": 24,
                 "width": "fill",
                 "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
+                "width_mobile": "custom",
+                "custom_width_mobile": 47,
                 "height": "fill",
                 "custom_height": 100,
                 "inherit_color_scheme": true,
@@ -601,8 +601,8 @@
                 "gap": 24,
                 "width": "fill",
                 "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
+                "width_mobile": "custom",
+                "custom_width_mobile": 47,
                 "height": "fill",
                 "custom_height": 100,
                 "inherit_color_scheme": true,
@@ -759,8 +759,8 @@
                 "gap": 24,
                 "width": "fill",
                 "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
+                "width_mobile": "custom",
+                "custom_width_mobile": 47,
                 "height": "fill",
                 "custom_height": 100,
                 "inherit_color_scheme": true,
@@ -916,7 +916,8 @@
         "group_4ATCHM"
       ],
       "custom_css": [
-        "> div > div {margin: 0 30px;}"
+        "> div > div {margin: 0 30px;}",
+        "@media screen and (max-width: 749px) {> div > div {margin: 0;}}"
       ],
       "name": "t:names.multicolumn",
       "settings": {
@@ -1120,7 +1121,8 @@
         "group_7Aedhf"
       ],
       "custom_css": [
-        "> div > div {margin: 0 30px;}"
+        "> div > div {margin: 0 30px;}",
+        "@media screen and (max-width: 749px) {> div > div {margin: 0;}}"
       ],
       "name": "t:names.custom_section",
       "settings": {
@@ -1642,7 +1644,8 @@
         "group_TwzenE"
       ],
       "custom_css": [
-        "> div > div {margin: 0 30px;}"
+        "> div > div {margin: 0 30px;}",
+        "@media screen and (max-width: 749px) {> div > div {margin: 0;}}"
       ],
       "name": "Recensioni",
       "settings": {
@@ -1949,7 +1952,8 @@
       "disabled": true,
       "custom_css": [
         "> div > div {margin: 0 30px;}",
-        "> div > div > div > div > div > div > img {position: absolute; top: 50%; left: 50%; z-index: 200; transform: translate(-50%, -50%);}"
+        "> div > div > div > div > div > div > img {position: absolute; top: 50%; left: 50%; z-index: 200; transform: translate(-50%, -50%);}",
+        "@media screen and (max-width: 749px) {> div > div {margin: 0;}}"
       ],
       "name": "Saldi",
       "settings": {
@@ -2234,9 +2238,8 @@
       ],
       "custom_css": [
         "> div > div {margin: 0 30px;}",
-        ".section-resource-list__content {width: 25%;}",
-        ".collection-card {height: 500px;}",
-        ".resource-list__carousel .resource-list__slide {width: 33.33%;}"
+        "@media screen and (min-width: 750px) {.section-resource-list__content {width: 25%;} .collection-card {height: 500px;} .resource-list__carousel .resource-list__slide {width: 33.33%;}}",
+        "@media screen and (max-width: 749px) {> div > div {margin: 0;} .collection-card {height: 340px;}}"
       ],
       "name": "t:names.collections_carousel",
       "settings": {
@@ -2580,7 +2583,8 @@
       },
       "custom_css": [
         "> div > div {margin: 0 30px;}",
-        "> div {background: linear-gradient( 0deg, rgba(255, 255, 255, 1) 50%, rgba(244, 239, 232, 1) 50% );}"
+        "> div {background: linear-gradient( 0deg, rgba(255, 255, 255, 1) 50%, rgba(244, 239, 232, 1) 50% );}",
+        "@media screen and (max-width: 749px) {> div > div {margin: 0;}}"
       ],
       "name": "t:names.products_carousel",
       "settings": {
@@ -2655,8 +2659,8 @@
                 "image_ratio": "square",
                 "width": "custom",
                 "custom_width": 20,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100,
+                "width_mobile": "custom",
+                "custom_width_mobile": 40,
                 "height": "fit",
                 "border": "none",
                 "border_width": 1,
@@ -3227,7 +3231,8 @@
         "group_p89AzC"
       ],
       "custom_css": [
-        "> div > div {margin: 0 30px;}"
+        "> div > div {margin: 0 30px;}",
+        "@media screen and (max-width: 749px) {> div > div {margin: 0;}}"
       ],
       "name": "t:names.custom_section",
       "settings": {
@@ -3294,7 +3299,7 @@
           "name": "t:names.group",
           "settings": {
             "content_direction": "row",
-            "vertical_on_mobile": true,
+            "vertical_on_mobile": false,
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
             "align_baseline": false,
@@ -3619,8 +3624,9 @@
         "group_eLpQRW"
       ],
       "custom_css": [
-        "> div > div > div > div > div {margin-left: 60px;}",
-        "> div > div > div > div {overflow: scroll;}"
+        "@media screen and (min-width: 750px) {> div > div > div > div > div {margin-left: 60px;}}",
+        "> div > div > div > div {overflow-x: auto; overflow-y: hidden;}",
+        "@media screen and (max-width: 749px) {> div > div > div > div > div {flex-wrap: nowrap; padding-inline: 16px;} > div > div > div > div > div > div {flex: 0 0 72%;}}"
       ],
       "name": "t:names.custom_section",
       "settings": {
