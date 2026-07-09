@@ -124,7 +124,12 @@
 
     display: grid;
     gap: var(--gap, 2rem);
-    grid-template-areas: 'header' 'visual' 'content';
+    /* Mobile: .section's own page grid (margin | content | margin) stays active,
+       so the named areas must sit in the central column or everything
+       collapses into the 16px margin track. */
+    grid-template-columns: var(--full-page-grid-with-margins);
+    grid-template-areas: '. header .' '. visual .' '. content .';
+    column-gap: 0;
     align-items: center;
   }
 
@@ -292,9 +297,15 @@
     appearance: none;
     /* Inherit the site font instead of the browser's default button font */
     font-family: inherit;
-    /* Text 50% larger than the base body size */
-    font-size: 1.5em;
+    font-size: 1.25em;
     transition: opacity 0.35s ease;
+  }
+
+  @media screen and (min-width: 750px) {
+    .mattress-layers__caption {
+      /* Text 50% larger than the base body size */
+      font-size: 1.5em;
+    }
   }
 
   /* Dim the non-selected captions */
