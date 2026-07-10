@@ -1195,7 +1195,7 @@
           "type": "cta",
           "settings": {
             "heading": "Pronto a dormire meglio?",
-            "text": "<p>Scegli il tuo materasso e mettilo alla prova per 100 notti. Se non è amore, ti rimborsiamo.</p>",
+            "text": "<p>Scegli il tuo materasso e mettilo alla prova per 100 notti. <br/>Se non è amore, ti rimborsiamo.</p>",
             "button_label": "Scopri i materassi",
             "button_link": "shopify://collections/materassi",
             "color_scheme": "scheme-2"
@@ -1211,6 +1211,9 @@
         "faq_5",
         "faq_6",
         "cta_quiz"
+      ],
+      "custom_css": [
+        "h2 {font-size: 2.5rem;}"
       ],
       "settings": {
         "eyebrow": "",
