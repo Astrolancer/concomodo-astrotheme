@@ -12,6 +12,17 @@
   type="module"
 ></script>
 
+{%- comment -%}
+  The cards arrive later via the Section Rendering API, so <linked-size-add> has to be
+  defined up front: inline scripts inside injected markup never run.
+{%- endcomment -%}
+{%- if template.name == 'product' -%}
+  <script
+    src="{{ 'linked-size-add.js' | asset_url }}"
+    type="module"
+  ></script>
+{%- endif -%}
+
 {% liquid
   assign block_settings = block.settings
   case block_settings.layout_type
@@ -52,7 +63,7 @@
       {%  render 'gap-style', value: block_settings.gap %}
       --resource-list-column-gap-desktop: {{ block_settings.columns_gap }}px;
       --resource-list-row-gap-desktop: {{ block_settings.rows_gap }}px;
-      --resource-list-columns-mobile: 1fr 1fr;
+      --resource-list-columns-mobile: repeat(auto-fill, minmax(9.25rem, 1fr));
       --border-radius: {{ block_settings.border_radius }}px;
     "
   >

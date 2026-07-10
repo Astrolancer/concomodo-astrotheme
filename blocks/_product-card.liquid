@@ -6,9 +6,202 @@
 
 {% capture children %}
   {% content_for 'blocks', closest.product: product %}
+  {%- comment -%}
+    On a product page the cards are complementary products (topper, accessori): they can be
+    added to the cart inheriting the size selected on the main product.
+  {%- endcomment -%}
+  {% if template.name == 'product' %}
+    {% render 'linked-size-add', product: product, section_id: section.id %}
+  {% endif %}
 {% endcapture %}
 
 {% render 'product-card', children: children, product: product %}
+
+{% stylesheet %}
+  linked-size-add[hidden] {
+    display: none;
+  }
+
+  .linked-size-add {
+    display: block;
+    width: 100%;
+    margin-block-start: var(--padding-xs);
+  }
+
+  /* The real theme product form: functional, never shown. */
+  .linked-size-add__form {
+    display: none;
+  }
+
+  .linked-size-add__trigger {
+    width: 100%;
+    min-height: 2.75rem;
+    background: #ff8752;
+    color: #fff;
+    border: 0;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: var(--font-size--sm);
+  }
+
+  .linked-size-add__trigger:disabled {
+    background: color-mix(in srgb, var(--color-foreground) 12%, transparent);
+    color: color-mix(in srgb, var(--color-foreground) 55%, transparent);
+    cursor: not-allowed;
+  }
+
+  .linked-size-add__dialog {
+    width: min(28rem, calc(100vw - 2rem));
+    padding: 0;
+    border: 0;
+    border-radius: 20px;
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .linked-size-add__dialog::backdrop {
+    background: hsl(0deg 0% 0% / 55%);
+  }
+
+  .linked-size-add__dialog-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-sm);
+    padding: var(--padding-lg);
+    cursor: auto;
+  }
+
+  .linked-size-add__close {
+    position: absolute;
+    inset-block-start: var(--padding-sm);
+    inset-inline-end: var(--padding-sm);
+    display: flex;
+    padding: 0.25rem;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .linked-size-add__close svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .linked-size-add__eyebrow {
+    margin: 0;
+    font-size: var(--font-size--xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .linked-size-add__summary {
+    display: flex;
+    align-items: center;
+    gap: var(--padding-sm);
+  }
+
+  .linked-size-add__image {
+    width: 5rem;
+    height: 5rem;
+    flex: none;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  .linked-size-add__summary-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .linked-size-add__title {
+    margin: 0;
+    font-size: var(--font-size--md);
+    font-weight: 500;
+  }
+
+  .linked-size-add__specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin: 0;
+    font-size: var(--font-size--sm);
+  }
+
+  .linked-size-add__spec {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .linked-size-add__spec dt {
+    opacity: 0.6;
+  }
+
+  .linked-size-add__spec dd {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .linked-size-add__price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-block: var(--padding-sm);
+    border-block: 1px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
+  }
+
+  .linked-size-add__price-label {
+    font-size: var(--font-size--sm);
+    opacity: 0.6;
+  }
+
+  .linked-size-add__price-value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: var(--font-size--lg);
+    font-weight: 500;
+  }
+
+  .linked-size-add__compare {
+    font-size: var(--font-size--sm);
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  .linked-size-add__note {
+    margin: 0;
+    font-size: var(--font-size--xs);
+    opacity: 0.6;
+  }
+
+  .linked-size-add__actions {
+    display: flex;
+    gap: var(--padding-xs);
+  }
+
+  .linked-size-add__actions .button {
+    flex: 1;
+    min-height: 2.75rem;
+    border-radius: 50px;
+    cursor: pointer;
+  }
+
+  .linked-size-add__cancel {
+    background: none;
+    border: 1px solid color-mix(in srgb, var(--color-foreground) 25%, transparent);
+    color: var(--color-foreground);
+  }
+
+  .linked-size-add__confirm {
+    background: #ff8752;
+    color: #fff;
+    border: 0;
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
