@@ -19,6 +19,12 @@
     assign show_compare_price = true
   endif
 
+  # Prezzo evidenziato solo quando c'è uno sconto attivo sulla variante mostrata
+  assign sale_class = ''
+  if show_compare_price
+    assign sale_class = ' price--on-sale'
+  endif
+
   if product_resource == blank
     assign price = 1999
   endif
@@ -83,7 +89,7 @@
     {% endif %}
     <span role="group">
       <span class="visually-hidden">{{ 'content.price_range' | t }}&nbsp;</span>
-      <span class="price price-range price--large">{{ price_min }} - {{ price_max }}</span>
+      <span class="price price-range price--large{{ sale_class }}">{{ price_min }} - {{ price_max }}</span>
     </span>
   {% else %}
     {% comment %} Standard pricing display {% endcomment %}
@@ -97,7 +103,7 @@
     {% if show_compare_price %}
       <span role="group">
         <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
-        <span class="price">{{ price | default: '&nbsp;' }}</span>
+        <span class="price{{ sale_class }}">{{ price | default: '&nbsp;' }}</span>
       </span>
     {% else %}
       <span class="price">{{ price | default: '&nbsp;' }}</span>
