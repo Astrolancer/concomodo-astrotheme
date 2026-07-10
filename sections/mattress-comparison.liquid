@@ -308,6 +308,8 @@
     display: flex;
     justify-content: center;
     margin-block: 0.75rem;
+    /* Ancora la bolla del tooltip: centrata sulla riga, mai oltre il viewport */
+    position: relative;
   }
 
   .mattress-comparison__pill {
@@ -325,8 +327,9 @@
   }
 
   /* ── Tooltip ── */
+  /* Non posizionato: la bolla si ancora al row-header, non al bottone, così con
+     etichette lunghe non finisce fuori dallo schermo allargando il documento. */
   .mattress-comparison__tip {
-    position: relative;
     display: inline-flex;
   }
 
@@ -358,7 +361,7 @@
     inset-inline-start: 50%;
     z-index: 5;
     width: max-content;
-    max-width: min(260px, 70vw);
+    max-width: min(260px, calc(100% - 2rem));
     padding: 0.75rem 1rem;
     border-radius: 12px;
     background: rgb(var(--color-foreground-rgb) / 0.92);
