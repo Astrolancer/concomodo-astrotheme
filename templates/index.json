@@ -3637,7 +3637,7 @@
             "open_in_new_tab": false,
             "placeholder": "",
             "padding-block-start": 80,
-            "padding-block-end": 80,
+            "padding-block-end": 100,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
@@ -3714,7 +3714,7 @@
                 "integrated_button": true,
                 "button_type_preset": "paragraph",
                 "padding-block-start": 0,
-                "padding-block-end": 0,
+                "padding-block-end": 15,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
