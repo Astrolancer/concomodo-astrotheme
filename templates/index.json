@@ -2239,7 +2239,7 @@
       "custom_css": [
         "> div > div {margin: 0 30px;}",
         "@media screen and (min-width: 750px) {.section-resource-list__content {width: 25%; } .collection-card {height: 500px; } .resource-list__carousel .resource-list__slide {width: 33.33%; }}",
-        "@media screen and (max-width: 749px) {> div > div {margin: 0; } .collection-card {height: 340px; } .section-resource-list__list-wrapper {width: 100%; } .collection-card__content p{font-size: 0.8em; }}"
+        "@media screen and (max-width: 749px) {> div > div {margin: 0; } .collection-card {height: 340px; } .section-resource-list__list-wrapper {width: 100%; } .collection-card__content p {font-size: 0.8em; }}"
       ],
       "name": "t:names.collections_carousel",
       "settings": {
@@ -2336,7 +2336,7 @@
               "name": "t:names.group",
               "settings": {
                 "content_direction": "row",
-                "vertical_on_mobile": true,
+                "vertical_on_mobile": false,
                 "horizontal_alignment": "center",
                 "vertical_alignment": "center",
                 "align_baseline": false,

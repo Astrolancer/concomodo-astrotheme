@@ -178,10 +178,10 @@
                 "size": "pixel",
                 "percent_size": 100,
                 "pixel_size": 100,
-                "custom_mobile_size": false,
-                "size_mobile": "percent",
+                "custom_mobile_size": true,
+                "size_mobile": "pixel",
                 "percent_size_mobile": 100,
-                "pixel_size_mobile": 120
+                "pixel_size_mobile": 52
               },
               "blocks": {}
             },
@@ -310,10 +310,10 @@
                 "size": "pixel",
                 "percent_size": 100,
                 "pixel_size": 60,
-                "custom_mobile_size": false,
-                "size_mobile": "percent",
+                "custom_mobile_size": true,
+                "size_mobile": "pixel",
                 "percent_size_mobile": 100,
-                "pixel_size_mobile": 120
+                "pixel_size_mobile": 32
               },
               "blocks": {}
             },
