@@ -1910,7 +1910,7 @@
             "placement": "on_image",
             "horizontal_alignment": "center",
             "vertical_alignment": "center",
-            "collection_card_gap": 8,
+            "collection_card_gap": 20,
             "inherit_color_scheme": false,
             "color_scheme": "scheme-5cc54846-b01b-4ce6-9b99-8344319b3293",
             "border": "none",
