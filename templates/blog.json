@@ -289,7 +289,7 @@
         "carousel_on_mobile": false,
         "post_limit": 3,
         "columns": 3,
-        "mobile_columns": "2",
+        "mobile_columns": "1",
         "mobile_card_size": "60cqw",
         "columns_gap": 8,
         "rows_gap": 8,
