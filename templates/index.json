@@ -1879,7 +1879,7 @@
                 "alignment": "left",
                 "type_preset": "h3",
                 "font": "var(--font-body--family)",
-                "weight": "500",
+                "weight": "700",
                 "font_size": "1rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
@@ -2078,14 +2078,14 @@
             "no_image_fallback": "review_text_only",
             "max_reviews": 16,
             "review_length": "medium",
-            "text_size": "medium",
+            "text_size": "small",
             "image_ratio": "1",
             "reviews_shown": 4,
             "show_reviewer_name": true,
             "show_product_name": true,
             "hide_arrows_mobile": true,
             "arrows_position": "sides",
-            "max_width": 1100,
+            "max_width": 1200,
             "corner_styling": "round",
             "header_text_color": "#464646",
             "text_color": "#464646",
@@ -2093,9 +2093,9 @@
             "stars_color": "",
             "arrows_color": "#464646",
             "transition_speed": 5,
-            "header_text": "Che cosa dicono di noi",
+            "header_text": "",
             "show_average_rating": true,
-            "rating_display": "default"
+            "rating_display": "show_nothing"
           }
         },
         "group_TwzenE": {
