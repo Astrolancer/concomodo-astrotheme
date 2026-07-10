@@ -1501,7 +1501,7 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h2>Le nostre comodità</h2>",
+                "text": "<h2>Materassi consigliati per te</h2>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
