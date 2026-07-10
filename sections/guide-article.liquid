@@ -202,7 +202,7 @@
           </details>
 
         {%- when 'cta' -%}
-          <aside class="guide-article__cta color-{{ block.settings.color_scheme }}" style="padding: 1rem 0" {{ block.shopify_attributes }}>
+          <aside class="guide-article__cta color-{{ block.settings.color_scheme }}" style="padding: 0 1rem" {{ block.shopify_attributes }}>
             {%- if block.settings.heading != blank -%}
               <h2 class="guide-article__cta-heading">{{ block.settings.heading }}</h2>
             {%- endif -%}
