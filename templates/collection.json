@@ -168,7 +168,7 @@
                 "vertical_alignment": "center",
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "space-between",
                 "gap": 30,
                 "width": "fill",
                 "custom_width": 100,
@@ -402,9 +402,7 @@
           ]
         }
       },
-      "custom_css": [
-        ".product-card__content {justify-content: space-between;}"
-      ],
+      "custom_css": [],
       "settings": {
         "layout_type": "grid",
         "product_card_size": "extra-large",
