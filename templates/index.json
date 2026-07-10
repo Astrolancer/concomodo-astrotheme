@@ -1698,9 +1698,9 @@
           "name": "t:names.heading",
           "settings": {
             "text": "<h3>Che cosa dicono di noi</h3>",
-            "width": "fit-content",
+            "width": "100%",
             "max_width": "normal",
-            "alignment": "left",
+            "alignment": "center",
             "type_preset": "h3",
             "font": "var(--font-body--family)",
             "weight": "",
@@ -2318,7 +2318,7 @@
                 "text": "<p>Troviamo la soluzione perfetta con te</p>",
                 "width": "100%",
                 "max_width": "none",
-                "alignment": "center",
+                "alignment": "left",
                 "type_preset": "h3",
                 "font": "var(--font-body--family)",
                 "weight": "700",
