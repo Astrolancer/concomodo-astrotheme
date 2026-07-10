@@ -603,7 +603,7 @@
                     "carousel_on_mobile": true,
                     "max_products": 2,
                     "columns_gap": 16,
-                    "rows_gap": 20,
+                    "rows_gap": 16,
                     "icons_style": "arrow",
                     "icons_shape": "none",
                     "gap": 12,
@@ -654,7 +654,7 @@
                         "border_opacity": 100,
                         "border_radius": 30,
                         "padding-block-start": 20,
-                        "padding-block-end": 20,
+                        "padding-block-end": 26,
                         "padding-inline-start": 20,
                         "padding-inline-end": 20
                       },
@@ -666,7 +666,7 @@
                             "border": "none",
                             "border_width": 1,
                             "border_opacity": 100,
-                            "border_radius": 20,
+                            "border_radius": 18,
                             "padding-block-start": 0,
                             "padding-block-end": 0,
                             "padding-inline-start": 0,
@@ -681,7 +681,7 @@
                             "content_direction": "row",
                             "vertical_on_mobile": true,
                             "horizontal_alignment": "center",
-                            "vertical_alignment": "center",
+                            "vertical_alignment": "flex-end",
                             "align_baseline": false,
                             "horizontal_alignment_flex_direction_column": "flex-start",
                             "vertical_alignment_flex_direction_column": "center",
@@ -746,7 +746,7 @@
                                 "show_installments": false,
                                 "show_tax_info": false,
                                 "type_preset": "h5",
-                                "width": "100%",
+                                "width": "fit-content",
                                 "alignment": "right",
                                 "font": "var(--font-body--family)",
                                 "font_size": "1rem",
@@ -2438,7 +2438,7 @@
         "group_JNHTB4"
       ],
       "custom_css": [
-        ".border-style.custom-section-content > div >div {border-radius: 30px 30px 0 0;}"
+        ".border-style.custom-section-content > div > div {border-radius: 30px 30px 0 0;}"
       ],
       "name": "Recensioni",
       "settings": {
