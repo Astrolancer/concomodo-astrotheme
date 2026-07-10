@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "hero": {
       "type": "section",
@@ -30,7 +31,7 @@
             "height": "fit",
             "custom_height": 100,
             "inherit_color_scheme": false,
-            "color_scheme": "scheme-5",
+            "color_scheme": "scheme-2",
             "background_media": "none",
             "video_position": "cover",
             "background_image_position": "cover",
@@ -344,7 +345,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Al corpo servono alcune settimane per abituarsi a un nuovo materasso. Con 100 notti hai tutto il tempo di capire se è quello giusto, senza pressioni.</p>",
+                    "text": "<p>Al corpo servono alcune settimane per abituarsi a un nuovo materasso. </p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "center",
@@ -613,7 +614,7 @@
         "promessa_row"
       ],
       "custom_css": [
-        "@media screen and (max-width: 749px) {.section-content-wrapper > .group-block > .group-block-content > .group-block {height: auto;}}"
+        "@media screen and (max-width: 749px) {.section-content-wrapper > .group-block > .group-block-content > .group-block {height: auto; }}"
       ],
       "name": "t:names.custom_section",
       "settings": {
@@ -1197,7 +1198,7 @@
             "text": "<p>Scegli il tuo materasso e mettilo alla prova per 100 notti. Se non è amore, ti rimborsiamo.</p>",
             "button_label": "Scopri i materassi",
             "button_link": "shopify://collections/materassi",
-            "color_scheme": "scheme-5"
+            "color_scheme": "scheme-2"
           }
         }
       },
