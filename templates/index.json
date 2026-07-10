@@ -3647,9 +3647,9 @@
               "name": "t:names.heading",
               "settings": {
                 "text": "<h2>Ti mettiamo in CC</h2>",
-                "width": "100%",
+                "width": "fit-content",
                 "max_width": "normal",
-                "alignment": "center",
+                "alignment": "left",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
                 "weight": "",
@@ -3673,9 +3673,9 @@
               "type": "text",
               "settings": {
                 "text": "<p>Iscriviti alla newsletter per ricevere sconti e novità sui nostri prodotti. </p>",
-                "width": "100%",
+                "width": "fit-content",
                 "max_width": "normal",
-                "alignment": "center",
+                "alignment": "left",
                 "type_preset": "paragraph",
                 "font": "var(--font-body--family)",
                 "weight": "500",
