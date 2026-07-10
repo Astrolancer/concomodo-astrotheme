@@ -1879,7 +1879,7 @@
                 "alignment": "left",
                 "type_preset": "h3",
                 "font": "var(--font-body--family)",
-                "weight": "400",
+                "weight": "500",
                 "font_size": "1rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
