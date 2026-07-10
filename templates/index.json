@@ -991,7 +991,7 @@
           "name": "t:names.product_card",
           "static": true,
           "settings": {
-            "product_card_gap": 0,
+            "product_card_gap": 20,
             "inherit_color_scheme": false,
             "color_scheme": "scheme-9207dd0a-81bd-451c-8122-6cdb734d2ab2",
             "border": "none",
@@ -1061,6 +1061,7 @@
               "blocks": {
                 "judge_me_reviews_preview_badge_YpKcAg": {
                   "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+                  "disabled": true,
                   "settings": {}
                 },
                 "product_title_WBaE6G": {
@@ -1145,11 +1146,49 @@
                 "price_Hf7f9r",
                 "text_WCkBqp"
               ]
+            },
+            "buy_buttons_qP8ffR": {
+              "type": "buy-buttons",
+              "name": "t:names.product_buy_buttons",
+              "settings": {
+                "stacking": false,
+                "show_pickup_availability": false,
+                "gift_card_form": false,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "quantity": {
+                  "type": "quantity",
+                  "disabled": true,
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                },
+                "add-to-cart": {
+                  "type": "add-to-cart",
+                  "static": true,
+                  "settings": {
+                    "style_class": "button-secondary"
+                  },
+                  "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
+                }
+              },
+              "block_order": []
             }
           },
           "block_order": [
             "product_card_gallery_HPbHJm",
-            "product_card_group_zxC8b9"
+            "product_card_group_zxC8b9",
+            "buy_buttons_qP8ffR"
           ]
         }
       },
