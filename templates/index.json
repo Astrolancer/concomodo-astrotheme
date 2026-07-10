@@ -3686,11 +3686,11 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>Ti mettiamo in CC</h2>",
+                    "text": "<h3>Ti mettiamo in CC</h3>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "rte",
+                    "type_preset": "h3",
                     "font": "var(--font-body--family)",
                     "weight": "",
                     "font_size": "1rem",
