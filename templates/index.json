@@ -1911,7 +1911,7 @@
             "horizontal_alignment": "center",
             "vertical_alignment": "center",
             "collection_card_gap": 8,
-            "inherit_color_scheme": false,
+            "inherit_color_scheme": true,
             "color_scheme": "scheme-5",
             "border": "none",
             "border_width": 1,
