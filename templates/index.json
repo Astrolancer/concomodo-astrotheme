@@ -58,7 +58,7 @@
               "settings": {
                 "text": "<h1>La tua nuova<br/>routine sarà<br/><strong>dormire bene.</strong></h1>",
                 "width": "fit-content",
-                "max_width": "normal",
+                "max_width": "narrow",
                 "alignment": "left",
                 "type_preset": "h1",
                 "font": "var(--font-body--family)",
@@ -83,14 +83,14 @@
               "type": "button",
               "name": "t:names.button",
               "settings": {
-                "label": "Scopri la comodità",
+                "label": "Scopri Concomodo",
                 "link": "shopify://collections/all",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "weight": "600",
                 "font_size_desktop": "1rem",
                 "font_size_mobile": "",
-                "width": "custom",
+                "width": "fit-content",
                 "custom_width": 20,
                 "width_mobile": "fit-content",
                 "custom_width_mobile": 100
