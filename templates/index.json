@@ -3638,8 +3638,8 @@
             "placeholder": "",
             "padding-block-start": 80,
             "padding-block-end": 100,
-            "padding-inline-start": 30,
-            "padding-inline-end": 30
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {
             "group_fcmKfC": {
