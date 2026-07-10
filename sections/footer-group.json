@@ -188,7 +188,7 @@
             "text_TegzA4": {
               "type": "text",
               "settings": {
-                "text": "<p><a href=\"/collections/materassi\" title=\"Materassi\">materassi</a><br/><a href=\"/collections/topper\" title=\"Topper\">topper</a><br/><a href=\"#\" title=\"#\">faq</a><br/><a href=\"#\" title=\"#\">recensioni</a></p>",
+                "text": "<p><a href=\"/collections/materassi\" title=\"Materassi\">materassi</a><br/><a href=\"/collections/topper\" title=\"Topper\">topper</a><a href=\"/collections/topper-copia\" title=\"Cuscini\"><br/>cuscini</a><br/><a href=\"#\" title=\"#\">faq</a><br/><a href=\"#\" title=\"#\">recensioni</a></p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -320,7 +320,7 @@
             "text_mYjCiV": {
               "type": "text",
               "settings": {
-                "text": "<p>Guida alle taglie<br/>100 notti di prova<br/>Informativa di vendita<br/>Dormire comodi</p>",
+                "text": "<p><a href=\"/pages/guida-acquisto\" title=\"Guida Acquisto\">Guida acquisto</a><br/><a href=\"/pages/100-notti\" title=\"100 notti\">100 notti di prova</a><br/>Informativa di vendita<br/><a href=\"/pages/dormire-comodi\" title=\"Dormire Comodi\">Dormire comodi</a></p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
