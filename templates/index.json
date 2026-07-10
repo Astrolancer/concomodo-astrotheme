@@ -249,8 +249,8 @@
             "custom_width_mobile": 100,
             "height": "fit",
             "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-58084d4c-a86e-4d0a-855e-a0966e5043f7",
             "background_media": "none",
             "video_position": "cover",
             "background_image_position": "cover",
@@ -1120,7 +1120,6 @@
         "group_7Aedhf"
       ],
       "custom_css": [
-        "> div > div {margin: 0 30px;}",
         "@media screen and (max-width: 749px) {> div > div {margin: 0; } .background-image-container img {object-position: center; }}"
       ],
       "name": "t:names.custom_section",
@@ -2236,7 +2235,6 @@
         "group_nRm9zM"
       ],
       "custom_css": [
-        "> div > div {margin: 0 30px;}",
         "@media screen and (min-width: 750px) {.section-resource-list__content {width: 25%; } .collection-card {height: 500px; } .resource-list__carousel .resource-list__slide {width: 33.33%; }}",
         "@media screen and (max-width: 749px) {> div > div {margin: 0; } .collection-card {height: 340px; } .section-resource-list__list-wrapper {width: 100%; } .collection-card__content p {font-size: 0.8em; }}"
       ],
@@ -2308,7 +2306,7 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h2>I più amati</h2>",
+                "text": "<h2>Le nostre comodità</h2>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
@@ -2374,7 +2372,7 @@
                   "type": "button",
                   "name": "t:names.button",
                   "settings": {
-                    "label": "Materassi comodi",
+                    "label": "Materassi",
                     "link": "shopify://collections/materassi",
                     "open_in_new_tab": false,
                     "style_class": "button-secondary",
@@ -2392,7 +2390,7 @@
                   "type": "button",
                   "name": "t:names.button",
                   "settings": {
-                    "label": "Topper top",
+                    "label": "Topper",
                     "link": "shopify://collections/topper",
                     "open_in_new_tab": false,
                     "style_class": "button",
@@ -3623,7 +3621,7 @@
         "group_eLpQRW"
       ],
       "custom_css": [
-        "@media screen and (min-width: 750px) {> div > div > div > div > div {margin-left: 60px; }}",
+        "@media screen and (min-width: 750px) {> div > div > div > div > div {margin-left: 35px; }}",
         "> div > div > div > div {overflow-x: auto; overflow-y: hidden;}",
         "@media screen and (max-width: 749px) {> div > div > div > div > div {flex-wrap: nowrap; padding-inline: 16px; } > div > div > div > div > div > div {flex: 0 0 72%; }}"
       ],
