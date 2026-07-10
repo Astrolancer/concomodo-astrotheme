@@ -2033,8 +2033,7 @@
         "group_nRm9zM"
       ],
       "custom_css": [
-        "@media screen and (min-width: 750px) {.collection-card {height: 600px; } .resource-list__carousel .resource-list__slide {width: 33.33%; }}",
-        "@media screen and (max-width: 749px) {> div > div {margin: 0; } .collection-card {height: 340px; } .section-resource-list__list-wrapper {width: 100%; } .collection-card__content p {font-size: 0.8em; }}"
+        "/*@media screen and (min-width: 750px) {.collection-card {height: 600px; } .resource-list__carousel .resource-list__slide {width: 33.33%; }}*/@media screen and (max-width: 749px) {> div > div {margin: 0; } .collection-card {height: 340px; } .section-resource-list__list-wrapper {width: 100%; } .collection-card__content p {font-size: 0.8em; }}"
       ],
       "name": "t:names.collections_carousel",
       "settings": {
@@ -2043,15 +2042,15 @@
           "topper",
           "topper-copia"
         ],
-        "layout_type": "carousel",
+        "layout_type": "grid",
         "carousel_card_layout": "vertical",
-        "carousel_on_mobile": false,
+        "carousel_on_mobile": true,
         "columns": 3,
         "mobile_columns": "2",
         "mobile_card_size": "60cqw",
         "columns_gap": 20,
         "bento_gap": 8,
-        "rows_gap": 8,
+        "rows_gap": 20,
         "max_collections": 4,
         "icons_style": "none",
         "icons_shape": "circle",
