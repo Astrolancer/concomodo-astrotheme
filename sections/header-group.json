@@ -50,8 +50,7 @@
         }
       },
       "custom_css": [
-        "header-component > div > div {padding-left: 30px; padding-right: 30px;}",
-        "header-component >div {border-radius: 0 0 30px 30px;}"
+        "header-component > div {border-radius: 0 0 30px 30px;}"
       ],
       "settings": {
         "logo_position": "left",
