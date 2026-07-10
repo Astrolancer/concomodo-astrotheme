@@ -108,13 +108,14 @@
         "group_fCMeMm"
       ],
       "custom_css": [
-        ".color-scheme-5 {background: linear-gradient( 0deg, rgba(178, 200, 209, 1) 50%, rgba(244, 239, 232, 1) 50% );}"
+        ".color-scheme-5 {background: linear-gradient( 0deg, rgba(178, 200, 209, 1) 50%, rgba(244, 239, 232, 1) 50% );}",
+        "img{border-radius: 0 0 30px 30px}"
       ],
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
         "image_1": "shopify://shop_images/home.png",
-        "image_border_radius": 30,
+        "image_border_radius": 0,
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
