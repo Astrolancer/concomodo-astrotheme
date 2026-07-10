@@ -183,6 +183,11 @@
     display: block;
   }
 
+
+  .resource-list--grid{
+    grid-template-columns: 1fr 1fr;
+  }
+
   .block-resource-list {
     border-radius: var(--border-radius, 0);
   }
@@ -193,6 +198,13 @@
     opacity: var(--skeleton-opacity);
     border-radius: 4px;
   }
+
+  @media screen and (min-width: 750px) {
+    .resource-list--grid {
+        grid-template-columns: 1fr 1fr;
+    }
+  }
+  
 {% endstylesheet %}
 
 {% schema %}
