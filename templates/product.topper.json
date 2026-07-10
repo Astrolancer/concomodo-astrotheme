@@ -1899,9 +1899,9 @@
       "type": "mattress-comparison",
       "name": "Mattress comparison",
       "settings": {
-        "heading": "Confronta questo materasso",
+        "heading": "Confronta questo topper",
         "show_feel": true,
-        "feel_label": "Sensazione del materasso",
+        "feel_label": "Sensazione del topper",
         "feel_tooltip": "Quanto il materasso risulta morbido o rigido al primo contatto. Non è un voto ma una caratteristica: la sensazione giusta dipende dalle tue abitudini e dalla posizione in cui dormi.",
         "firmness_min_label": "Morbido",
         "firmness_max_label": "Duro",
