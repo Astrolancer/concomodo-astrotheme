@@ -1624,10 +1624,10 @@
             "border_width": 1,
             "border_opacity": 100,
             "border_radius": 30,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "padding-block-start": 10,
+            "padding-block-end": 10,
+            "padding-inline-start": 10,
+            "padding-inline-end": 10
           },
           "blocks": {
             "product_card_gallery_HPbHJm": {
@@ -1638,7 +1638,7 @@
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
-                "border_radius": 20,
+                "border_radius": 30,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
