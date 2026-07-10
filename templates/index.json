@@ -3312,7 +3312,7 @@
             "align_baseline": false,
             "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "center",
-            "gap": 30,
+            "gap": 20,
             "width": "fill",
             "custom_width": 100,
             "width_mobile": "fill",
@@ -3352,7 +3352,7 @@
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
+                "gap": 10,
                 "width": "custom",
                 "custom_width": 25,
                 "width_mobile": "fill",
@@ -3631,7 +3631,7 @@
         "group_eLpQRW"
       ],
       "custom_css": [
-        "@media screen and (min-width: 750px) {> div > div > div > div > div {margin-left: 35px; }}",
+        "@media screen and (min-width: 750px) {}",
         "> div > div > div > div {overflow-x: auto; overflow-y: hidden;}",
         "@media screen and (max-width: 749px) {> div > div > div > div > div {flex-wrap: nowrap; padding-inline: 16px; } > div > div > div > div > div > div {flex: 0 0 72%; }}"
       ],
@@ -3645,7 +3645,7 @@
         "horizontal_alignment_flex_direction_column": "flex-start",
         "vertical_alignment_flex_direction_column": "center",
         "gap": 12,
-        "section_width": "full-width",
+        "section_width": "page-width",
         "section_height": "medium",
         "section_height_custom": 50,
         "color_scheme": "scheme-2",
