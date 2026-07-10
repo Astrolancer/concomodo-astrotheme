@@ -31,7 +31,7 @@
             "media_fit": "cover",
             "media_radius": 20,
             "extend_media": false,
-            "zoom": false,
+            "zoom": true,
             "video_loop": false,
             "hide_variants": true,
             "padding-block-start": 0,
