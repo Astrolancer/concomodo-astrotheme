@@ -75,12 +75,7 @@ class LinkedSizeAdd extends HTMLElement {
     if (trigger && triggerLabel) trigger.dataset.labelDefault = triggerLabel.textContent?.trim() ?? '';
 
     trigger?.addEventListener('click', this.#openDialog, { signal });
-    this.dialog?.addEventListener('click', this.#handleBackdropClick, { signal });
-
-    for (const cancel of this.querySelectorAll('[data-linked-cancel]')) {
-      cancel.addEventListener('click', this.#closeDialog, { signal });
-    }
-
+    this.dialog?.addEventListener('click', this.#handleDialogClick, { signal });
     this.querySelector('[data-linked-confirm]')?.addEventListener('click', this.#confirm, { signal });
     this.addEventListener('cart:update', this.#handleCartUpdate, { signal });
 
@@ -212,11 +207,17 @@ class LinkedSizeAdd extends HTMLElement {
   /**
    * The surrounding <product-card> navigates to the product on any click that isn't on a
    * form control, so every click inside the dialog has to stop before it gets there.
+   *
    * A click landing on the dialog element itself is a click on its backdrop: dismiss.
+   * The dismiss buttons close natively through method="dialog"; the delegated call here
+   * is a fallback for when that form is submitted by something other than a click.
    */
-  #handleBackdropClick = (/** @type {MouseEvent} */ event) => {
+  #handleDialogClick = (/** @type {MouseEvent} */ event) => {
     event.stopPropagation();
-    if (event.target === this.dialog) this.#closeDialog();
+
+    const target = event.target instanceof Element ? event.target : null;
+
+    if (target === this.dialog || target?.closest('[data-linked-cancel]')) this.#closeDialog();
   };
 
   #confirm = () => {

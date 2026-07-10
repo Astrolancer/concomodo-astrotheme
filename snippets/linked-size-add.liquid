@@ -98,9 +98,12 @@
     </button>
 
     <dialog class="linked-size-add__dialog" data-linked-dialog>
-      <div class="linked-size-add__dialog-inner">
+      {%- comment -%}
+        method="dialog" makes both dismiss buttons close natively, with no JS involved.
+      {%- endcomment -%}
+      <form method="dialog" class="linked-size-add__dialog-inner">
         <button
-          type="button"
+          type="submit"
           class="linked-size-add__close"
           aria-label="{{ 'actions.close' | t }}"
           data-linked-cancel
@@ -151,14 +154,14 @@
         {%- endif -%}
 
         <div class="linked-size-add__actions">
-          <button type="button" class="button button-secondary linked-size-add__cancel" data-linked-cancel>
+          <button type="submit" class="button-secondary linked-size-add__cancel" data-linked-cancel>
             Annulla
           </button>
           <button type="button" class="button linked-size-add__confirm" data-linked-confirm>
             Conferma e aggiungi
           </button>
         </div>
-      </div>
+      </form>
     </dialog>
 
     {%- comment -%}

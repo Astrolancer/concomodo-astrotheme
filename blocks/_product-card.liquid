@@ -39,21 +39,9 @@
     display: none;
   }
 
+  /* Colours, hovers and radii come from .button / .button-secondary and the card's scheme. */
   .linked-size-add__trigger {
     width: 100%;
-    min-height: 2.75rem;
-    background: #ff8752;
-    color: #fff;
-    border: 0;
-    border-radius: 50px;
-    cursor: pointer;
-    font-size: var(--font-size--sm);
-  }
-
-  .linked-size-add__trigger:disabled {
-    background: color-mix(in srgb, var(--color-foreground) 12%, transparent);
-    color: color-mix(in srgb, var(--color-foreground) 55%, transparent);
-    cursor: not-allowed;
   }
 
   .linked-size-add__dialog {
@@ -80,19 +68,31 @@
 
   .linked-size-add__close {
     position: absolute;
-    inset-block-start: var(--padding-sm);
-    inset-inline-end: var(--padding-sm);
+    z-index: var(--layer-flat);
+    inset-block-start: var(--padding-xs);
+    inset-inline-end: var(--padding-xs);
     display: flex;
-    padding: 0.25rem;
+    align-items: center;
+    justify-content: center;
+    width: var(--minimum-touch-target);
+    height: var(--minimum-touch-target);
+    padding: 0;
     border: 0;
+    border-radius: 50%;
     background: none;
     color: inherit;
     cursor: pointer;
+    transition: opacity var(--animation-speed) var(--animation-easing);
+  }
+
+  .linked-size-add__close:hover {
+    opacity: 0.6;
   }
 
   .linked-size-add__close svg {
-    width: 1rem;
-    height: 1rem;
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
+    pointer-events: none;
   }
 
   .linked-size-add__eyebrow {
@@ -189,23 +189,9 @@
     gap: var(--padding-xs);
   }
 
-  .linked-size-add__actions .button {
+  .linked-size-add__actions :is(.button, .button-secondary) {
     flex: 1;
-    min-height: 2.75rem;
-    border-radius: 50px;
-    cursor: pointer;
-  }
-
-  .linked-size-add__cancel {
-    background: none;
-    border: 1px solid color-mix(in srgb, var(--color-foreground) 25%, transparent);
-    color: var(--color-foreground);
-  }
-
-  .linked-size-add__confirm {
-    background: #ff8752;
-    color: #fff;
-    border: 0;
+    width: auto;
   }
 {% endstylesheet %}
 
