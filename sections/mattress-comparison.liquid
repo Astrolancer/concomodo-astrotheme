@@ -301,6 +301,10 @@
     display: flex;
     justify-content: center;
     margin-block: 0.75rem;
+    /* Anchor the tooltip bubble to this full-width, centered row instead of
+       the tiny "?" button, so it can never overflow the viewport (which
+       otherwise widened the whole page on mobile). */
+    position: relative;
   }
 
   .mattress-comparison__pill {
@@ -319,7 +323,8 @@
 
   /* ── Tooltip ── */
   .mattress-comparison__tip {
-    position: relative;
+    /* static (not relative): the bubble anchors to __row-header instead */
+    position: static;
     display: inline-flex;
   }
 
@@ -351,7 +356,7 @@
     inset-inline-start: 50%;
     z-index: 5;
     width: max-content;
-    max-width: min(260px, 70vw);
+    max-width: min(260px, calc(100vw - 32px));
     padding: 0.75rem 1rem;
     border-radius: 12px;
     background: rgb(var(--color-foreground-rgb) / 0.92);
