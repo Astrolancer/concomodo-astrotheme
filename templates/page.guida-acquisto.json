@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "guide": {
       "type": "guide-article",
@@ -188,7 +189,7 @@
             "text": "<p>Rispondi a poche domande e ti consigliamo il materasso ideale per come dormi tu. Ci vogliono 2 minuti.</p>",
             "button_label": "Fai il quiz",
             "button_link": "shopify://pages/quiz",
-            "color_scheme": "scheme-5"
+            "color_scheme": "scheme-2"
           }
         }
       },
@@ -345,14 +346,18 @@
                     "width": "fill",
                     "custom_width": 100,
                     "inherit_color_scheme": true,
+                    "color_scheme": "",
                     "heading": "",
+                    "heading_preset": "h3",
                     "border_style": "all",
                     "border_width": 1,
                     "border_radius": 100,
+                    "input_type_preset": "paragraph",
                     "style_class": "button",
                     "display_type": "text",
                     "label": "Iscriviti",
                     "integrated_button": true,
+                    "button_type_preset": "paragraph",
                     "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
