@@ -50,7 +50,7 @@
         }
       },
       "custom_css": [
-        "header-component > div > div {padding-left: 30px; padding-right: 30px;}"
+        "header-component > div {border-radius: 0 0 30px 30px;}"
       ],
       "settings": {
         "logo_position": "left",
@@ -76,7 +76,7 @@
         "color_scheme_top": "scheme-2",
         "color_scheme_bottom": "",
         "color_scheme_transparent": "scheme-6",
-        "enable_transparent_header_home": false,
+        "enable_transparent_header_home": true,
         "home_color_scheme": "inverse",
         "enable_transparent_header_product": false,
         "product_color_scheme": "default",
