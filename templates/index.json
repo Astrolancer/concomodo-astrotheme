@@ -3620,7 +3620,7 @@
             "custom_width_mobile": 100,
             "height": "fill",
             "custom_height": 100,
-            "inherit_color_scheme": false,
+            "inherit_color_scheme": true,
             "color_scheme": "scheme-4",
             "background_media": "none",
             "video_position": "cover",
@@ -3731,6 +3731,10 @@
       "block_order": [
         "group_BkfBhC"
       ],
+      "custom_css": [
+        "> div {border-radius: 30px 30px 0 0;}",
+        "a {text-decoration: none;}"
+      ],
       "name": "t:names.email_signup",
       "settings": {
         "content_direction": "column",
@@ -3744,7 +3748,7 @@
         "section_width": "full-width",
         "section_height": "",
         "section_height_custom": 50,
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-4",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
