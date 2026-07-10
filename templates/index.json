@@ -49,7 +49,7 @@
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
-            "padding-inline-end": 30
+            "padding-inline-end": 0
           },
           "blocks": {
             "text_TznbfN": {
@@ -841,7 +841,7 @@
                       "type": "text",
                       "name": "t:names.heading",
                       "settings": {
-                        "text": "<p>Oltre 110.000 recensioni a 5 stelle*</p>",
+                        "text": "<p>Oltre 110.000 recensioni<br/>a 5 stelle*</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "center",
@@ -916,7 +916,6 @@
         "group_4ATCHM"
       ],
       "custom_css": [
-        "> div > div {margin: 0 30px;}",
         "@media screen and (max-width: 749px) {> div > div {margin: 0; } .section-content-wrapper > .group-block > .group-block-content > .group-block {flex: 0 0 47%; height: auto; }}"
       ],
       "name": "t:names.multicolumn",
