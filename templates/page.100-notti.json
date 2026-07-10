@@ -89,7 +89,7 @@
                 "alignment": "center",
                 "type_preset": "h1",
                 "font": "var(--font-body--family)",
-                "weight": "500",
+                "weight": "600",
                 "font_size": "1rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
@@ -110,13 +110,13 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>Prova <strong>concomodo</strong> nel comfort di casa tua per 100 notti. Se non è il materasso giusto per te, te lo ritiriamo e ti rimborsiamo. Senza rischi, senza fretta.</p>",
+                "text": "<p>Prova <strong>Concomodo</strong> nel comfort di casa tua per 100 notti. </p><p>Se non è il materasso giusto per te, lo ritiriamo e ti rimborsiamo. <br/>Senza rischi, senza fretta.</p>",
                 "width": "fit-content",
-                "max_width": "narrow",
+                "max_width": "normal",
                 "alignment": "center",
                 "type_preset": "paragraph",
                 "font": "var(--font-body--family)",
-                "weight": "",
+                "weight": "500",
                 "font_size": "1rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
@@ -173,7 +173,7 @@
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
         "gap": 12,
-        "section_width": "page-width",
+        "section_width": "full-width",
         "section_height": "",
         "section_height_custom": 50,
         "color_scheme": "scheme-1",
@@ -188,8 +188,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 48,
-        "padding-block-end": 24
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "promessa": {
@@ -198,14 +198,15 @@
         "promessa_heading": {
           "type": "text",
           "name": "t:names.heading",
+          "disabled": true,
           "settings": {
-            "text": "<h2>La nostra promessa</h2>",
+            "text": "<h3>La nostra promessa</h3>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
-            "type_preset": "h2",
+            "type_preset": "h3",
             "font": "var(--font-body--family)",
-            "weight": "500",
+            "weight": "700",
             "font_size": "1rem",
             "line_height": "normal",
             "letter_spacing": "normal",
@@ -641,8 +642,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 24,
-        "padding-block-end": 24
+        "padding-block-start": 80,
+        "padding-block-end": 80
       }
     },
     "come_funziona": {
@@ -655,7 +656,7 @@
             "text": "<h3>Come funziona</h3>",
             "width": "100%",
             "max_width": "normal",
-            "alignment": "center",
+            "alignment": "left",
             "type_preset": "h3",
             "font": "var(--font-body--family)",
             "weight": "700",
@@ -679,7 +680,7 @@
           "type": "group",
           "name": "Step",
           "settings": {
-            "content_direction": "row",
+            "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "center",
             "vertical_alignment": "flex-start",
@@ -687,7 +688,7 @@
             "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "center",
             "gap": 20,
-            "width": "fill",
+            "width": "fit-content",
             "custom_width": 100,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
@@ -815,7 +816,7 @@
                   "settings": {
                     "text": "<p>Scegli il modello e la misura giusti per te. Consegna gratuita in tutta Italia, comodamente a casa tua.</p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "paragraph",
                     "font": "var(--font-body--family)",
@@ -943,7 +944,7 @@
                   "settings": {
                     "text": "<p>Dormici sopra notte dopo notte. Dai al tuo corpo il tempo di abituarsi: consigliamo almeno 3-4 settimane prima di giudicare.</p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "paragraph",
                     "font": "var(--font-body--family)",
@@ -1071,7 +1072,7 @@
                   "settings": {
                     "text": "<p>Se entro 100 notti non è il materasso giusto per te, lo ritiriamo e ti rimborsiamo. Ci pensiamo noi, senza costi per te.</p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "paragraph",
                     "font": "var(--font-body--family)",
