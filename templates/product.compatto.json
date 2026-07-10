@@ -1759,7 +1759,7 @@
           "type": "image",
           "name": "t:names.image",
           "settings": {
-            "image": "shopify://shop_images/image_642.jpg",
+            "image": "shopify://shop_images/MODM1-INFO.png",
             "link": "",
             "image_ratio": "adapt",
             "width": "fill",
@@ -1818,7 +1818,7 @@
           "type": "image",
           "name": "t:names.image",
           "settings": {
-            "image": "shopify://shop_images/image_642-1.jpg",
+            "image": "shopify://shop_images/MODM1-SCHIENA.png",
             "link": "",
             "image_ratio": "adapt",
             "width": "fill",
@@ -2438,7 +2438,7 @@
         "group_JNHTB4"
       ],
       "custom_css": [
-        ".border-style.custom-section-content > div >div {border-radius: 30px 30px 0 0;}"
+        ".border-style.custom-section-content > div > div {border-radius: 30px 30px 0 0;}"
       ],
       "name": "Recensioni",
       "settings": {
