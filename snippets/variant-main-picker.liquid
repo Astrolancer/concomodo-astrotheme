@@ -653,6 +653,10 @@
                   {% endif %}
                   {% if size_guide_has_table %}
                     <div class="size-guide-drawer__group-table">
+                      {% comment %}
+                        Columns are widths, rows are lengths. Cells stay "larghezzaxlunghezza",
+                        matching the Misure option values.
+                      {% endcomment %}
                       <table class="size-guide-table">
                         <thead>
                           <tr>
@@ -661,10 +665,10 @@
                               colspan="2"
                             ></td>
                             <th
-                              class="size-guide-table__lengths-label"
-                              colspan="{{ size_guide_lengths.size }}"
+                              class="size-guide-table__columns-label"
+                              colspan="{{ size_guide_widths.size }}"
                             >
-                              Lunghezza cm
+                              Larghezza cm
                             </th>
                           </tr>
                           <tr>
@@ -672,24 +676,24 @@
                               class="size-guide-table__corner"
                               colspan="2"
                             ></td>
-                            {% for size_guide_length in size_guide_lengths %}
-                              <th class="size-guide-table__length">{{ size_guide_length | strip }}</th>
+                            {% for size_guide_width in size_guide_widths %}
+                              <th class="size-guide-table__column">{{ size_guide_width | strip }}</th>
                             {% endfor %}
                           </tr>
                         </thead>
                         <tbody>
-                          {% for size_guide_width in size_guide_widths %}
+                          {% for size_guide_length in size_guide_lengths %}
                             <tr>
                               {% if forloop.first %}
                                 <th
                                   class="size-guide-table__axis"
-                                  rowspan="{{ size_guide_widths.size }}"
+                                  rowspan="{{ size_guide_lengths.size }}"
                                 >
-                                  <span class="size-guide-table__axis-label">Larghezza cm</span>
+                                  <span class="size-guide-table__axis-label">Lunghezza cm</span>
                                 </th>
                               {% endif %}
-                              <th class="size-guide-table__width">{{ size_guide_width | strip }}</th>
-                              {% for size_guide_length in size_guide_lengths %}
+                              <th class="size-guide-table__row">{{ size_guide_length | strip }}</th>
+                              {% for size_guide_width in size_guide_widths %}
                                 <td>{{ size_guide_width | strip }}x{{ size_guide_length | strip }}</td>
                               {% endfor %}
                             </tr>
@@ -1398,25 +1402,25 @@
     border: none;
   }
 
-  .size-guide-drawer__content .size-guide-table .size-guide-table__lengths-label {
+  .size-guide-drawer__content .size-guide-table .size-guide-table__columns-label {
     text-align: center;
     vertical-align: middle;
   }
 
-  /* Valori Larghezza in bold come quelli Lunghezza */
-  .size-guide-drawer__content .size-guide-table .size-guide-table__width {
+  /* Intestazioni di riga in bold come quelle di colonna */
+  .size-guide-drawer__content .size-guide-table .size-guide-table__row {
     font-weight: 600;
   }
 
   /* Sfondo etichette assi */
-  .size-guide-drawer__content .size-guide-table .size-guide-table__lengths-label,
+  .size-guide-drawer__content .size-guide-table .size-guide-table__columns-label,
   .size-guide-drawer__content .size-guide-table .size-guide-table__axis {
     background-color: #e4ded6;
   }
 
   /* Sfondo valori inseriti da schema (celle interne invariate) */
-  .size-guide-drawer__content .size-guide-table .size-guide-table__length,
-  .size-guide-drawer__content .size-guide-table .size-guide-table__width {
+  .size-guide-drawer__content .size-guide-table .size-guide-table__column,
+  .size-guide-drawer__content .size-guide-table .size-guide-table__row {
     background-color: #f4efe8;
   }
 
@@ -1426,7 +1430,7 @@
     width: 1%;
   }
 
-  /* "Larghezza cm" in verticale, dal basso verso l'alto */
+  /* "Lunghezza cm" in verticale, dal basso verso l'alto */
   .size-guide-table__axis-label {
     display: inline-block;
     writing-mode: vertical-rl;
