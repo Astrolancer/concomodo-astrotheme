@@ -1755,11 +1755,34 @@
     "section_kbCGBj": {
       "type": "section",
       "blocks": {
+        "image_qUkBjY": {
+          "type": "image",
+          "name": "t:names.image",
+          "settings": {
+            "image": "shopify://shop_images/T-4.jpg",
+            "link": "",
+            "image_ratio": "adapt",
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 40,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
         "image_XrKLYn": {
           "type": "image",
           "name": "t:names.image",
           "settings": {
-            "image": "shopify://shop_images/image_642.jpg",
+            "image": "shopify://shop_images/T-3.jpg",
             "link": "",
             "image_ratio": "adapt",
             "width": "fill",
@@ -1780,18 +1803,19 @@
         }
       },
       "block_order": [
+        "image_qUkBjY",
         "image_XrKLYn"
       ],
       "name": "t:names.custom_section",
       "settings": {
-        "content_direction": "column",
+        "content_direction": "row",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "flex-start",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
+        "gap": 20,
         "section_width": "page-width",
         "section_height": "small",
         "section_height_custom": 50,
@@ -1808,7 +1832,7 @@
         "overlay_style": "solid",
         "gradient_direction": "to top",
         "padding-block-start": 40,
-        "padding-block-end": 20
+        "padding-block-end": 0
       }
     },
     "section_kHXYc3": {
@@ -1818,7 +1842,7 @@
           "type": "image",
           "name": "t:names.image",
           "settings": {
-            "image": "shopify://shop_images/image_642-1.jpg",
+            "image": "shopify://shop_images/T-2.jpg",
             "link": "",
             "image_ratio": "adapt",
             "width": "fill",
@@ -1866,7 +1890,7 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 40,
+        "padding-block-start": 20,
         "padding-block-end": 40
       }
     },
@@ -2438,7 +2462,7 @@
         "group_JNHTB4"
       ],
       "custom_css": [
-        ".border-style.custom-section-content > div >div {border-radius: 30px 30px 0 0;}"
+        ".border-style.custom-section-content > div > div {border-radius: 30px 30px 0 0;}"
       ],
       "name": "Recensioni",
       "settings": {
