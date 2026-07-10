@@ -408,7 +408,7 @@
       ],
       "settings": {
         "layout_type": "grid",
-        "product_card_size": "extra-large",
+        "product_card_size": "large",
         "mobile_product_card_size": "large",
         "enable_infinite_scroll": true,
         "products_per_page": 24,
