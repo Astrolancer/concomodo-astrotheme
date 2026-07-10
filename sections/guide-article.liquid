@@ -1,0 +1,882 @@
+{%- comment -%}
+  Long-form editorial guide (Casper-style buying guide): header with intro,
+  table of contents generated from chapter blocks, chapters, size tables,
+  product recommendations, FAQ accordion and closing CTA.
+{%- endcomment -%}
+
+{%- liquid
+  assign chapter_count = 0
+  for block in section.blocks
+    if block.type == 'chapter'
+      assign chapter_count = chapter_count | plus: 1
+    endif
+  endfor
+-%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--page-width color-{{ section.settings.color_scheme }} guide-article spacing-style"
+  style="{% render 'spacing-style', settings: section.settings %}"
+>
+  <article class="guide-article__inner">
+    <header class="guide-article__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="guide-article__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h1 class="guide-article__title">{{ section.settings.title }}</h1>
+      {%- endif -%}
+      {%- if section.settings.intro != blank -%}
+        <div class="guide-article__intro rte">{{ section.settings.intro }}</div>
+      {%- endif -%}
+      {%- if section.settings.hero_image != blank -%}
+        <div class="guide-article__hero">
+          {{
+            section.settings.hero_image
+            | image_url: width: 2200
+            | image_tag: widths: '400, 750, 1100, 1600, 2200', sizes: '(min-width: 750px) 90vw, 100vw', class: 'guide-article__hero-image', loading: 'eager'
+          }}
+        </div>
+      {%- endif -%}
+    </header>
+
+    {%- if section.settings.show_toc and chapter_count > 0 -%}
+      <nav class="guide-article__toc" aria-label="{{ section.settings.toc_title | default: 'Indice' }}">
+        {%- if section.settings.toc_title != blank -%}
+          <p class="guide-article__toc-title">{{ section.settings.toc_title }}</p>
+        {%- endif -%}
+        <ol class="guide-article__toc-list" role="list">
+          {%- assign toc_index = 0 -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'chapter' -%}
+              {%- assign toc_index = toc_index | plus: 1 -%}
+              <li>
+                <a class="guide-article__toc-link" href="#guide-chapter-{{ toc_index }}">
+                  <span class="guide-article__toc-number">{{ toc_index }}</span>
+                  <span>{{ block.settings.heading | strip_html }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ol>
+      </nav>
+    {%- endif -%}
+
+    {%- assign chapter_index = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'chapter' -%}
+          {%- assign chapter_index = chapter_index | plus: 1 -%}
+          <section
+            id="guide-chapter-{{ chapter_index }}"
+            class="guide-article__chapter"
+            {{ block.shopify_attributes }}
+          >
+            <div class="guide-article__chapter-header">
+              <span class="guide-article__chapter-number" aria-hidden="true">{{ chapter_index }}</span>
+              <h2 class="guide-article__chapter-heading">{{ block.settings.heading }}</h2>
+            </div>
+            {%- if block.settings.image != blank -%}
+              <div class="guide-article__chapter-media">
+                {{
+                  block.settings.image
+                  | image_url: width: 1600
+                  | image_tag: widths: '400, 750, 1100, 1600', sizes: '(min-width: 750px) 80vw, 100vw', class: 'guide-article__chapter-image', loading: 'lazy'
+                }}
+              </div>
+            {%- endif -%}
+            {%- if block.settings.content != blank -%}
+              <div class="guide-article__chapter-content rte">{{ block.settings.content }}</div>
+            {%- endif -%}
+            {%- if block.settings.link_label != blank and block.settings.link != blank -%}
+              <a class="guide-article__chapter-link" href="{{ block.settings.link }}">{{ block.settings.link_label }}</a>
+            {%- endif -%}
+          </section>
+
+        {%- when 'size_table' -%}
+          {%- liquid
+            assign table_widths = block.settings.widths | split: ','
+            assign table_lengths = block.settings.lengths | split: ','
+          -%}
+          <div class="guide-article__size-group" {{ block.shopify_attributes }}>
+            {%- if block.settings.title != blank -%}
+              <h3 class="guide-article__size-title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            <div class="guide-article__size-columns">
+              {%- if block.settings.image != blank -%}
+                <div class="guide-article__size-media">
+                  {{
+                    block.settings.image
+                    | image_url: width: 600
+                    | image_tag: widths: '300, 450, 600', sizes: '(min-width: 750px) 220px, 40vw', class: 'guide-article__size-image', loading: 'lazy'
+                  }}
+                </div>
+              {%- endif -%}
+              {%- if table_widths.size > 0 and table_lengths.size > 0 -%}
+                <div class="guide-article__size-table-wrapper">
+                  <table class="size-guide-table">
+                    <thead>
+                      <tr>
+                        <td class="size-guide-table__corner" colspan="2"></td>
+                        <th class="size-guide-table__lengths-label" colspan="{{ table_lengths.size }}">
+                          Lunghezza cm
+                        </th>
+                      </tr>
+                      <tr>
+                        <td class="size-guide-table__corner" colspan="2"></td>
+                        {%- for table_length in table_lengths -%}
+                          <th class="size-guide-table__length">{{ table_length | strip }}</th>
+                        {%- endfor -%}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {%- for table_width in table_widths -%}
+                        <tr>
+                          {%- if forloop.first -%}
+                            <th class="size-guide-table__axis" rowspan="{{ table_widths.size }}">
+                              <span class="size-guide-table__axis-label">Larghezza cm</span>
+                            </th>
+                          {%- endif -%}
+                          <th class="size-guide-table__width">{{ table_width | strip }}</th>
+                          {%- for table_length in table_lengths -%}
+                            <td>{{ table_width | strip }}x{{ table_length | strip }}</td>
+                          {%- endfor -%}
+                        </tr>
+                      {%- endfor -%}
+                    </tbody>
+                  </table>
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+
+        {%- when 'products_heading' -%}
+          <div class="guide-article__products-heading" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <h2>{{ block.settings.heading }}</h2>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <div class="rte">{{ block.settings.text }}</div>
+            {%- endif -%}
+          </div>
+
+        {%- when 'product_rec' -%}
+          {%- assign rec_product = block.settings.product -%}
+          {%- if rec_product != blank -%}
+            <a class="guide-article__product" href="{{ rec_product.url }}" {{ block.shopify_attributes }}>
+              {%- if rec_product.featured_image != blank -%}
+                {{
+                  rec_product.featured_image
+                  | image_url: width: 900
+                  | image_tag: widths: '300, 450, 600, 900', sizes: '(min-width: 750px) 40vw, 80vw', class: 'guide-article__product-image', loading: 'lazy'
+                }}
+              {%- endif -%}
+              <div class="guide-article__product-body">
+                {%- if block.settings.tagline != blank -%}
+                  <p class="guide-article__product-tagline">{{ block.settings.tagline }}</p>
+                {%- endif -%}
+                <p class="guide-article__product-title">{{ rec_product.title }}</p>
+                <p class="guide-article__product-price">
+                  {%- if rec_product.price_varies %}Da {% endif -%}
+                  {{- rec_product.price_min | money -}}
+                </p>
+                {%- if block.settings.note != blank -%}
+                  <p class="guide-article__product-note">{{ block.settings.note }}</p>
+                {%- endif -%}
+              </div>
+            </a>
+          {%- endif -%}
+
+        {%- when 'faq_heading' -%}
+          <div class="guide-article__faq-heading" {{ block.shopify_attributes }}>
+            <h2>{{ block.settings.heading }}</h2>
+          </div>
+
+        {%- when 'faq' -%}
+          <details class="guide-article__faq" {{ block.shopify_attributes }}>
+            <summary class="guide-article__faq-question">
+              <span>{{ block.settings.question }}</span>
+              <span class="guide-article__faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="guide-article__faq-answer rte">{{ block.settings.answer }}</div>
+          </details>
+
+        {%- when 'cta' -%}
+          <aside class="guide-article__cta color-{{ block.settings.color_scheme }}" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <h2 class="guide-article__cta-heading">{{ block.settings.heading }}</h2>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <div class="guide-article__cta-text rte">{{ block.settings.text }}</div>
+            {%- endif -%}
+            {%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
+              <a class="button guide-article__cta-button" href="{{ block.settings.button_link }}">
+                {{- block.settings.button_label -}}
+              </a>
+            {%- endif -%}
+          </aside>
+      {%- endcase -%}
+    {%- endfor -%}
+  </article>
+</div>
+
+{% stylesheet %}
+  .guide-article__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 46rem;
+    margin-inline: auto;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* ── Header ── */
+  .guide-article__header {
+    text-align: center;
+  }
+
+  .guide-article__eyebrow {
+    margin: 0 0 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+  }
+
+  .guide-article__title {
+    margin: 0;
+  }
+
+  .guide-article__intro {
+    margin-block-start: 1rem;
+    margin-inline: auto;
+    max-width: 38rem;
+    opacity: 0.85;
+  }
+
+  .guide-article__hero {
+    margin-block-start: 1.5rem;
+  }
+
+  .guide-article__hero-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+  }
+
+  /* ── Table of contents ── */
+  .guide-article__toc {
+    padding: 1.25rem;
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20));
+    border-radius: 20px;
+  }
+
+  .guide-article__toc-title {
+    margin: 0 0 0.75rem;
+    font-weight: 600;
+  }
+
+  .guide-article__toc-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .guide-article__toc-list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .guide-article__toc-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.375rem 0;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .guide-article__toc-link:hover span:last-child {
+    text-decoration: underline;
+  }
+
+  .guide-article__toc-number {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    border: 1px solid currentcolor;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  /* ── Chapters ── */
+  .guide-article__chapter {
+    scroll-margin-top: 6rem;
+    padding-block-start: 1rem;
+  }
+
+  .guide-article__chapter-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-block-end: 1rem;
+  }
+
+  .guide-article__chapter-number {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: rgb(var(--color-foreground-rgb) / 8%);
+    font-weight: 600;
+  }
+
+  .guide-article__chapter-heading {
+    margin: 0;
+  }
+
+  .guide-article__chapter-media {
+    margin-block-end: 1rem;
+  }
+
+  .guide-article__chapter-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+  }
+
+  .guide-article__chapter-link {
+    display: inline-block;
+    margin-block-start: 0.75rem;
+    font-weight: 600;
+    color: var(--color-primary, currentcolor);
+  }
+
+  /* ── Size tables ── */
+  .guide-article__size-group {
+    padding: 1.25rem;
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20));
+    border-radius: 20px;
+  }
+
+  .guide-article__size-title {
+    margin: 0 0 1rem;
+  }
+
+  .guide-article__size-columns {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  @media screen and (min-width: 750px) {
+    .guide-article__size-columns {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .guide-article__size-media {
+    flex: 0 0 auto;
+    max-width: 180px;
+  }
+
+  .guide-article__size-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .guide-article__size-table-wrapper {
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+  }
+
+  /* Size table — self-contained copy of the product size-guide table styles */
+  .guide-article .size-guide-table {
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 0.8125rem;
+    line-height: 1.3;
+  }
+
+  .guide-article .size-guide-table :is(thead, tbody, tr, th, td) {
+    background: none;
+    text-transform: none;
+  }
+
+  .guide-article .size-guide-table :is(th, td) {
+    border: 1px solid var(--color-border);
+    padding: var(--padding-2xs) var(--padding-xs);
+    font-weight: 400;
+  }
+
+  .guide-article .size-guide-table thead th,
+  .guide-article .size-guide-table .size-guide-table__axis {
+    font-weight: 600;
+  }
+
+  .guide-article .size-guide-table .size-guide-table__corner {
+    border: none;
+  }
+
+  .guide-article .size-guide-table .size-guide-table__lengths-label {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .guide-article .size-guide-table .size-guide-table__width {
+    font-weight: 600;
+  }
+
+  .guide-article .size-guide-table .size-guide-table__lengths-label,
+  .guide-article .size-guide-table .size-guide-table__axis {
+    background-color: #e4ded6;
+  }
+
+  .guide-article .size-guide-table .size-guide-table__length,
+  .guide-article .size-guide-table .size-guide-table__width {
+    background-color: #f4efe8;
+  }
+
+  .guide-article .size-guide-table .size-guide-table__axis {
+    text-align: center;
+    vertical-align: middle;
+    width: 1%;
+  }
+
+  .guide-article .size-guide-table__axis-label {
+    display: inline-block;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+  }
+
+  @supports (writing-mode: sideways-lr) {
+    .guide-article .size-guide-table__axis-label {
+      writing-mode: sideways-lr;
+      transform: none;
+    }
+  }
+
+  /* ── Product recommendations ── */
+  .guide-article__products-heading {
+    text-align: center;
+    margin-block-start: 1rem;
+  }
+
+  .guide-article__products-heading h2 {
+    margin: 0 0 0.5rem;
+  }
+
+  .guide-article__product {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20));
+    color: inherit;
+    text-decoration: none;
+    transition: box-shadow 0.25s ease;
+  }
+
+  .guide-article__product:hover {
+    box-shadow: 0 10px 25px rgb(0 0 0 / 8%);
+  }
+
+  @media screen and (min-width: 750px) {
+    .guide-article__product {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .guide-article__product-image {
+      width: 45%;
+    }
+  }
+
+  .guide-article__product-image {
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 3 / 2;
+    width: 100%;
+    height: auto;
+  }
+
+  .guide-article__product-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 1.25rem;
+  }
+
+  .guide-article__product-tagline {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary, currentcolor);
+  }
+
+  .guide-article__product-title {
+    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 600;
+  }
+
+  .guide-article__product-price {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .guide-article__product-note {
+    margin: 0.25rem 0 0;
+    opacity: 0.75;
+  }
+
+  /* ── FAQ ── */
+  .guide-article__faq-heading {
+    text-align: center;
+    margin-block-start: 1rem;
+  }
+
+  .guide-article__faq-heading h2 {
+    margin: 0;
+  }
+
+  .guide-article__faq {
+    border-block-end: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-20));
+  }
+
+  .guide-article__faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 0;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .guide-article__faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .guide-article__faq-icon {
+    flex: 0 0 auto;
+    position: relative;
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .guide-article__faq-icon::before,
+  .guide-article__faq-icon::after {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 0;
+    width: 100%;
+    height: 2px;
+    background: currentcolor;
+    translate: 0 -50%;
+    transition: rotate 0.25s ease;
+  }
+
+  .guide-article__faq-icon::after {
+    rotate: 90deg;
+  }
+
+  .guide-article__faq[open] .guide-article__faq-icon::after {
+    rotate: 0deg;
+  }
+
+  .guide-article__faq-answer {
+    padding-block-end: 1.25rem;
+    opacity: 0.85;
+  }
+
+  /* ── CTA ── */
+  .guide-article__cta {
+    padding: 2.5rem 1.5rem;
+    border-radius: 30px;
+    text-align: center;
+  }
+
+  .guide-article__cta-heading {
+    margin: 0 0 0.5rem;
+  }
+
+  .guide-article__cta-text {
+    max-width: 34rem;
+    margin-inline: auto;
+    opacity: 0.85;
+  }
+
+  .guide-article__cta-button {
+    margin-block-start: 1.25rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Guide article",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Occhiello",
+      "default": "La guida di concomodo"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Titolo",
+      "default": "Come scegliere il materasso"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Introduzione"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Immagine di apertura"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_toc",
+      "label": "Mostra indice dei capitoli",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "toc_title",
+      "label": "Titolo dell'indice",
+      "default": "In questa guida"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "chapter",
+      "name": "Capitolo",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Titolo",
+          "default": "Titolo del capitolo"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Contenuto"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Immagine"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Etichetta link (opzionale)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (opzionale)"
+        }
+      ]
+    },
+    {
+      "type": "size_table",
+      "name": "Tabella misure",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titolo",
+          "default": "Singolo"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icona letto"
+        },
+        {
+          "type": "text",
+          "id": "widths",
+          "label": "Larghezze (cm, separate da virgola)",
+          "default": "80, 85, 90"
+        },
+        {
+          "type": "text",
+          "id": "lengths",
+          "label": "Lunghezze (cm, separate da virgola)",
+          "default": "190, 195, 200"
+        }
+      ]
+    },
+    {
+      "type": "products_heading",
+      "name": "Intestazione prodotti",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Titolo",
+          "default": "I nostri materassi"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Testo"
+        }
+      ]
+    },
+    {
+      "type": "product_rec",
+      "name": "Prodotto consigliato",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Prodotto"
+        },
+        {
+          "type": "text",
+          "id": "tagline",
+          "label": "Etichetta",
+          "default": "Il più amato"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Perché sceglierlo"
+        }
+      ]
+    },
+    {
+      "type": "faq_heading",
+      "name": "Intestazione FAQ",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Titolo",
+          "default": "Domande frequenti"
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "Domanda FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Domanda",
+          "default": "Ogni quanto va sostituito il materasso?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Risposta"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "name": "Riquadro CTA",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Titolo",
+          "default": "Non sai da dove iniziare?"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Testo"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Etichetta bottone",
+          "default": "Fai il quiz"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link bottone"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-5"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guide article"
+    }
+  ]
+}
+{% endschema %}

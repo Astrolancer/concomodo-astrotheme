@@ -1,0 +1,412 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */{
+  "sections": {
+    "guide": {
+      "type": "guide-article",
+      "blocks": {
+        "capitolo_budget": {
+          "type": "chapter",
+          "settings": {
+            "heading": "Parti dal budget",
+            "content": "<p>Un buon materasso è un investimento su circa <strong>un terzo della tua vita</strong>. La gamma concomodo parte da <strong>€259</strong> per il materasso a molle Compatto e cresce con i modelli in memory e ibridi premium: prezzi diretti, senza intermediari, con <strong>consegna gratuita in tutta Italia</strong>.</p><p>Qualunque modello tu scelga, hai <strong>100 notti di prova</strong> (soddisfatti o rimborsati) e una <strong>garanzia fino a 10 anni</strong>: il rischio di sbagliare acquisto, in pratica, non esiste.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "capitolo_misure": {
+          "type": "chapter",
+          "settings": {
+            "heading": "Scegli la misura giusta",
+            "content": "<p>Nella scelta della misura contano due cose: <strong>lo spazio che hai a disposizione</strong> e <strong>chi ci dorme</strong>.</p><ul><li><strong>Singolo</strong> — per una persona, camerette e letti di servizio.</li><li><strong>Una piazza e mezza (francese)</strong> — per chi dorme solo ma ama muoversi, o per ospiti occasionali in coppia.</li><li><strong>Matrimoniale</strong> — per la coppia: più larghezza significa meno disturbi reciproci durante la notte.</li></ul><p>Controlla anche la lunghezza: la regola è <strong>almeno 15–20 cm in più della tua altezza</strong>. Qui sotto trovi tutte le misure disponibili nella gamma concomodo.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "tabella_singolo": {
+          "type": "size_table",
+          "settings": {
+            "title": "Singolo",
+            "image": "shopify://shop_images/icon-singolo.png",
+            "widths": "80, 85, 90",
+            "lengths": "190, 195, 200"
+          }
+        },
+        "tabella_francese": {
+          "type": "size_table",
+          "settings": {
+            "title": "Francese",
+            "image": "shopify://shop_images/icon-francese.png",
+            "widths": "120, 140",
+            "lengths": "190, 195, 200"
+          }
+        },
+        "tabella_matrimoniale": {
+          "type": "size_table",
+          "settings": {
+            "title": "Matrimoniale",
+            "image": "shopify://shop_images/icon-matrimoniale.png",
+            "widths": "160, 165, 170, 180",
+            "lengths": "190, 195, 200"
+          }
+        },
+        "capitolo_altezza": {
+          "type": "chapter",
+          "settings": {
+            "heading": "L'altezza conta",
+            "content": "<p>L'altezza del materasso dipende dagli strati che lo compongono e incide su comfort e durata. I materassi concomodo vanno dai <strong>20 ai 25 cm</strong>:</p><ul><li><strong>20–22 cm</strong> — la linea base: essenziale ma completa, ideale per camerette, letti ospiti e budget contenuti.</li><li><strong>23–25 cm</strong> — la linea premium: più strati, più materiale, maggiore capacità di adattamento al corpo.</li></ul><p>Ricorda di verificare che l'altezza totale (materasso + rete) sia comoda per sedersi e alzarsi, e che eventuali lenzuola con angoli siano della misura giusta.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "capitolo_sostegno": {
+          "type": "chapter",
+          "settings": {
+            "heading": "Sostegno e allineamento della colonna",
+            "content": "<p>Un materasso fa bene il suo lavoro quando mantiene la <strong>colonna vertebrale allineata</strong>: spalle e fianchi devono affondare quel tanto che basta, mentre la zona lombare resta sostenuta.</p><p>Per questo i nostri modelli a molle usano <strong>molle insacchettate a 7 zone di portanza differenziata</strong>: ogni area del corpo riceve il sostegno di cui ha bisogno, e i movimenti di chi dorme accanto a te non si trasmettono dall'altra parte del letto. Nei modelli in memory, gli strati <strong>sagomati e bugnati</strong> accompagnano le forme del corpo distribuendo la pressione.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "capitolo_durezza": {
+          "type": "chapter",
+          "settings": {
+            "heading": "La durezza giusta per te",
+            "content": "<p>La durezza non è qualità: è <strong>preferenza personale</strong>. La gamma concomodo copre tutta la scala:</p><ul><li><strong>Morbido</strong> — accogliente, ti avvolge: il nostro <strong>Morbido</strong> (memory).</li><li><strong>Medio</strong> — l'equilibrio per la maggior parte delle persone: <strong>Sostegno</strong> (premium memory).</li><li><strong>Medio-duro</strong> — sostegno deciso con accoglienza in superficie: <strong>Sostegno ibrido</strong> (molle + memory).</li><li><strong>Duro</strong> — rigido e asciutto: <strong>Compatto</strong> (molle).</li></ul><p>In caso di dubbio tra due durezze, chi pesa di più o dorme a pancia in giù stia sulla più sostenuta; chi è minuto o dorme di fianco sulla più morbida.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "capitolo_posizione": {
+          "type": "chapter",
+          "settings": {
+            "heading": "Come dormi?",
+            "content": "<p>La posizione in cui passi la maggior parte della notte è la bussola più affidabile:</p><ul><li><strong>Di fianco</strong> — servono spalle e fianchi liberi di affondare: meglio morbido o medio, il memory è l'ideale.</li><li><strong>Sulla schiena</strong> — serve equilibrio tra accoglienza e sostegno lombare: durezza media, memory o ibrido.</li><li><strong>A pancia in giù</strong> — serve una superficie sostenuta che non faccia inarcare la schiena: medio-duro o duro, molle o ibrido.</li><li><strong>In coppia o irrequieto</strong> — le molle insacchettate isolano i movimenti; l'ibrido unisce il meglio dei due mondi.</li></ul>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "capitolo_tipologie": {
+          "type": "chapter",
+          "settings": {
+            "heading": "Memory, molle o ibrido?",
+            "content": "<p><strong>Memory</strong> — strati in schiuma che reagiscono al calore e al peso del corpo, prendendo la tua forma. Massima accoglienza e distribuzione della pressione. Nei nostri modelli il memory è <strong>sagomato o bugnato</strong> per favorire il ricircolo d'aria.</p><p><strong>Molle insacchettate</strong> — sostegno elastico e tanta traspirazione: l'aria circola tra le molle e il calore va via. Con le <strong>7 zone di portanza</strong> il sostegno è mirato dove serve.</p><p><strong>Ibrido</strong> — molle insacchettate sotto, memory sopra: sostegno deciso e accoglienza in superficie. La scelta di chi non vuole rinunciare a niente.</p><p>Tutti i materassi concomodo hanno il rivestimento in tessuto stretch con fascia <strong>3D Air</strong> per la traspirazione, e i modelli in memory e premium sono <strong>sfoderabili e lavabili</strong>: un dettaglio che fa la differenza per igiene e durata. Tutto <strong>100% Made in Italy</strong>.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "prodotti_heading": {
+          "type": "products_heading",
+          "settings": {
+            "heading": "Trova il tuo materasso",
+            "text": "<p>Quattro modelli, una promessa: dormire bene. Tutti con 100 notti di prova, consegna gratuita e garanzia fino a 10 anni.</p>"
+          }
+        },
+        "prodotto_compatto": {
+          "type": "product_rec",
+          "settings": {
+            "product": "compatto",
+            "tagline": "Essenziale · Duro",
+            "note": "Molle insacchettate a 7 zone, 22 cm. Il punto di partenza della gamma, perfetto per chi ama dormire sul sodo."
+          }
+        },
+        "prodotto_morbido": {
+          "type": "product_rec",
+          "settings": {
+            "product": "morbido",
+            "tagline": "Il più accogliente · Morbido",
+            "note": "Memory sagomato su base soft, 20 cm, sfoderabile. Per chi ama sentirsi avvolto."
+          }
+        },
+        "prodotto_sostegno": {
+          "type": "product_rec",
+          "settings": {
+            "product": "cc-completo-molle",
+            "tagline": "L'equilibrato · Medio",
+            "note": "La linea premium in memory, 23 cm, sfoderabile. L'equilibrio giusto per la maggior parte delle persone."
+          }
+        },
+        "prodotto_sostegno_ibrido": {
+          "type": "product_rec",
+          "settings": {
+            "product": "materasso-1",
+            "tagline": "Il completo · Medio-duro",
+            "note": "Molle a 7 zone + memory, 25 cm, sfoderabile. Il top di gamma per coppie e per chi cerca il massimo."
+          }
+        },
+        "faq_heading": {
+          "type": "faq_heading",
+          "settings": {
+            "heading": "Domande frequenti"
+          }
+        },
+        "faq_sostituzione": {
+          "type": "faq",
+          "settings": {
+            "question": "Ogni quanto va sostituito il materasso?",
+            "answer": "<p>In media ogni 8–10 anni. Se ti svegli indolenzito, noti avvallamenti o il materasso ha perso elasticità, è il momento di cambiarlo. I materassi concomodo sono garantiti fino a 10 anni.</p>"
+          }
+        },
+        "faq_prova": {
+          "type": "faq",
+          "settings": {
+            "question": "Come funzionano le 100 notti di prova?",
+            "answer": "<p>Dormi sul tuo nuovo materasso per 100 notti: al corpo servono alcune settimane per adattarsi. Se entro i 100 giorni non sei convinto, ti rimborsiamo. Semplice, senza rischi.</p>"
+          }
+        },
+        "faq_sfoderabile": {
+          "type": "faq",
+          "settings": {
+            "question": "I materassi sono sfoderabili e lavabili?",
+            "answer": "<p>I modelli Morbido, Sostegno e Sostegno ibrido sono completamente sfoderabili e il rivestimento è lavabile. Il Compatto ha un rivestimento fisso in tessuto traspirante 3D Air.</p>"
+          }
+        },
+        "faq_rete": {
+          "type": "faq",
+          "settings": {
+            "question": "Su quale rete posso usarli?",
+            "answer": "<p>Su qualsiasi rete a doghe in buono stato, fissa o motorizzata. L'importante è che le doghe siano ravvicinate e non cedevoli, per dare al materasso una base uniforme.</p>"
+          }
+        },
+        "faq_posizione_mal_schiena": {
+          "type": "faq",
+          "settings": {
+            "question": "Qual è il materasso giusto per il mal di schiena?",
+            "answer": "<p>Non esiste una risposta unica: conta l'allineamento della colonna nella tua posizione abituale. In generale una durezza media o medio-dura con zone di sostegno differenziate (come Sostegno o Sostegno ibrido) è il punto di partenza più sicuro.</p>"
+          }
+        },
+        "cta_quiz": {
+          "type": "cta",
+          "settings": {
+            "heading": "Non sai ancora quale scegliere?",
+            "text": "<p>Rispondi a poche domande e ti consigliamo il materasso ideale per come dormi tu. Ci vogliono 2 minuti.</p>",
+            "button_label": "Fai il quiz",
+            "button_link": "shopify://pages/quiz",
+            "color_scheme": "scheme-5"
+          }
+        }
+      },
+      "block_order": [
+        "capitolo_budget",
+        "capitolo_misure",
+        "tabella_singolo",
+        "tabella_francese",
+        "tabella_matrimoniale",
+        "capitolo_altezza",
+        "capitolo_sostegno",
+        "capitolo_durezza",
+        "capitolo_posizione",
+        "capitolo_tipologie",
+        "prodotti_heading",
+        "prodotto_compatto",
+        "prodotto_morbido",
+        "prodotto_sostegno",
+        "prodotto_sostegno_ibrido",
+        "faq_heading",
+        "faq_sostituzione",
+        "faq_prova",
+        "faq_sfoderabile",
+        "faq_rete",
+        "faq_posizione_mal_schiena",
+        "cta_quiz"
+      ],
+      "settings": {
+        "eyebrow": "La guida di concomodo",
+        "title": "Come scegliere il materasso: la guida definitiva",
+        "intro": "<p>Passiamo a letto circa un terzo della vita. Scegliere il materasso giusto si riduce a sette decisioni: budget, misura, altezza, sostegno, durezza, posizione e tipologia. Te le spieghiamo una per una, <strong>con comodo</strong>.</p>",
+        "hero_image": "shopify://shop_images/home.png",
+        "show_toc": true,
+        "toc_title": "In questa guida",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 64
+      }
+    },
+    "newsletter": {
+      "type": "section",
+      "blocks": {
+        "group_newsletter": {
+          "type": "group",
+          "name": "Newsletter",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": false,
+            "color_scheme": "scheme-4",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 30,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 48,
+            "padding-block-end": 48,
+            "padding-inline-start": 30,
+            "padding-inline-end": 30
+          },
+          "blocks": {
+            "text_newsletter_heading": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<h3>Consigli per dormire meglio, nella tua casella</h3>",
+                "width": "100%",
+                "max_width": "narrow",
+                "alignment": "center",
+                "type_preset": "h3",
+                "font": "var(--font-body--family)",
+                "weight": "500",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground-heading)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "group_newsletter_form": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 0,
+                "width": "custom",
+                "custom_width": 50,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 12,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "email_signup_guide": {
+                  "type": "email-signup",
+                  "name": "t:names.email_signup",
+                  "settings": {
+                    "width": "fill",
+                    "custom_width": 100,
+                    "inherit_color_scheme": true,
+                    "heading": "",
+                    "border_style": "all",
+                    "border_width": 1,
+                    "border_radius": 100,
+                    "style_class": "button",
+                    "display_type": "text",
+                    "label": "Iscriviti",
+                    "integrated_button": true,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "email_signup_guide"
+              ]
+            }
+          },
+          "block_order": [
+            "text_newsletter_heading",
+            "group_newsletter_form"
+          ]
+        }
+      },
+      "block_order": [
+        "group_newsletter"
+      ],
+      "name": "Newsletter",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 0,
+        "padding-block-end": 60
+      }
+    }
+  },
+  "order": [
+    "guide",
+    "newsletter"
+  ]
+}
