@@ -40,9 +40,9 @@
           "type": "answer",
           "settings": {
             "label": "Per me e il mio partner",
-            "p_m1": 1,
+            "p_m1": 0,
             "p_m2": 0,
-            "p_m3a": 0,
+            "p_m3a": 2,
             "p_m3b": 2,
             "icon": "none",
             "value": "partner"
@@ -52,8 +52,8 @@
           "type": "answer",
           "settings": {
             "label": "Per la camera degli ospiti",
-            "p_m1": 1,
-            "p_m2": 2,
+            "p_m1": 3,
+            "p_m2": 3,
             "p_m3a": 0,
             "p_m3b": 0,
             "icon": "none",
@@ -136,9 +136,9 @@
           "type": "answer",
           "settings": {
             "label": "È troppo morbido",
-            "p_m1": 3,
+            "p_m1": 4,
             "p_m2": 0,
-            "p_m3a": 1,
+            "p_m3a": 0,
             "p_m3b": 2,
             "icon": "none",
             "value": "troppo_morbido"
@@ -149,9 +149,9 @@
           "settings": {
             "label": "È troppo rigido",
             "p_m1": 0,
-            "p_m2": 3,
-            "p_m3a": 1,
-            "p_m3b": 2,
+            "p_m2": 4,
+            "p_m3a": 3,
+            "p_m3b": 0,
             "icon": "none",
             "value": "troppo_rigido"
           }
@@ -160,7 +160,7 @@
           "type": "answer",
           "settings": {
             "label": "Si è afflosciato o deformato",
-            "p_m1": 1,
+            "p_m1": 2,
             "p_m2": 0,
             "p_m3a": 2,
             "p_m3b": 3,
@@ -172,10 +172,10 @@
           "type": "answer",
           "settings": {
             "label": "Sento tutti i movimenti del partner",
-            "p_m1": 2,
-            "p_m2": 0,
-            "p_m3a": 1,
-            "p_m3b": 3,
+            "p_m1": 0,
+            "p_m2": 2,
+            "p_m3a": 4,
+            "p_m3b": 2,
             "icon": "none",
             "value": "movimenti_partner"
           }
@@ -184,10 +184,10 @@
           "type": "answer",
           "settings": {
             "label": "Dormo caldo, mi sveglio sudato",
-            "p_m1": 1,
+            "p_m1": 3,
             "p_m2": 0,
-            "p_m3a": 1,
-            "p_m3b": 3,
+            "p_m3a": 0,
+            "p_m3b": 4,
             "icon": "none",
             "value": "caldo"
           }
@@ -198,7 +198,7 @@
             "label": "Mi sveglio con dolori o indolenzito",
             "p_m1": 0,
             "p_m2": 1,
-            "p_m3a": 3,
+            "p_m3a": 4,
             "p_m3b": 3,
             "icon": "none",
             "value": "dolori"
@@ -234,7 +234,7 @@
             "label": "Sul fianco",
             "p_m1": 0,
             "p_m2": 3,
-            "p_m3a": 2,
+            "p_m3a": 3,
             "p_m3b": 2,
             "icon": "fianco",
             "value": "fianco"
@@ -244,10 +244,10 @@
           "type": "answer",
           "settings": {
             "label": "Sulla schiena",
-            "p_m1": 1,
+            "p_m1": 2,
             "p_m2": 0,
-            "p_m3a": 2,
-            "p_m3b": 2,
+            "p_m3a": 3,
+            "p_m3b": 3,
             "icon": "schiena",
             "value": "schiena"
           }
@@ -256,10 +256,10 @@
           "type": "answer",
           "settings": {
             "label": "A pancia in giù",
-            "p_m1": 0,
-            "p_m2": 1,
-            "p_m3a": 2,
-            "p_m3b": 1,
+            "p_m1": 4,
+            "p_m2": 0,
+            "p_m3a": 0,
+            "p_m3b": 2,
             "icon": "pancia",
             "value": "pancia"
           }
@@ -270,8 +270,8 @@
             "label": "Cambio di continuo",
             "p_m1": 0,
             "p_m2": 0,
-            "p_m3a": 2,
-            "p_m3b": 2,
+            "p_m3a": 3,
+            "p_m3b": 3,
             "icon": "cambio",
             "value": "cambio"
           }
@@ -293,9 +293,9 @@
           "settings": {
             "label": "Morbido e avvolgente: voglio “affondare” nel comfort",
             "p_m1": 0,
-            "p_m2": 3,
-            "p_m3a": 2,
-            "p_m3b": 1,
+            "p_m2": 5,
+            "p_m3a": 1,
+            "p_m3b": 0,
             "icon": "none",
             "value": "morbido"
           }
@@ -305,8 +305,8 @@
           "settings": {
             "label": "Equilibrato: accogliente ma con sostegno",
             "p_m1": 0,
-            "p_m2": 1,
-            "p_m3a": 3,
+            "p_m2": 0,
+            "p_m3a": 4,
             "p_m3b": 3,
             "icon": "none",
             "value": "equilibrato"
@@ -316,10 +316,10 @@
           "type": "answer",
           "settings": {
             "label": "Sostenuto e deciso: preferisco dormire “sopra” il materasso",
-            "p_m1": 3,
+            "p_m1": 4,
             "p_m2": 0,
-            "p_m3a": 2,
-            "p_m3b": 1,
+            "p_m3a": 0,
+            "p_m3b": 2,
             "icon": "none",
             "value": "deciso"
           }
@@ -340,9 +340,9 @@
           "type": "answer",
           "settings": {
             "label": "Isolamento dei movimenti",
-            "p_m1": 1,
-            "p_m2": 0,
-            "p_m3a": 1,
+            "p_m1": 0,
+            "p_m2": 3,
+            "p_m3a": 4,
             "p_m3b": 2,
             "icon": "none",
             "value": "isolamento"
@@ -352,10 +352,10 @@
           "type": "answer",
           "settings": {
             "label": "Freschezza e traspirabilità",
-            "p_m1": 2,
+            "p_m1": 3,
             "p_m2": 0,
-            "p_m3a": 1,
-            "p_m3b": 2,
+            "p_m3a": 0,
+            "p_m3b": 4,
             "icon": "none",
             "value": "freschezza"
           }
@@ -366,7 +366,7 @@
             "label": "Supporto ergonomico a zone",
             "p_m1": 1,
             "p_m2": 0,
-            "p_m3a": 2,
+            "p_m3a": 4,
             "p_m3b": 3,
             "icon": "none",
             "value": "ergonomia"
@@ -388,10 +388,10 @@
           "type": "answer",
           "settings": {
             "label": "Durata nel tempo",
-            "p_m1": 1,
+            "p_m1": 2,
             "p_m2": 0,
             "p_m3a": 2,
-            "p_m3b": 3,
+            "p_m3b": 4,
             "icon": "none",
             "value": "durata"
           }
@@ -414,8 +414,8 @@
             "label": "Dormire bene non ha prezzo: voglio il massimo",
             "p_m1": 0,
             "p_m2": 0,
-            "p_m3a": 2,
-            "p_m3b": 3,
+            "p_m3a": 4,
+            "p_m3b": 4,
             "icon": "none",
             "value": "top"
           }
@@ -425,9 +425,9 @@
           "settings": {
             "label": "Cerco il giusto equilibrio qualità-prezzo",
             "p_m1": 1,
-            "p_m2": 1,
-            "p_m3a": 3,
-            "p_m3b": 2,
+            "p_m2": 4,
+            "p_m3a": 2,
+            "p_m3b": 1,
             "icon": "none",
             "value": "equilibrio"
           }
@@ -436,8 +436,8 @@
           "type": "answer",
           "settings": {
             "label": "Ho un budget contenuto",
-            "p_m1": 3,
-            "p_m2": 3,
+            "p_m1": 4,
+            "p_m2": 4,
             "p_m3a": 0,
             "p_m3b": 0,
             "icon": "none",
