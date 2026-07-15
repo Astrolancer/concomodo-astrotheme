@@ -56,6 +56,7 @@
         "logo_position": "left",
         "menu_position": "right",
         "menu_row": "top",
+        "submenu_header_backdrop": true,
         "show_search": true,
         "search_position": "right",
         "search_row": "top",
