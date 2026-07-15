@@ -2237,7 +2237,7 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 45,
+        "padding-block-start": 90,
         "padding-block-end": 45
       }
     },
@@ -3213,7 +3213,7 @@
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<h2>Con noi è tutta un'altra storia</h2>",
+            "text": "<h2>Con noi, è tutta un'altra storia</h2>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
@@ -3638,8 +3638,8 @@
             "placeholder": "",
             "padding-block-start": 80,
             "padding-block-end": 100,
-            "padding-inline-start": 30,
-            "padding-inline-end": 30
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {
             "group_fcmKfC": {
@@ -3790,7 +3790,7 @@
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
         "gap": 16,
-        "section_width": "full-width",
+        "section_width": "page-width",
         "section_height": "",
         "section_height_custom": 50,
         "color_scheme": "scheme-4",
