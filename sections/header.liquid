@@ -158,6 +158,10 @@
     assign class = class | append: ' ' | append: 'header--inherit-color-scheme-on-menu-open'
   endif
 
+  if section.settings.submenu_header_backdrop
+    assign class = class | append: ' ' | append: 'header--submenu-backdrop'
+  endif
+
   if header_height_class
     assign class = class | append: ' ' | append: header_height_class
   endif
@@ -460,6 +464,53 @@
     --color-background-rgb: inherit;
     --color-border: inherit;
     --color-border-rgb: inherit;
+  }
+
+  /*
+    Optional white backdrop that fills the header, with a top-to-bottom reveal, just before a
+    desktop submenu opens. Toggled by the "submenu_header_backdrop" setting. Desktop only.
+  */
+  @media screen and (min-width: 750px) {
+    .header--submenu-backdrop {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .header--submenu-backdrop::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-color: rgb(255 255 255);
+      transform: scaleY(0);
+      transform-origin: top center;
+      /* Slightly faster than the submenu so the white arrives first. */
+      transition: transform 160ms var(--ease-out-cubic);
+      pointer-events: none;
+    }
+
+    .header--submenu-backdrop:has(.mega-menu__list:hover)::before,
+    .header--submenu-backdrop:has(
+        .menu-list__link[aria-haspopup]:is(:hover, [aria-expanded='true'], [data-animating])
+      )::before,
+    .header--submenu-backdrop:has(
+        .menu-list__list-item[slot='overflow'] .menu-list__link:is(:hover, [aria-expanded='true'], [data-animating])
+      )::before {
+      transform: scaleY(1);
+    }
+
+    /* Let the white backdrop show through the header rows while a submenu is open. */
+    .header--submenu-backdrop:has(.mega-menu__list:hover) .header__row,
+    .header--submenu-backdrop:has(
+        .menu-list__link[aria-haspopup]:is(:hover, [aria-expanded='true'], [data-animating])
+      )
+      .header__row,
+    .header--submenu-backdrop:has(
+        .menu-list__list-item[slot='overflow'] .menu-list__link:is(:hover, [aria-expanded='true'], [data-animating])
+      )
+      .header__row {
+      background-color: transparent;
+    }
   }
 
   .header-section {
@@ -826,6 +877,13 @@
         }
       ],
       "default": "top"
+    },
+    {
+      "type": "checkbox",
+      "id": "submenu_header_backdrop",
+      "label": "Sfondo bianco animato all'apertura del menu",
+      "info": "Solo desktop. Quando compare un sottomenu, l'header si riempie di bianco con un'animazione dall'alto verso il basso.",
+      "default": false
     },
     {
       "type": "header",
