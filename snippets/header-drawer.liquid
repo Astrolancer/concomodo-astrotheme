@@ -102,6 +102,9 @@
             {% assign first_accordion_open = false %}
             {% assign animation_index = 0 %}
             {%- for link in linklist.links -%}
+              {%- comment -%} Salta le voci-separatore "|" (visibili solo sul desktop) {%- endcomment -%}
+              {%- assign drawer_link_title = link.title | strip -%}
+              {%- if drawer_link_title == '|' -%}{%- continue -%}{%- endif -%}
               {% assign animation_index = animation_index | plus: 1 %}
               <li
                 style="--menu-drawer-animation-index: {{ animation_index }};"
@@ -248,6 +251,9 @@
             {%- endcomment -%}
             {% assign animation_index = 0 %}
             {%- for link in linklist.links -%}
+              {%- comment -%} Salta le voci-separatore "|" (visibili solo sul desktop) {%- endcomment -%}
+              {%- assign drawer_link_title = link.title | strip -%}
+              {%- if drawer_link_title == '|' -%}{%- continue -%}{%- endif -%}
               {% assign animation_index = animation_index | plus: 1 %}
               <li
                 class="menu-drawer__list-item"
