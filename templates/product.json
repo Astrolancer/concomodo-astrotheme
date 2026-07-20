@@ -599,7 +599,7 @@
                   "name": "t:names.product_recommendations",
                   "settings": {
                     "recommendation_type": "complementary",
-                    "layout_type": "grid",
+                    "layout_type": "carousel",
                     "carousel_on_mobile": true,
                     "max_products": 2,
                     "columns_gap": 16,
@@ -784,10 +784,13 @@
                   "settings": {
                     "heading": "Completa il tuo letto <strong>con</strong>",
                     "hint": "Scegli il topper più adatto a te: puoi aggiungerne solo uno.",
+                    "topper_1": "",
                     "topper_1_badge": "Più morbidezza",
                     "topper_1_text": "Se il materasso è troppo rigido e lo vuoi più morbido, senza effetto sprofondo.",
+                    "topper_2": "",
                     "topper_2_badge": "Più sostegno",
                     "topper_2_text": "Allunga la vita del materasso e dà più rigidità a quello che sprofonda.",
+                    "gift_product": "",
                     "gift_enabled": true,
                     "gift_badge": "In regalo",
                     "gift_free_label": "Gratis",
