@@ -597,6 +597,7 @@
                 "product_recommendations_fpMjBt": {
                   "type": "product-recommendations",
                   "name": "t:names.product_recommendations",
+                  "disabled": true,
                   "settings": {
                     "recommendation_type": "complementary",
                     "layout_type": "grid",
@@ -777,10 +778,67 @@
                   "block_order": [
                     "text_ccPepX"
                   ]
+                },
+                "product_upsell_D3mNqA": {
+                  "type": "product-upsell",
+                  "name": "Upsell prodotto",
+                  "settings": {
+                    "heading": "Completa il tuo letto <strong>con</strong>",
+                    "hint": "Scegli il topper più adatto a te: puoi aggiungerne solo uno.",
+                    "gift_product": "cuscino-test",
+                    "gift_enabled": true,
+                    "gift_badge": "In regalo",
+                    "gift_free_label": "Gratis",
+                    "gift_text": "Aggiungi un topper e il cuscino te lo regaliamo noi.",
+                    "gift_cart_property": "In regalo con il topper",
+                    "solo_discount_percent": 50,
+                    "solo_badge": "-50% solo online",
+                    "bundle_main": true,
+                    "topper_keyword": "topper",
+                    "mattress_keyword": "materasso",
+                    "add_label": "Aggiungi",
+                    "remove_label": "Rimuovi",
+                    "unavailable_label": "Non disponibile",
+                    "card_scheme": "scheme-1",
+                    "card_radius": 30,
+                    "inherit_color_scheme": true,
+                    "color_scheme": "scheme-1",
+                    "padding-block-start": 0,
+                    "padding-block-end": 16,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "upsell_card_comfort": {
+                      "type": "_product-upsell-card",
+                      "settings": {
+                        "product": "topper-comfort",
+                        "badge": "Più morbidezza",
+                        "benefit": "Se il materasso è troppo rigido e lo vuoi più morbido, senza effetto sprofondo.",
+                        "add_label": "Aggiungi al carrello"
+                      },
+                      "blocks": {}
+                    },
+                    "upsell_card_memory": {
+                      "type": "_product-upsell-card",
+                      "settings": {
+                        "product": "topper-memory",
+                        "badge": "Più sostegno",
+                        "benefit": "Allunga la vita del materasso e dà più rigidità a quello che sprofonda.",
+                        "add_label": "Aggiungi al carrello"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "upsell_card_comfort",
+                    "upsell_card_memory"
+                  ]
                 }
               },
               "block_order": [
-                "product_recommendations_fpMjBt"
+                "product_recommendations_fpMjBt",
+                "product_upsell_D3mNqA"
               ]
             },
             "group_hnXFGW": {
