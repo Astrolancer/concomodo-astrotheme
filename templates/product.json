@@ -31,7 +31,7 @@
             "media_fit": "cover",
             "media_radius": 20,
             "extend_media": false,
-            "zoom": false,
+            "zoom": true,
             "video_loop": false,
             "hide_variants": true,
             "padding-block-start": 0,
@@ -816,7 +816,8 @@
                         "badge": "Più morbidezza",
                         "benefit": "Se il materasso è troppo rigido e lo vuoi più morbido, senza effetto sprofondo.",
                         "add_label": "Aggiungi al carrello"
-                      }
+                      },
+                      "blocks": {}
                     },
                     "upsell_card_memory": {
                       "type": "_product-upsell-card",
@@ -825,7 +826,8 @@
                         "badge": "Più sostegno",
                         "benefit": "Allunga la vita del materasso e dà più rigidità a quello che sprofonda.",
                         "add_label": "Aggiungi al carrello"
-                      }
+                      },
+                      "blocks": {}
                     }
                   },
                   "block_order": [
