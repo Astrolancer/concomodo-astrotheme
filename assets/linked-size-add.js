@@ -1,3 +1,5 @@
+import { CartUpdateEvent } from '@theme/events';
+
 /**
  * <linked-size-add>
  *
@@ -8,11 +10,40 @@
  * inherited size and the price of that exact variant. Confirming clicks the hidden
  * theme product form, so cart bubble, cart drawer and error handling keep working.
  *
+ * On product pages (data-bundle-main="true") the add behaves like a bundle: if the
+ * page's main product (the mattress, in the selected variant) is not in the cart yet,
+ * it is added together with the recommended product — everything is bought in one go.
+ * The dialog tells the customer when this is about to happen.
+ *
  * Single-variant products (a pillow, a mattress protector) get the same dialog without
  * the size rows.
  */
 
 const ADDED_STATE_DURATION = 2600;
+
+/**
+ * Reads the page's main product form (the mattress): its product id and the currently
+ * selected variant id. Forms living inside cards, dialogs or upsell components are
+ * ignored.
+ *
+ * @returns {{productId: number, variantId: number} | null}
+ */
+function readMainProduct() {
+  for (const component of document.querySelectorAll('product-form-component')) {
+    if (component.closest('dialog, product-card, linked-size-add, product-upsell')) continue;
+
+    const input = component.querySelector('input[name="id"]');
+    if (!(input instanceof HTMLInputElement) || !input.value) continue;
+
+    const productId = Number(component.getAttribute('data-product-id'));
+    const variantId = Number(input.value);
+    if (!productId || !variantId) continue;
+
+    return { productId, variantId };
+  }
+
+  return null;
+}
 
 /**
  * Reads the Dimensione/Misure currently selected on the page's main variant picker.
@@ -198,7 +229,33 @@ class LinkedSizeAdd extends HTMLElement {
   #openDialog = () => {
     if (!this.#matched?.available) return;
     this.dialog?.showModal();
+    this.#updateBundleNote();
   };
+
+  /**
+   * Shows the "we're adding the mattress too" line in the dialog only when the
+   * bundle really is about to happen: bundling on, a main product on the page,
+   * and that product not in the cart yet.
+   */
+  async #updateBundleNote() {
+    const note = this.querySelector('[data-linked-bundle-note]');
+    if (!(note instanceof HTMLElement)) return;
+
+    note.hidden = true;
+    if (this.dataset.bundleMain !== 'true') return;
+
+    const main = readMainProduct();
+    if (!main) return;
+
+    try {
+      const response = await fetch(`${Theme.routes.cart_url}.js`);
+      const cart = await response.json();
+      const mainInCart = Array.isArray(cart.items) && cart.items.some((item) => item.product_id === main.productId);
+      note.hidden = mainInCart;
+    } catch {
+      // Leave the note hidden: the add still works, only the message is skipped.
+    }
+  }
 
   #closeDialog = () => {
     this.dialog?.close();
@@ -220,10 +277,72 @@ class LinkedSizeAdd extends HTMLElement {
     if (target === this.dialog || target?.closest('[data-linked-cancel]')) this.#closeDialog();
   };
 
-  #confirm = () => {
-    this.querySelector('[data-linked-submit]')?.click();
+  #confirm = async () => {
+    if (this.dataset.bundleMain !== 'true') {
+      this.querySelector('[data-linked-submit]')?.click();
+      this.#closeDialog();
+      return;
+    }
+
+    const added = await this.#confirmBundle();
+
+    if (!added) {
+      // Nothing to bundle (or the bundle failed): the hidden theme form adds
+      // the recommended product alone, keeping the standard cart behaviour.
+      this.querySelector('[data-linked-submit]')?.click();
+    }
+
     this.#closeDialog();
   };
+
+  /**
+   * Adds main product + recommended product in one request, when the main
+   * product is missing from the cart. Returns true when the bundle add
+   * happened (and was announced), false when the caller should fall back to
+   * the plain single add.
+   */
+  async #confirmBundle() {
+    const matched = this.#matched;
+    if (!matched?.available) return false;
+
+    try {
+      const main = readMainProduct();
+      if (!main) return false;
+
+      const cartResponse = await fetch(`${Theme.routes.cart_url}.js`);
+      const cart = await cartResponse.json();
+      const mainInCart = Array.isArray(cart.items) && cart.items.some((item) => item.product_id === main.productId);
+      if (mainInCart) return false;
+
+      const addResponse = await fetch(Theme.routes.cart_add_url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          items: [
+            { id: main.variantId, quantity: 1 },
+            { id: matched.id, quantity: 1 },
+          ],
+        }),
+      });
+      const result = await addResponse.json();
+      if (result.status) throw new Error(result.description ?? result.message ?? 'Cart add failed');
+
+      const refreshed = await fetch(`${Theme.routes.cart_url}.js`).then((response) => response.json());
+
+      document.dispatchEvent(
+        new CartUpdateEvent(refreshed, this.dataset.productId ?? 'linked-size-add', {
+          itemCount: refreshed?.item_count ?? 0,
+          source: 'linked-size-add',
+        })
+      );
+
+      this.#showAdded();
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
 
   #handleCartUpdate = (/** @type {CustomEvent} */ event) => {
     if (event.detail?.data?.didError) return;

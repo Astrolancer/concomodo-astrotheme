@@ -782,8 +782,8 @@
                   "type": "product-upsell",
                   "name": "Upsell prodotto",
                   "settings": {
-                    "heading": "Completa il tuo letto <strong>con</strong>",
-                    "hint": "Scegli il topper più adatto a te: puoi aggiungerne solo uno.",
+                    "heading": "",
+                    "hint": "",
                     "topper_1": "",
                     "topper_1_badge": "Più morbidezza",
                     "topper_1_text": "Se il materasso è troppo rigido e lo vuoi più morbido, senza effetto sprofondo.",
@@ -802,11 +802,18 @@
                     "unavailable_label": "Non disponibile",
                     "inherit_color_scheme": true,
                     "color_scheme": "scheme-1",
-                    "border_radius": 0,
                     "padding-block-start": 0,
                     "padding-block-end": 16,
                     "padding-inline-start": 0,
-                    "padding-inline-end": 0
+                    "padding-inline-end": 0,
+                    "show_toppers": false,
+                    "bundle_main": true,
+                    "topper_keyword": "topper",
+                    "mattress_keyword": "materasso",
+                    "card_scheme": "scheme-1",
+                    "card_radius": 30,
+                    "button_style": "button",
+                    "remove_label": "Rimuovi"
                   },
                   "blocks": {}
                 }

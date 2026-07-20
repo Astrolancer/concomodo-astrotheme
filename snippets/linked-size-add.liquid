@@ -51,6 +51,7 @@
     data-linked="{{ is_linked }}"
     data-product-id="{{ product.id }}"
     data-product-title="{{ product.title | escape }}"
+    data-bundle-main="{% if template.name == 'product' %}true{% else %}false{% endif %}"
   >
     <script type="application/json" data-linked-size-variants>
       [
@@ -152,6 +153,11 @@
             La misura è la stessa che hai selezionato per il materasso.
           </p>
         {%- endif -%}
+
+        <p class="linked-size-add__note" data-linked-bundle-note hidden>
+          Aggiungiamo anche il materasso nella misura selezionata: acquisti
+          tutto insieme.
+        </p>
 
         <div class="linked-size-add__actions">
           <button type="submit" class="button-secondary linked-size-add__cancel" data-linked-cancel>

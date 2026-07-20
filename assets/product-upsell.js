@@ -4,14 +4,23 @@ import { fetchConfig } from '@theme/utilities';
 /**
  * <product-upsell>
  *
- * Product-page upsell with a guided choice:
+ * Product-page upsell that talks to the rest of the page:
  *
- * - Two toppers in mutually exclusive choice: adding one removes the other
- *   from the cart. Each topper inherits the Dimensione/Misure selected on the
- *   main product (same matching rules as <linked-size-add>).
- * - A gift pillow that is auto-added when a topper is chosen (flagged with a
- *   hidden `_in_regalo` line item property so it can be told apart from a solo
- *   purchase), or added alone at a display discount.
+ * - Optional topper cards in mutually exclusive choice (adding one removes the
+ *   other), inheriting the Dimensione/Misure selected on the main product.
+ * - A gift pillow that reads the cart: as soon as a topper is in the cart —
+ *   added from this block OR from any other block on the page (e.g. the
+ *   recommendations cards) — the pillow is auto-added free of charge, flagged
+ *   with a hidden `_in_regalo` line property. When the last topper leaves the
+ *   cart, the flagged pillow leaves with it. A pillow the customer pays for
+ *   (no flag) is never touched.
+ * - Bundle behaviour: adds from this block also put the main product (the
+ *   mattress, in the selected variant) in the cart when it is not there yet,
+ *   so the upsell CTA buys everything together.
+ *
+ * Toppers are recognised in the cart either by the products configured in the
+ * block settings or by a configurable keyword matched against the cart line's
+ * product title/type (default "topper").
  *
  * The component only renders the promo prices. The actual cart prices must be
  * backed by automatic discounts configured in the Shopify admin.
@@ -53,33 +62,40 @@ function readMainSelection() {
 }
 
 /**
- * @typedef {object} UpsellVariant
- * @property {number} id
- * @property {boolean} available
- * @property {string} price
- * @property {string} [compareAt]
- * @property {string} [soloPrice]
- * @property {string} [dimensione]
- * @property {string} [misure]
- * @property {string} [sizeLabel]
+ * Reads the page's main product form (the mattress): its product id and the
+ * currently selected variant id. Forms living inside cards, dialogs or upsell
+ * components are ignored.
  *
- * @typedef {object} UpsellRow
- * @property {HTMLElement} element
- * @property {'topper' | 'gift'} role
- * @property {number} productId
- * @property {boolean} linked
- * @property {UpsellVariant[]} variants
- * @property {UpsellVariant | null} matched
+ * @returns {{productId: number, variantId: number} | null}
  */
+function readMainProduct() {
+  for (const component of document.querySelectorAll('product-form-component')) {
+    if (component.closest('dialog, product-card, linked-size-add, product-upsell')) continue;
+
+    const input = component.querySelector('input[name="id"]');
+    if (!(input instanceof HTMLInputElement) || !input.value) continue;
+
+    const productId = Number(component.getAttribute('data-product-id'));
+    const variantId = Number(input.value);
+    if (!productId || !variantId) continue;
+
+    return { productId, variantId };
+  }
+
+  return null;
+}
 
 class ProductUpsell extends HTMLElement {
-  /** @type {UpsellRow[]} */
+  /** @type {Array<Object>} */
   #rows = [];
 
   /** @type {{items?: Array<Object>, item_count?: number} | null} */
   #cart = null;
 
   #busy = false;
+
+  /** Set when the customer removes the gift while a topper is in the cart, so we stop re-adding it. */
+  #giftDeclined = false;
 
   #abortController = new AbortController();
 
@@ -130,8 +146,28 @@ class ProductUpsell extends HTMLElement {
     return this.dataset.giftEnabled === 'true';
   }
 
+  get #bundleMain() {
+    return this.dataset.bundleMain === 'true';
+  }
+
   get #soloPercent() {
     return Number(this.dataset.soloPercent ?? 0);
+  }
+
+  get #topperKeyword() {
+    return (this.dataset.topperKeyword ?? '').trim().toLowerCase();
+  }
+
+  get #mattressKeyword() {
+    return (this.dataset.mattressKeyword ?? '').trim().toLowerCase();
+  }
+
+  /** Product ids configured as toppers, with or without a rendered card. */
+  get #topperProductIds() {
+    return (this.dataset.topperProducts ?? '')
+      .split(',')
+      .map((value) => Number(value))
+      .filter(Boolean);
   }
 
   get #toppers() {
@@ -147,12 +183,61 @@ class ProductUpsell extends HTMLElement {
     return Array.isArray(this.#cart?.items) ? this.#cart.items : [];
   }
 
-  /** @param {UpsellRow} row */
+  /** @param {Object} row */
   #itemsOf(row) {
     return this.#items().filter((item) => item.product_id === row.productId);
   }
 
-  #topperInCart() {
+  /**
+   * Whether a cart line is a topper: either one of the configured topper
+   * products, or a product whose title/type matches the topper keyword.
+   *
+   * @param {Object} item
+   */
+  #isTopperItem(item) {
+    if (this.#topperProductIds.includes(item.product_id)) return true;
+
+    const keyword = this.#topperKeyword;
+    if (!keyword) return false;
+
+    const title = String(item.product_title ?? '').toLowerCase();
+    const type = String(item.product_type ?? '').toLowerCase();
+    return title.includes(keyword) || type.includes(keyword);
+  }
+
+  #topperItemsInCart() {
+    const gift = this.#gift;
+    return this.#items().filter((item) => {
+      if (gift && item.product_id === gift.productId) return false;
+      return this.#isTopperItem(item);
+    });
+  }
+
+  /**
+   * Whether the cart holds a mattress: the page's main product, or any line
+   * whose product title/type matches the mattress keyword.
+   */
+  #hasMattressInCart() {
+    const main = readMainProduct();
+    if (main && this.#items().some((item) => item.product_id === main.productId)) return true;
+
+    const keyword = this.#mattressKeyword;
+    if (!keyword) return false;
+
+    return this.#items().some((item) => {
+      const title = String(item.product_title ?? '').toLowerCase();
+      const type = String(item.product_type ?? '').toLowerCase();
+      return title.includes(keyword) || type.includes(keyword);
+    });
+  }
+
+  /** The gift is free when the cart holds the bundle: topper + mattress. */
+  #bundleInCart() {
+    return this.#topperItemsInCart().length > 0 && this.#hasMattressInCart();
+  }
+
+  /** The topper row (if rendered) whose product is in the cart. */
+  #selectedTopperRow() {
     return this.#toppers.find((row) => this.#itemsOf(row).length > 0) ?? null;
   }
 
@@ -182,7 +267,7 @@ class ProductUpsell extends HTMLElement {
 
   #render() {
     const selection = readMainSelection();
-    const selectedTopper = this.#topperInCart();
+    const bundleInCart = this.#bundleInCart();
 
     for (const row of this.#rows) {
       const { element } = row;
@@ -248,12 +333,16 @@ class ProductUpsell extends HTMLElement {
 
       element.hidden = false;
 
-      const isFree = Boolean(selectedTopper) && this.#giftEnabled;
+      const isFree = bundleInCart && this.#giftEnabled;
       const hasSoloDiscount = this.#soloPercent > 0;
       const struckPrice = variant.compareAt ?? variant.price;
 
       if (badgeElement instanceof HTMLElement) {
-        const badgeText = isFree ? element.dataset.giftBadge ?? '' : hasSoloDiscount ? element.dataset.soloBadge ?? '' : '';
+        const badgeText = isFree
+          ? element.dataset.giftBadge ?? ''
+          : hasSoloDiscount
+            ? element.dataset.soloBadge ?? ''
+            : '';
         badgeElement.textContent = badgeText;
         badgeElement.hidden = !badgeText;
       }
@@ -283,6 +372,49 @@ class ProductUpsell extends HTMLElement {
     }
   }
 
+  /**
+   * Keeps the gift in step with the cart, wherever the topper came from: a
+   * topper in the cart with no gift yet auto-adds the flagged gift; no topper
+   * left with a flagged gift still in the cart removes it. Lines without the
+   * flag (a pillow the customer pays for) are never touched.
+   */
+  async #autoSyncGift() {
+    const gift = this.#gift;
+    if (!gift || !this.#giftEnabled || this.#busy) return;
+
+    const bundleInCart = this.#bundleInCart();
+    const giftLines = this.#itemsOf(gift);
+    const flaggedLines = giftLines.filter((item) => item.properties?.[GIFT_FLAG]);
+
+    if (bundleInCart && giftLines.length === 0 && !this.#giftDeclined && gift.matched?.available) {
+      this.#setBusy(true);
+      try {
+        await this.#add([{ id: gift.matched.id, quantity: 1, properties: this.#giftProperties() }]);
+        await this.#refreshCart({ announce: true });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.#setBusy(false);
+      }
+      return;
+    }
+
+    if (!bundleInCart && flaggedLines.length > 0) {
+      this.#setBusy(true);
+      try {
+        for (const line of flaggedLines) await this.#change(line.key, 0);
+        await this.#refreshCart({ announce: true });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.#setBusy(false);
+      }
+      return;
+    }
+
+    if (!bundleInCart) this.#giftDeclined = false;
+  }
+
   /** @param {MouseEvent} event */
   #handleClick = (event) => {
     const target = event.target instanceof Element ? event.target : null;
@@ -304,11 +436,49 @@ class ProductUpsell extends HTMLElement {
   };
 
   /**
-   * Adds a topper in the size inherited from the main product. The other topper
-   * is removed first (mutually exclusive choice) and the gift pillow is added
-   * alongside, flagged as such, unless it is already in the cart.
+   * The main product (mattress) as a cart item, when bundling is on and it is
+   * not in the cart yet.
+   */
+  #mainBundleItem() {
+    if (!this.#bundleMain) return null;
+
+    const main = readMainProduct();
+    if (!main) return null;
+
+    const alreadyInCart = this.#items().some((item) => item.product_id === main.productId);
+    if (alreadyInCart) return null;
+
+    return { id: main.variantId, quantity: 1 };
+  }
+
+  /**
+   * Adds items, retrying without the bundled mattress if the combined request
+   * fails (e.g. the selected mattress variant just went out of stock).
    *
-   * @param {UpsellRow} row
+   * @param {Array<Object>} items
+   * @param {Object | null} mainItem
+   */
+  async #addWithMain(items, mainItem) {
+    if (!mainItem) {
+      await this.#add(items);
+      return;
+    }
+
+    try {
+      await this.#add([mainItem, ...items]);
+    } catch (error) {
+      console.error(error);
+      await this.#add(items);
+    }
+  }
+
+  /**
+   * Adds a topper in the size inherited from the main product, bundling the
+   * mattress when needed. The other topper is removed first (mutually
+   * exclusive choice) and the gift is added alongside, flagged as such, unless
+   * it is already in the cart.
+   *
+   * @param {Object} row
    */
   async #addTopper(row) {
     if (this.#busy || !row.matched?.available) return;
@@ -325,11 +495,11 @@ class ProductUpsell extends HTMLElement {
       const items = [{ id: row.matched.id, quantity: 1 }];
       const gift = this.#gift;
 
-      if (this.#giftEnabled && gift?.matched?.available && this.#itemsOf(gift).length === 0) {
+      if (this.#giftEnabled && gift?.matched?.available && this.#itemsOf(gift).length === 0 && !this.#giftDeclined) {
         items.push({ id: gift.matched.id, quantity: 1, properties: this.#giftProperties() });
       }
 
-      await this.#add(items);
+      await this.#addWithMain(items, this.#mainBundleItem());
       await this.#refreshCart({ announce: true });
     } catch (error) {
       console.error(error);
@@ -343,7 +513,7 @@ class ProductUpsell extends HTMLElement {
    * auto-added as a gift are removed too; a pillow the customer added on its
    * own (no gift flag) is left in the cart.
    *
-   * @param {UpsellRow} row
+   * @param {Object} row
    */
   async #removeTopper(row) {
     if (this.#busy) return;
@@ -354,12 +524,11 @@ class ProductUpsell extends HTMLElement {
       for (const item of this.#itemsOf(row)) updates[item.variant_id] = 0;
       if (Object.keys(updates).length > 0) await this.#update(updates);
 
-      const gift = this.#gift;
-      const otherTopperStillInCart = this.#toppers.some(
-        (other) => other !== row && this.#itemsOf(other).length > 0
-      );
+      await this.#refreshCart({ announce: false });
 
-      if (gift && !otherTopperStillInCart) {
+      const gift = this.#gift;
+
+      if (gift && !this.#bundleInCart()) {
         const flaggedLines = this.#itemsOf(gift).filter((item) => item.properties?.[GIFT_FLAG]);
         for (const line of flaggedLines) await this.#change(line.key, 0);
       }
@@ -372,16 +541,29 @@ class ProductUpsell extends HTMLElement {
     }
   }
 
-  /** @param {UpsellRow} row */
+  /**
+   * Adds the gift pillow. With a topper in the cart it goes in flagged (free —
+   * backed by the admin discount); alone it goes in as a normal purchase,
+   * bundling the mattress when needed.
+   *
+   * @param {Object} row
+   */
   async #addGift(row) {
     if (this.#busy || !row.matched?.available) return;
     this.#setBusy(true);
 
     try {
+      const bundleInCart = this.#bundleInCart();
       const item = { id: row.matched.id, quantity: 1 };
-      if (this.#giftEnabled && this.#topperInCart()) item.properties = this.#giftProperties();
 
-      await this.#add([item]);
+      if (this.#giftEnabled && bundleInCart) {
+        item.properties = this.#giftProperties();
+        this.#giftDeclined = false;
+        await this.#add([item]);
+      } else {
+        await this.#addWithMain([item], this.#mainBundleItem());
+      }
+
       await this.#refreshCart({ announce: true });
     } catch (error) {
       console.error(error);
@@ -390,12 +572,14 @@ class ProductUpsell extends HTMLElement {
     }
   }
 
-  /** @param {UpsellRow} row */
+  /** @param {Object} row */
   async #removeGift(row) {
     if (this.#busy) return;
     this.#setBusy(true);
 
     try {
+      if (this.#bundleInCart()) this.#giftDeclined = true;
+
       const updates = {};
       for (const item of this.#itemsOf(row)) updates[item.variant_id] = 0;
       if (Object.keys(updates).length > 0) await this.#update(updates);
@@ -477,7 +661,7 @@ class ProductUpsell extends HTMLElement {
   }
 
   /** @param {CustomEvent} event */
-  #handleExternalCartUpdate = (event) => {
+  #handleExternalCartUpdate = async (event) => {
     if (event.detail?.data?.source === 'product-upsell') return;
 
     const resource = event.detail?.resource;
@@ -486,8 +670,11 @@ class ProductUpsell extends HTMLElement {
       this.#cart = resource;
       this.#render();
     } else {
-      this.#refreshCart({ announce: false });
+      await this.#refreshCart({ announce: false });
     }
+
+    // A topper added or removed anywhere on the page drives the gift.
+    this.#autoSyncGift();
   };
 
   /** @param {boolean} busy */
