@@ -3,67 +3,95 @@
 
   - Two toppers in mutually exclusive choice (adding one removes the other),
     each with its own benefit text, inheriting Dimensione/Misure from the main
-    product like linked-size-add.
-  - A gift pillow: added automatically (free of charge) when a topper is chosen,
-    or purchasable alone at a configurable display discount.
+    product like linked-size-add. Side by side on desktop, swipe carousel on
+    mobile — every card shares the same surface, radius and paddings as the
+    theme's product cards.
+  - A gift pillow as a horizontal card: added automatically (free of charge)
+    when a topper is chosen, or purchasable alone at a configurable display
+    discount.
 
-  The block only *shows* the promotional prices. The actual cart prices must be
-  backed by two automatic discounts in the Shopify admin (see the schema note).
+  The block renders nothing on the storefront until at least one product is
+  picked in the editor. It only *shows* the promotional prices: the actual cart
+  prices must be backed by two automatic discounts in the Shopify admin (see
+  the schema note).
 {%- enddoc -%}
 
 {%- liquid
   assign topper_1 = block.settings.topper_1
   assign topper_2 = block.settings.topper_2
   assign gift_product = block.settings.gift_product
+
+  assign render_toppers = false
+  if block.settings.show_toppers
+    if topper_1 != blank or topper_2 != blank
+      assign render_toppers = true
+    endif
+  endif
+
+  assign has_visible_content = render_toppers
+  if gift_product != blank
+    assign has_visible_content = true
+  endif
 -%}
 
-<script src="{{ 'product-upsell.js' | asset_url }}" type="module"></script>
+{%- if has_visible_content or request.design_mode -%}
+  <script src="{{ 'product-upsell.js' | asset_url }}" type="module"></script>
 
-<product-upsell
-  class="
-    product-upsell
-    {% unless block.settings.inherit_color_scheme %}color-{{ block.settings.color_scheme }}{% endunless %}
-    spacing-style
-  "
-  style="
-    {% render 'spacing-style', settings: block.settings %}
-    --product-upsell-radius: {{ block.settings.border_radius }}px;
-  "
-  data-section-id="{{ section.id }}"
-  data-gift-enabled="{{ block.settings.gift_enabled }}"
-  data-solo-percent="{{ block.settings.solo_discount_percent }}"
-  data-gift-cart-property="{{ block.settings.gift_cart_property | escape }}"
-  {{ block.shopify_attributes }}
->
-  {%- if block.settings.heading != blank -%}
-    <h4 class="product-upsell__heading">{{ block.settings.heading }}</h4>
-  {%- endif -%}
+  <product-upsell
+    class="
+      product-upsell
+      {% unless block.settings.inherit_color_scheme %}color-{{ block.settings.color_scheme }}{% endunless %}
+      spacing-style
+    "
+    style="
+      {% render 'spacing-style', settings: block.settings %}
+      --product-upsell-card-radius: {{ block.settings.card_radius }}px;
+    "
+    data-section-id="{{ section.id }}"
+    data-gift-enabled="{{ block.settings.gift_enabled }}"
+    data-solo-percent="{{ block.settings.solo_discount_percent }}"
+    data-gift-cart-property="{{ block.settings.gift_cart_property | escape }}"
+    data-bundle-main="{{ block.settings.bundle_main }}"
+    data-topper-products="{{ topper_1.id }},{{ topper_2.id }}"
+    data-topper-keyword="{{ block.settings.topper_keyword | escape }}"
+    data-mattress-keyword="{{ block.settings.mattress_keyword | escape }}"
+    {{ block.shopify_attributes }}
+  >
+    {%- if block.settings.heading != blank -%}
+      <h4 class="product-upsell__heading">{{ block.settings.heading }}</h4>
+    {%- endif -%}
 
-  {%- if block.settings.hint != blank -%}
-    <p class="product-upsell__hint">{{ block.settings.hint }}</p>
-  {%- endif -%}
+    {%- if block.settings.hint != blank -%}
+      <p class="product-upsell__hint">{{ block.settings.hint }}</p>
+    {%- endif -%}
 
-  <div class="product-upsell__rows">
-    {%- for i in (1..2) -%}
-      {%- liquid
-        assign product_key = 'topper_' | append: i
-        assign badge_key = product_key | append: '_badge'
-        assign text_key = product_key | append: '_text'
-        assign topper_product = block.settings[product_key]
-        assign topper_badge = block.settings[badge_key]
-        assign topper_text = block.settings[text_key]
-      -%}
-      {%- if topper_product != blank -%}
-        {% render 'product-upsell-item',
-          product: topper_product,
-          role: 'topper',
-          badge: topper_badge,
-          benefit: topper_text,
-          add_label: block.settings.add_label,
-          unavailable_label: block.settings.unavailable_label
-        %}
-      {%- endif -%}
-    {%- endfor -%}
+    {%- if render_toppers -%}
+      <div class="product-upsell__choice">
+        {%- for i in (1..2) -%}
+          {%- liquid
+            assign product_key = 'topper_' | append: i
+            assign badge_key = product_key | append: '_badge'
+            assign text_key = product_key | append: '_text'
+            assign topper_product = block.settings[product_key]
+            assign topper_badge = block.settings[badge_key]
+            assign topper_text = block.settings[text_key]
+          -%}
+          {%- if topper_product != blank -%}
+            {% render 'product-upsell-item',
+              product: topper_product,
+              role: 'topper',
+              badge: topper_badge,
+              benefit: topper_text,
+              add_label: block.settings.add_label,
+              remove_label: block.settings.remove_label,
+              unavailable_label: block.settings.unavailable_label,
+              button_style: block.settings.button_style,
+              card_scheme: block.settings.card_scheme
+            %}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
 
     {%- if gift_product != blank -%}
       {% render 'product-upsell-item',
@@ -71,35 +99,42 @@
         role: 'gift',
         benefit: block.settings.gift_text,
         add_label: block.settings.add_label,
+        remove_label: block.settings.remove_label,
         unavailable_label: block.settings.unavailable_label,
+        button_style: block.settings.button_style,
+        card_scheme: block.settings.card_scheme,
         solo_percent: block.settings.solo_discount_percent,
         solo_badge: block.settings.solo_badge,
         gift_badge: block.settings.gift_badge,
         gift_free_label: block.settings.gift_free_label
       %}
     {%- endif -%}
-  </div>
 
-  {%- if request.design_mode -%}
-    {%- if topper_1 == blank and topper_2 == blank and gift_product == blank -%}
+    {%- if request.design_mode and has_visible_content == false -%}
       <p class="product-upsell__setup">
-        Upsell prodotto: scegli i due topper e il cuscino nelle impostazioni del
-        blocco. Il blocco resta invisibile finché non selezioni almeno un
-        prodotto.
+        Upsell prodotto: scegli il cuscino (ed eventualmente i due topper) nelle
+        impostazioni del blocco. Il blocco resta invisibile sul negozio finché
+        non c'è niente da mostrare.
       </p>
     {%- endif -%}
-  {%- endif -%}
-</product-upsell>
+  </product-upsell>
+{%- endif -%}
 
 {% stylesheet %}
   .product-upsell {
     display: block;
     width: 100%;
-    border-radius: var(--product-upsell-radius, 0);
+  }
+
+  .product-upsell [hidden] {
+    display: none !important;
   }
 
   .product-upsell__heading {
     margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 1rem;
+    font-weight: 500;
   }
 
   .product-upsell__hint {
@@ -108,67 +143,104 @@
     opacity: 0.7;
   }
 
-  .product-upsell__rows {
+  .product-upsell__choice {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-block-start: 12px;
+  }
+
+  .product-upsell__choice:has(> .product-upsell__card:only-child) {
+    grid-template-columns: 1fr;
+  }
+
+  .product-upsell__card {
+    position: relative;
     display: flex;
     flex-direction: column;
-    margin-block-start: 6px;
+    gap: 10px;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    border-radius: var(--product-upsell-card-radius, 30px);
+    padding: 16px 16px 20px;
   }
 
-  .product-upsell__row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding-block: 16px;
-    border-block-start: 1px solid color-mix(in srgb, var(--color-foreground) 12%, transparent);
-    transition: opacity 0.2s ease;
-  }
-
-  .product-upsell__row:first-child {
-    border-block-start: 0;
+  .product-upsell__card[data-selected] {
+    box-shadow: 0 0 0 2px var(--color-primary);
   }
 
   .product-upsell__media {
-    flex: 0 0 auto;
-    width: 64px;
-    height: 64px;
-    border-radius: 12px;
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 18px;
     overflow: hidden;
-    background-color: color-mix(in srgb, var(--color-foreground) 5%, transparent);
+    background-color: rgb(var(--color-foreground-rgb) / 0.05);
   }
 
   .product-upsell__image {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .product-upsell__info {
-    flex: 1 1 auto;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+  .product-upsell__flag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-size: var(--font-size--2xs, 0.6875rem);
+    font-weight: 500;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
   }
 
-  .product-upsell__badge {
-    align-self: flex-start;
-    font-size: var(--font-size--2xs, 0.6875rem);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 2px 8px;
-    border-radius: 100px;
-    background-color: color-mix(in srgb, var(--color-foreground) 8%, transparent);
+  .product-upsell__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-inline: 4px;
+  }
+
+  .product-upsell__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
   }
 
   .product-upsell__title {
     margin: 0;
+    font-size: 1rem;
     font-weight: 500;
     line-height: 1.3;
   }
 
+  .product-upsell__price {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  .product-upsell__compare {
+    font-size: var(--font-size--xs);
+    opacity: 0.55;
+  }
+
+  .product-upsell__amount {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
   .product-upsell__benefit {
     font-size: var(--font-size--xs);
-    line-height: 1.4;
+    line-height: 1.45;
     opacity: 0.75;
   }
 
@@ -179,53 +251,44 @@
   .product-upsell__meta {
     margin: 0;
     font-size: var(--font-size--xs);
-    opacity: 0.75;
-  }
-
-  .product-upsell__price {
-    margin: 0;
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .product-upsell__compare {
-    font-size: var(--font-size--xs);
-    opacity: 0.55;
-  }
-
-  .product-upsell__amount {
-    font-weight: 600;
+    opacity: 0.6;
   }
 
   .product-upsell__actions {
-    flex: 0 0 auto;
     display: flex;
     align-items: center;
+    margin-block-start: auto;
+    padding-block-start: 4px;
   }
 
-  .product-upsell__add {
+  .product-upsell__add,
+  .product-upsell__card--topper .product-upsell__remove {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
-    padding-block: 8px;
-    padding-inline: 16px;
+    width: 100%;
     min-height: 0;
+    padding-block: 10px;
+    padding-inline: 16px;
     font-size: var(--font-size--sm, 0.875rem);
-    border-radius: 100px;
   }
 
   .product-upsell__plus {
     font-weight: 600;
   }
 
-  .product-upsell__remove {
+  .product-upsell__remove svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .product-upsell__remove--icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     padding: 0;
     border: none;
     border-radius: 50%;
@@ -234,18 +297,90 @@
     cursor: pointer;
   }
 
-  .product-upsell__remove:hover {
-    background-color: color-mix(in srgb, var(--color-foreground) 8%, transparent);
+  .product-upsell__remove--icon:hover {
+    background-color: rgb(var(--color-foreground-rgb) / 0.08);
   }
 
-  .product-upsell__remove svg {
+  .product-upsell__remove--icon svg {
     width: 18px;
     height: 18px;
   }
 
-  .product-upsell__row[data-selected] .product-upsell__media {
-    outline: 2px solid color-mix(in srgb, var(--color-foreground) 60%, transparent);
-    outline-offset: 1px;
+  /* Gift pillow: horizontal card, full width under the topper choice */
+  .product-upsell__card--gift {
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    margin-block-start: 16px;
+    padding: 14px 16px;
+  }
+
+  .product-upsell__card--gift .product-upsell__media {
+    flex: 0 0 84px;
+    aspect-ratio: 1;
+    border-radius: 14px;
+  }
+
+  .product-upsell__card--gift .product-upsell__flag {
+    top: 6px;
+    left: 6px;
+    padding: 2px 8px;
+  }
+
+  .product-upsell__card--gift .product-upsell__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 3px;
+    padding-inline: 0;
+  }
+
+  .product-upsell__card--gift .product-upsell__body > * {
+    grid-column: 1;
+  }
+
+  .product-upsell__card--gift .product-upsell__actions {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    margin: 0;
+    padding: 0;
+  }
+
+  .product-upsell__card--gift .product-upsell__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .product-upsell__card--gift .product-upsell__add {
+    width: auto;
+  }
+
+  /* Mobile: the topper choice becomes a swipe carousel with a peek of the next card */
+  @media screen and (max-width: 749px) {
+    .product-upsell__choice {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 2px;
+    }
+
+    .product-upsell__choice::-webkit-scrollbar {
+      display: none;
+    }
+
+    .product-upsell__choice .product-upsell__card {
+      flex: 0 0 80%;
+      scroll-snap-align: start;
+    }
+
+    .product-upsell__choice .product-upsell__card:only-child {
+      flex-basis: 100%;
+    }
   }
 
   product-upsell[data-busy] .product-upsell__add,
@@ -258,7 +393,7 @@
     margin: 10px 0 0;
     padding: 12px 14px;
     font-size: var(--font-size--xs);
-    border: 1px dashed color-mix(in srgb, var(--color-foreground) 35%, transparent);
+    border: 1px dashed rgb(var(--color-foreground-rgb) / 0.35);
     border-radius: 12px;
     opacity: 0.8;
   }
@@ -387,13 +522,67 @@
     },
     {
       "type": "header",
+      "content": "Comportamento"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_toppers",
+      "label": "Mostra le card dei topper",
+      "info": "Disattiva se i topper sono già mostrati da un altro blocco (es. Consigli prodotto qui sopra): la logica del regalo continua comunque a leggere il carrello.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "bundle_main",
+      "label": "Aggiungi anche il materasso selezionato",
+      "info": "Ogni 'Aggiungi' mette in carrello anche il materasso nella misura scelta, se non c'è già: si acquista tutto insieme.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "topper_keyword",
+      "label": "Parola chiave topper nel carrello",
+      "info": "Riconosce come topper le righe del carrello il cui titolo o tipo contiene questa parola, oltre ai prodotti scelti sopra.",
+      "default": "topper"
+    },
+    {
+      "type": "text",
+      "id": "mattress_keyword",
+      "label": "Parola chiave materasso nel carrello",
+      "info": "Il cuscino è in regalo quando in carrello c'è il bundle: un topper + un materasso.",
+      "default": "materasso"
+    },
+    {
+      "type": "header",
       "content": "Bottoni"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Stile bottone aggiungi",
+      "options": [
+        {
+          "value": "button",
+          "label": "Primario"
+        },
+        {
+          "value": "button-secondary",
+          "label": "Secondario"
+        }
+      ],
+      "default": "button"
     },
     {
       "type": "text",
       "id": "add_label",
       "label": "Testo bottone aggiungi",
       "default": "Aggiungi"
+    },
+    {
+      "type": "text",
+      "id": "remove_label",
+      "label": "Testo bottone rimuovi",
+      "default": "Rimuovi"
     },
     {
       "type": "text",
@@ -404,6 +593,22 @@
     {
       "type": "header",
       "content": "Stile"
+    },
+    {
+      "type": "color_scheme",
+      "id": "card_scheme",
+      "label": "Schema colori card",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Raggio card",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 30
     },
     {
       "type": "checkbox",
@@ -417,16 +622,6 @@
       "label": "Schema colori",
       "default": "scheme-1",
       "visible_if": "{{ block.settings.inherit_color_scheme == false }}"
-    },
-    {
-      "type": "range",
-      "id": "border_radius",
-      "label": "Raggio bordi",
-      "min": 0,
-      "max": 32,
-      "step": 1,
-      "unit": "px",
-      "default": 0
     },
     {
       "type": "header",

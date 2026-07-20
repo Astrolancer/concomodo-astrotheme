@@ -1,7 +1,8 @@
 {%- doc -%}
-  Renders one row of the product upsell block: image, badge, benefit text, price
-  and an add/remove control. Used both for the two toppers (mutually exclusive
-  choice, size inherited from the main product) and for the gift pillow.
+  Renders one product card of the product upsell block, styled like the theme's
+  product cards (rounded surface, landscape image, title + price row). Toppers
+  render as vertical cards inside the choice carousel; the gift pillow renders
+  as a horizontal full-width card.
 
   Toppers follow the same Dimensione/Misure matching rules as linked-size-add:
   they render only when the product shares both options with the main product,
@@ -13,7 +14,10 @@
   @param {string} badge - Static badge text (topper rows)
   @param {string} benefit - Benefit/description text shown under the title
   @param {string} add_label - Label of the add button
+  @param {string} remove_label - Label of the remove button on topper cards
   @param {string} unavailable_label - Label when the inherited size is unavailable
+  @param {string} button_style - 'button' or 'button-secondary'
+  @param {string} card_scheme - Color scheme id for the card surface
   @param {number} solo_percent - Gift only: display discount % when bought alone
   @param {string} solo_badge - Gift only: badge shown when bought alone
   @param {string} gift_badge - Gift only: badge shown when a topper is selected
@@ -50,13 +54,17 @@
       assign can_render = true
     endif
   endif
+
+  if button_style != 'button-secondary'
+    assign button_style = 'button'
+  endif
 -%}
 
 {%- if can_render -%}
-  {%- assign row_image = product.featured_media.preview_image | image_url: width: 160 -%}
+  {%- assign row_image = product.featured_media.preview_image | image_url: width: 640 -%}
 
   <div
-    class="product-upsell__row"
+    class="product-upsell__card product-upsell__card--{{ role }} color-{{ card_scheme }}"
     data-upsell-row
     data-upsell-role="{{ role }}"
     data-product-id="{{ product.id }}"
@@ -127,22 +135,25 @@
         <img
           class="product-upsell__image"
           src="{{ row_image }}"
-          alt=""
-          width="80"
-          height="80"
+          alt="{{ product.title | escape }}"
           loading="lazy"
         >
       {%- endif -%}
+      {%- if role == 'gift' -%}
+        <span class="product-upsell__flag" data-upsell-badge hidden></span>
+      {%- elsif badge != blank -%}
+        <span class="product-upsell__flag" data-upsell-badge>{{ badge }}</span>
+      {%- endif -%}
     </div>
 
-    <div class="product-upsell__info">
-      {%- if role == 'gift' -%}
-        <span class="product-upsell__badge" data-upsell-badge hidden></span>
-      {%- elsif badge != blank -%}
-        <span class="product-upsell__badge" data-upsell-badge>{{ badge }}</span>
-      {%- endif -%}
-
-      <p class="product-upsell__title">{{ product.title }}</p>
+    <div class="product-upsell__body">
+      <div class="product-upsell__head">
+        <p class="product-upsell__title">{{ product.title }}</p>
+        <p class="product-upsell__price">
+          <s class="product-upsell__compare" data-upsell-compare hidden></s>
+          <span class="product-upsell__amount" data-upsell-price></span>
+        </p>
+      </div>
 
       {%- if benefit != blank -%}
         <div class="product-upsell__benefit">{{ benefit }}</div>
@@ -154,32 +165,40 @@
         </p>
       {%- endunless -%}
 
-      <p class="product-upsell__price">
-        <s class="product-upsell__compare" data-upsell-compare hidden></s>
-        <span class="product-upsell__amount" data-upsell-price></span>
-      </p>
-    </div>
+      <div class="product-upsell__actions">
+        <button
+          type="button"
+          class="{{ button_style }} product-upsell__add"
+          data-upsell-add
+          data-label-default="{{ add_label | escape }}"
+          data-label-unavailable="{{ unavailable_label | escape }}"
+        >
+          <span class="product-upsell__plus" aria-hidden="true">+</span>
+          <span data-upsell-add-label>{{ add_label }}</span>
+        </button>
 
-    <div class="product-upsell__actions">
-      <button
-        type="button"
-        class="button product-upsell__add"
-        data-upsell-add
-        data-label-default="{{ add_label | escape }}"
-        data-label-unavailable="{{ unavailable_label | escape }}"
-      >
-        <span class="product-upsell__plus" aria-hidden="true">+</span>
-        <span data-upsell-add-label>{{ add_label }}</span>
-      </button>
-      <button
-        type="button"
-        class="product-upsell__remove"
-        data-upsell-remove
-        hidden
-        aria-label="Rimuovi {{ product.title | escape }}"
-      >
-        {{- 'icon-close.svg' | inline_asset_content -}}
-      </button>
+        {%- if role == 'gift' -%}
+          <button
+            type="button"
+            class="product-upsell__remove product-upsell__remove--icon"
+            data-upsell-remove
+            hidden
+            aria-label="Rimuovi {{ product.title | escape }}"
+          >
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </button>
+        {%- else -%}
+          <button
+            type="button"
+            class="button-secondary product-upsell__remove"
+            data-upsell-remove
+            hidden
+          >
+            {{- 'icon-close.svg' | inline_asset_content -}}
+            <span>{{ remove_label }}</span>
+          </button>
+        {%- endif -%}
+      </div>
     </div>
   </div>
 {%- endif -%}
