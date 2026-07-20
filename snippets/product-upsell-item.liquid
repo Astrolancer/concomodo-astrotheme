@@ -1,8 +1,8 @@
 {%- doc -%}
-  Renders one product card of the product upsell block, styled like the theme's
-  product cards (rounded surface, landscape image, title + price row). Toppers
-  render as vertical cards inside the choice carousel; the gift pillow renders
-  as a horizontal full-width card.
+  Renders one card of the product upsell block, styled like the theme's native
+  product cards (white rounded surface, 16/9 image, title + price row,
+  full-width secondary button). Toppers render as vertical cards inside the
+  choice carousel; the gift pillow renders as a horizontal full-width card.
 
   Toppers follow the same Dimensione/Misure matching rules as linked-size-add:
   they render only when the product shares both options with the main product,
@@ -16,8 +16,8 @@
   @param {string} add_label - Label of the add button
   @param {string} remove_label - Label of the remove button on topper cards
   @param {string} unavailable_label - Label when the inherited size is unavailable
-  @param {string} button_style - 'button' or 'button-secondary'
-  @param {string} card_scheme - Color scheme id for the card surface
+  @param {string} card_scheme - Color scheme id for the card surface (optional)
+  @param {string} shopify_attributes - Editor attributes of the owning block
   @param {number} solo_percent - Gift only: display discount % when bought alone
   @param {string} solo_badge - Gift only: badge shown when bought alone
   @param {string} gift_badge - Gift only: badge shown when a topper is selected
@@ -25,6 +25,10 @@
 {%- enddoc -%}
 
 {%- liquid
+  assign add_label = add_label | default: 'Aggiungi'
+  assign remove_label = remove_label | default: 'Rimuovi'
+  assign unavailable_label = unavailable_label | default: 'Non disponibile'
+
   assign dimensione_index = 0
   assign misure_index = 0
   for product_option in product.options_with_values
@@ -54,17 +58,35 @@
       assign can_render = true
     endif
   endif
-
-  if button_style != 'button-secondary'
-    assign button_style = 'button'
-  endif
 -%}
 
 {%- if can_render -%}
-  {%- assign row_image = product.featured_media.preview_image | image_url: width: 640 -%}
+  {%- liquid
+    assign row_image = product.featured_media.preview_image | image_url: width: 800
+
+    # Server-side initial state, corrected by product-upsell.js once the cart
+    # and the selected size are known: toppers show their first available
+    # variant, the gift shows the "bought alone" promo price.
+    assign first_variant = product.selected_or_first_available_variant
+    assign initial_price = first_variant.price | money
+    assign initial_compare = ''
+    if first_variant.compare_at_price > first_variant.price
+      assign initial_compare = first_variant.compare_at_price | money
+    endif
+
+    if role == 'gift'
+      assign solo_percent = solo_percent | default: 0
+      assign keep_percent = 100 | minus: solo_percent
+      assign solo_cents = first_variant.price | times: keep_percent | divided_by: 100
+      if solo_percent > 0
+        assign initial_compare = first_variant.price | money
+        assign initial_price = solo_cents | money
+      endif
+    endif
+  -%}
 
   <div
-    class="product-upsell__card product-upsell__card--{{ role }} color-{{ card_scheme }}"
+    class="product-upsell__card product-upsell__card--{{ role }}{% if card_scheme != blank %} color-{{ card_scheme }}{% endif %}"
     data-upsell-row
     data-upsell-role="{{ role }}"
     data-product-id="{{ product.id }}"
@@ -74,22 +96,18 @@
       data-free-label="{{ gift_free_label | escape }}"
       data-solo-badge="{{ solo_badge | escape }}"
     {% endif %}
+    {{ shopify_attributes }}
   >
     <script type="application/json" data-upsell-variants>
       [
         {%- if role == 'gift' -%}
-          {%- liquid
-            assign gift_variant = product.selected_or_first_available_variant
-            assign keep_percent = 100 | minus: solo_percent
-            assign solo_cents = gift_variant.price | times: keep_percent | divided_by: 100
-          -%}
           {
-            "id": {{ gift_variant.id }},
-            "available": {{ gift_variant.available }},
-            "price": {{ gift_variant.price | money | json }},
+            "id": {{ first_variant.id }},
+            "available": {{ first_variant.available }},
+            "price": {{ first_variant.price | money | json }},
             "soloPrice": {{ solo_cents | money | json }}
-            {%- if gift_variant.compare_at_price > gift_variant.price -%}
-              , "compareAt": {{ gift_variant.compare_at_price | money | json }}
+            {%- if first_variant.compare_at_price > first_variant.price -%}
+              , "compareAt": {{ first_variant.compare_at_price | money | json }}
             {%- endif -%}
           }
         {%- else -%}
@@ -139,19 +157,25 @@
           loading="lazy"
         >
       {%- endif -%}
-      {%- if role == 'gift' -%}
-        <span class="product-upsell__flag" data-upsell-badge hidden></span>
-      {%- elsif badge != blank -%}
-        <span class="product-upsell__flag" data-upsell-badge>{{ badge }}</span>
+      {%- if role == 'topper' and badge != blank -%}
+        <span class="product-upsell__flag">{{ badge }}</span>
       {%- endif -%}
     </div>
 
     <div class="product-upsell__body">
+      {%- if role == 'gift' -%}
+        <span class="product-upsell__flag product-upsell__flag--inline" data-upsell-badge {% if solo_percent == 0 %}hidden{% endif %}>
+          {{- solo_badge -}}
+        </span>
+      {%- endif -%}
+
       <div class="product-upsell__head">
         <p class="product-upsell__title">{{ product.title }}</p>
         <p class="product-upsell__price">
-          <s class="product-upsell__compare" data-upsell-compare hidden></s>
-          <span class="product-upsell__amount" data-upsell-price></span>
+          <s class="product-upsell__compare" data-upsell-compare {% if initial_compare == blank %}hidden{% endif %}>
+            {{- initial_compare -}}
+          </s>
+          <span class="product-upsell__amount" data-upsell-price>{{ initial_price }}</span>
         </p>
       </div>
 
@@ -168,12 +192,11 @@
       <div class="product-upsell__actions">
         <button
           type="button"
-          class="{{ button_style }} product-upsell__add"
+          class="button-secondary product-upsell__add"
           data-upsell-add
           data-label-default="{{ add_label | escape }}"
           data-label-unavailable="{{ unavailable_label | escape }}"
         >
-          <span class="product-upsell__plus" aria-hidden="true">+</span>
           <span data-upsell-add-label>{{ add_label }}</span>
         </button>
 
@@ -200,5 +223,12 @@
         {%- endif -%}
       </div>
     </div>
+  </div>
+{%- elsif request.design_mode and product != blank -%}
+  <div class="product-upsell__card product-upsell__card--placeholder" {{ shopify_attributes }}>
+    <p>
+      "{{ product.title }}" non può ereditare la misura: servono le opzioni
+      Dimensione e Misure (oppure una sola variante).
+    </p>
   </div>
 {%- endif -%}

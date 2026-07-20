@@ -1,0 +1,54 @@
+{%- doc -%}
+  One product card inside the "Upsell prodotto" block. Add as many as needed:
+  every card renders identically and joins the same carousel. The add button
+  bundles the card's product with the main product of the page (see the parent
+  block), and the choice is mutually exclusive: adding one card removes the
+  others.
+{%- enddoc -%}
+
+{%- if block.settings.product != blank -%}
+  {% render 'product-upsell-item',
+    product: block.settings.product,
+    role: 'topper',
+    badge: block.settings.badge,
+    benefit: block.settings.benefit,
+    add_label: block.settings.add_label,
+    shopify_attributes: block.shopify_attributes
+  %}
+{%- elsif request.design_mode -%}
+  <div class="product-upsell__card product-upsell__card--placeholder" {{ block.shopify_attributes }}>
+    <p>Scegli un prodotto nelle impostazioni della card.</p>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Prodotto consigliato",
+  "tag": null,
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Prodotto",
+      "info": "Per ereditare la misura dal prodotto principale deve avere le opzioni Dimensione e Misure (oppure una sola variante)."
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Etichetta",
+      "default": "Più morbidezza"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "benefit",
+      "label": "Testo beneficio"
+    },
+    {
+      "type": "text",
+      "id": "add_label",
+      "label": "Testo bottone aggiungi",
+      "default": "Aggiungi al carrello"
+    }
+  ]
+}
+{% endschema %}

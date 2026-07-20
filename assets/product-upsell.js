@@ -18,8 +18,8 @@ import { fetchConfig } from '@theme/utilities';
  *   mattress, in the selected variant) in the cart when it is not there yet,
  *   so the upsell CTA buys everything together.
  *
- * Toppers are recognised in the cart either by the products configured in the
- * block settings or by a configurable keyword matched against the cart line's
+ * Toppers are recognised in the cart either by the products of the card
+ * blocks or by a configurable keyword matched against the cart line's
  * product title/type (default "topper").
  *
  * The component only renders the promo prices. The actual cart prices must be
@@ -162,12 +162,9 @@ class ProductUpsell extends HTMLElement {
     return (this.dataset.mattressKeyword ?? '').trim().toLowerCase();
   }
 
-  /** Product ids configured as toppers, with or without a rendered card. */
+  /** Product ids of the rendered topper cards. */
   get #topperProductIds() {
-    return (this.dataset.topperProducts ?? '')
-      .split(',')
-      .map((value) => Number(value))
-      .filter(Boolean);
+    return this.#toppers.map((row) => row.productId);
   }
 
   get #toppers() {
