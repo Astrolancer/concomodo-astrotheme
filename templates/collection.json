@@ -1242,6 +1242,31 @@
         "padding-block-end": 60
       }
     },
+    "section_bundlebuilder": {
+      "type": "bundle-builder",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Il set del riposo perfetto",
+        "heading": "Componi il tuo set",
+        "subheading": "<p>Materasso, topper e cuscino nella stessa misura. Aggiungi tutto in un click e ricevi il cuscino in omaggio.</p>",
+        "mattress": "cc-completo-molle",
+        "mattress_label": "Materasso",
+        "topper": "topper-memory",
+        "topper_label": "Topper",
+        "pillow": "cuscino-test",
+        "pillow_label": "Cuscino",
+        "size_option_name": "Misure",
+        "cushion_free": true,
+        "cta_label": "Aggiungi il set al carrello",
+        "note": "100 notti di prova sul materasso · Consegna gratuita",
+        "section_width": "page-width",
+        "color_scheme": "scheme-1",
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
     "section_promo": {
       "type": "section",
       "blocks": {
@@ -2216,30 +2241,6 @@
         "gradient_direction": "to top",
         "padding-block-start": 0,
         "padding-block-end": 80
-      }
-    },
-    "section_bundlebuilder": {
-      "type": "bundle-builder",
-      "settings": {
-        "eyebrow": "Il set del riposo perfetto",
-        "heading": "Componi il tuo set",
-        "subheading": "<p>Materasso, topper e cuscino nella stessa misura. Aggiungi tutto in un click e ricevi il cuscino in omaggio.</p>",
-        "mattress": "",
-        "mattress_label": "Materasso",
-        "topper": "",
-        "topper_label": "Topper",
-        "pillow": "",
-        "pillow_label": "Cuscino",
-        "size_option_name": "Misure",
-        "cushion_free": true,
-        "cta_label": "Aggiungi il set al carrello",
-        "note": "100 notti di prova sul materasso · Consegna gratuita",
-        "section_width": "page-width",
-        "color_scheme": "scheme-1",
-        "padding-block-start": 60,
-        "padding-block-end": 60,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
       }
     }
   },
