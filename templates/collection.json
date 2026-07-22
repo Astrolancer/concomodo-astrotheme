@@ -331,7 +331,8 @@
                             "metafield": "custom.sensazione",
                             "text": "",
                             "label": ""
-                          }
+                          },
+                          "blocks": {}
                         },
                         "feat_altezza": {
                           "type": "_product-feature-item",
@@ -340,7 +341,8 @@
                             "metafield": "custom.altezza",
                             "text": "",
                             "label": ""
-                          }
+                          },
+                          "blocks": {}
                         },
                         "feat_costruzione": {
                           "type": "_product-feature-item",
@@ -349,7 +351,8 @@
                             "metafield": "custom.costruzione",
                             "text": "",
                             "label": ""
-                          }
+                          },
+                          "blocks": {}
                         }
                       },
                       "block_order": [
@@ -556,6 +559,7 @@
               "blocks": {
                 "bnd_h": {
                   "type": "text",
+                  "name": "t:names.heading",
                   "settings": {
                     "text": "<h2>Completa il tuo riposo</h2>",
                     "width": "100%",
@@ -578,8 +582,7 @@
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
-                  "blocks": {},
-                  "name": "t:names.heading"
+                  "blocks": {}
                 },
                 "bnd_sub": {
                   "type": "text",
@@ -721,6 +724,7 @@
                     },
                     "bnd_title_mat": {
                       "type": "text",
+                      "name": "t:names.heading",
                       "settings": {
                         "text": "<h3>Materasso</h3>",
                         "width": "100%",
@@ -743,8 +747,7 @@
                         "padding-inline-start": 0,
                         "padding-inline-end": 0
                       },
-                      "blocks": {},
-                      "name": "t:names.heading"
+                      "blocks": {}
                     },
                     "bnd_desc_mat": {
                       "type": "text",
@@ -866,6 +869,7 @@
                     },
                     "bnd_title_top": {
                       "type": "text",
+                      "name": "t:names.heading",
                       "settings": {
                         "text": "<h3>Topper</h3>",
                         "width": "100%",
@@ -888,8 +892,7 @@
                         "padding-inline-start": 0,
                         "padding-inline-end": 0
                       },
-                      "blocks": {},
-                      "name": "t:names.heading"
+                      "blocks": {}
                     },
                     "bnd_desc_top": {
                       "type": "text",
@@ -1011,6 +1014,7 @@
                     },
                     "bnd_title_cus": {
                       "type": "text",
+                      "name": "t:names.heading",
                       "settings": {
                         "text": "<h3>Cuscino</h3>",
                         "width": "100%",
@@ -1033,8 +1037,7 @@
                         "padding-inline-start": 0,
                         "padding-inline-end": 0
                       },
-                      "blocks": {},
-                      "name": "t:names.heading"
+                      "blocks": {}
                     },
                     "bnd_desc_cus": {
                       "type": "text",
@@ -1204,6 +1207,7 @@
       "block_order": [
         "bnd_wrap"
       ],
+      "disabled": true,
       "custom_css": [
         "> div {max-width: 1100px; margin: auto;}",
         ".group-block-content {height: 100%;}",
@@ -1349,6 +1353,7 @@
                 },
                 "pm_t_trial": {
                   "type": "text",
+                  "name": "t:names.heading",
                   "settings": {
                     "text": "<h3>100 notti di prova</h3>",
                     "width": "100%",
@@ -1371,8 +1376,7 @@
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
-                  "blocks": {},
-                  "name": "t:names.heading"
+                  "blocks": {}
                 },
                 "pm_d_trial": {
                   "type": "text",
@@ -1494,6 +1498,7 @@
                 },
                 "pm_t_quiz": {
                   "type": "text",
+                  "name": "t:names.heading",
                   "settings": {
                     "text": "<h3>Trova il materasso perfetto</h3>",
                     "width": "100%",
@@ -1516,8 +1521,7 @@
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
-                  "blocks": {},
-                  "name": "t:names.heading"
+                  "blocks": {}
                 },
                 "pm_d_quiz": {
                   "type": "text",
@@ -1660,6 +1664,7 @@
           "blocks": {
             "faq_h": {
               "type": "text",
+              "name": "t:names.heading",
               "settings": {
                 "text": "<h2>Domande frequenti</h2>",
                 "width": "100%",
@@ -1682,8 +1687,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "name": "t:names.heading"
+              "blocks": {}
             },
             "faq_body": {
               "type": "group",
@@ -2089,6 +2093,7 @@
               "blocks": {
                 "nl_h": {
                   "type": "text",
+                  "name": "t:names.heading",
                   "settings": {
                     "text": "<h3>Ti mettiamo in CC</h3>",
                     "width": "100%",
@@ -2111,8 +2116,7 @@
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
-                  "blocks": {},
-                  "name": "t:names.heading"
+                  "blocks": {}
                 },
                 "nl_p": {
                   "type": "text",
