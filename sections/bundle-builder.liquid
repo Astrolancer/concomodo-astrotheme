@@ -1,0 +1,752 @@
+{%- doc -%}
+  Bundle builder — a fixed "sleep set" (mattress + topper + pillow).
+
+  The merchant picks the three products in the theme editor. The customer chooses
+  one shared size and how many sets, sees a live total, and adds all three to the
+  cart in a single request (via /cart/add.js, like the theme's linked-size-add).
+
+  The pillow can be flagged as free: it is still added as a normal line item, so
+  the discount must be applied by an automatic discount in the Shopify admin
+  ("buy mattress + topper → pillow free"). The UI shows it as a saving.
+{%- enddoc -%}
+
+{%- liquid
+  assign mattress = section.settings.mattress
+  assign topper = section.settings.topper
+  assign pillow = section.settings.pillow
+  assign size_name = section.settings.size_option_name | default: 'Misure'
+  assign cushion_free = section.settings.cushion_free
+
+  assign is_configured = false
+  if mattress != blank and topper != blank
+    assign is_configured = true
+  endif
+
+  comment
+    Resolve the size-option index for the anchor product (mattress) and derive
+    the default (first available) size + the ordered list of size values.
+  endcomment
+  assign anchor_size_idx = 0
+  for opt in mattress.options_with_values
+    if opt.name == size_name
+      assign anchor_size_idx = forloop.index
+    endif
+  endfor
+
+  comment
+    Build the ordered, de-duplicated list of size values from the mattress
+    variants themselves (always strings), so the buttons match variant.optionN
+    exactly regardless of how options_with_values types its values.
+  endcomment
+  assign sizes_raw = ''
+  assign default_size = ''
+  if anchor_size_idx > 0
+    for v in mattress.variants
+      assign v_size = ''
+      case anchor_size_idx
+        when 1
+          assign v_size = v.option1
+        when 2
+          assign v_size = v.option2
+        when 3
+          assign v_size = v.option3
+      endcase
+      if v_size != blank
+        assign token = v_size | append: '~~'
+        unless sizes_raw contains token
+          assign sizes_raw = sizes_raw | append: token
+        endunless
+      endif
+      if v.available and default_size == blank
+        assign default_size = v_size
+      endif
+    endfor
+  endif
+  assign sizes_arr = sizes_raw | split: '~~'
+-%}
+
+{%- if is_configured -%}
+  <script src="{{ 'bundle-builder.js' | asset_url }}" type="module" fetchpriority="low"></script>
+
+  <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+  <bundle-builder
+    id="BundleBuilder-{{ section.id }}"
+    class="section section--{{ section.settings.section_width }} bundle-builder color-{{ section.settings.color_scheme }} spacing-style"
+    style="{% render 'spacing-style', settings: section.settings %}"
+    {% if request.visual_preview_mode %}data-shopify-visual-preview{% endif %}
+  >
+    {%- comment -%} ── Data island read by bundle-builder.js ── {%- endcomment -%}
+    <script type="application/json" data-bundle-data>
+      {
+        "cushionFree": {{ cushion_free | json }},
+        "moneyFormat": {{ shop.money_format | json }},
+        "sizeOptionName": {{ size_name | json }},
+        "products": {
+          {%- assign roles = 'mattress,topper,pillow' | split: ',' -%}
+          {%- assign first_emitted = true -%}
+          {%- for role in roles -%}
+            {%- liquid
+              case role
+                when 'mattress'
+                  assign p = mattress
+                  assign role_key = 'materasso'
+                when 'topper'
+                  assign p = topper
+                  assign role_key = 'topper'
+                when 'pillow'
+                  assign p = pillow
+                  assign role_key = 'cuscino'
+              endcase
+
+              assign size_idx = 0
+              for opt in p.options_with_values
+                if opt.name == size_name
+                  assign size_idx = forloop.index
+                endif
+              endfor
+              assign is_single = false
+              if p.variants.size == 1 or size_idx == 0
+                assign is_single = true
+              endif
+            -%}
+            {%- if p != blank -%}
+              {%- unless first_emitted -%},{%- endunless -%}
+              {%- assign first_emitted = false -%}
+              {{ role_key | json }}: {
+                "role": {{ role_key | json }},
+                "id": {{ p.id }},
+                "title": {{ p.title | json }},
+                "single": {{ is_single }},
+                "variants": [
+                  {%- for v in p.variants -%}
+                    {%- liquid
+                      assign v_size = ''
+                      case size_idx
+                        when 1
+                          assign v_size = v.option1
+                        when 2
+                          assign v_size = v.option2
+                        when 3
+                          assign v_size = v.option3
+                      endcase
+                    -%}
+                    {
+                      "id": {{ v.id }},
+                      "size": {{ v_size | json }},
+                      "available": {{ v.available }},
+                      "price": {{ v.price }},
+                      "compareAt": {% if v.compare_at_price %}{{ v.compare_at_price }}{% else %}null{% endif %}
+                    }{%- unless forloop.last -%},{%- endunless -%}
+                  {%- endfor -%}
+                ]
+              }
+            {%- endif -%}
+          {%- endfor -%}
+        }
+      }
+    </script>
+
+    <div class="bundle-builder__inner">
+      <div class="bundle-builder__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="bundle-builder__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="bundle-builder__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <div class="bundle-builder__subheading">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+      </div>
+
+      <div class="bundle-builder__grid">
+        {%- comment -%} ── Product rows ── {%- endcomment -%}
+        <div class="bundle-builder__products">
+          {%- assign row_roles = 'mattress,topper,pillow' | split: ',' -%}
+          {%- for role in row_roles -%}
+            {%- liquid
+              case role
+                when 'mattress'
+                  assign p = mattress
+                  assign role_key = 'materasso'
+                  assign role_label = section.settings.mattress_label | default: 'Materasso'
+                when 'topper'
+                  assign p = topper
+                  assign role_key = 'topper'
+                  assign role_label = section.settings.topper_label | default: 'Topper'
+                when 'pillow'
+                  assign p = pillow
+                  assign role_key = 'cuscino'
+                  assign role_label = section.settings.pillow_label | default: 'Cuscino'
+              endcase
+            -%}
+            {%- if p != blank -%}
+              {%- assign is_free_pillow = false -%}
+              {%- if role == 'pillow' and cushion_free -%}
+                {%- assign is_free_pillow = true -%}
+              {%- endif -%}
+              <div class="bundle-builder__row" data-bundle-row="{{ role_key }}">
+                <div class="bundle-builder__row-media">
+                  {%- if p.featured_media != blank -%}
+                    <img
+                      src="{{ p.featured_media | image_url: width: 200 }}"
+                      alt="{{ p.featured_media.alt | escape }}"
+                      width="80"
+                      height="80"
+                      loading="lazy"
+                    >
+                  {%- else -%}
+                    <span class="bundle-builder__row-placeholder" aria-hidden="true"></span>
+                  {%- endif -%}
+                </div>
+                <div class="bundle-builder__row-info">
+                  <span class="bundle-builder__row-role">{{ role_label }}{% if is_free_pillow %} <span class="bundle-builder__badge">In omaggio</span>{% endif %}</span>
+                  <span class="bundle-builder__row-title">{{ p.title }}</span>
+                  <span class="bundle-builder__row-unavailable" data-bundle-row-unavailable hidden>
+                    Non disponibile in questa misura
+                  </span>
+                </div>
+                <div class="bundle-builder__row-price" data-bundle-row-price>
+                  {%- if is_free_pillow -%}
+                    <span class="bundle-builder__free">Gratis</span>
+                  {%- else -%}
+                    {{ p.price | money }}
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%} ── Summary / actions ── {%- endcomment -%}
+        <aside class="bundle-builder__summary">
+          {%- if anchor_size_idx > 0 and sizes_arr.size > 0 -%}
+            <div class="bundle-builder__field">
+              <span class="bundle-builder__field-label">{{ size_name }}</span>
+              <div class="bundle-builder__sizes" role="group" aria-label="{{ size_name | escape }}">
+                {%- for sv in sizes_arr -%}
+                  {%- liquid
+                    assign sv_value = sv
+                    assign size_available = false
+                    for v in mattress.variants
+                      assign v_size = ''
+                      case anchor_size_idx
+                        when 1
+                          assign v_size = v.option1
+                        when 2
+                          assign v_size = v.option2
+                        when 3
+                          assign v_size = v.option3
+                      endcase
+                      if v_size == sv_value and v.available
+                        assign size_available = true
+                        break
+                      endif
+                    endfor
+                    assign is_default = false
+                    if sv_value == default_size
+                      assign is_default = true
+                    endif
+                  -%}
+                  <button
+                    type="button"
+                    class="bundle-builder__size{% if is_default %} is-selected{% endif %}"
+                    data-bundle-size="{{ sv_value | escape }}"
+                    aria-pressed="{% if is_default %}true{% else %}false{% endif %}"
+                    {% unless size_available %}disabled{% endunless %}
+                  >
+                    {{ sv_value }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div class="bundle-builder__field">
+            <span class="bundle-builder__field-label">Quantità</span>
+            <div class="bundle-builder__qty">
+              <button type="button" class="bundle-builder__qty-btn" data-bundle-qty-decrease aria-label="Diminuisci quantità">−</button>
+              <span class="bundle-builder__qty-value" data-bundle-qty-value aria-live="polite">1</span>
+              <button type="button" class="bundle-builder__qty-btn" data-bundle-qty-increase aria-label="Aumenta quantità">+</button>
+            </div>
+          </div>
+
+          <div class="bundle-builder__totals">
+            <div class="bundle-builder__total-row">
+              <span>Totale set</span>
+              <span class="bundle-builder__total" data-bundle-total>{{ 0 | money }}</span>
+            </div>
+            <div class="bundle-builder__saving-row" data-bundle-saving-wrap hidden>
+              <span>{{ section.settings.pillow_label | default: 'Cuscino' }} in omaggio</span>
+              <span class="bundle-builder__saving">−<span data-bundle-saving>{{ 0 | money }}</span></span>
+            </div>
+          </div>
+
+          <button type="button" class="button bundle-builder__add" data-bundle-add>
+            <span data-bundle-add-label>{{ section.settings.cta_label | default: 'Aggiungi il set al carrello' }}</span>
+          </button>
+
+          {%- if section.settings.note != blank -%}
+            <p class="bundle-builder__note">{{ section.settings.note }}</p>
+          {%- endif -%}
+        </aside>
+      </div>
+    </div>
+  </bundle-builder>
+
+{%- elsif request.design_mode -%}
+  <div class="section section--page-width spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+    <div class="bundle-builder__placeholder">
+      <p><strong>Bundle builder</strong></p>
+      <p>Seleziona un <em>Materasso</em> e un <em>Topper</em> (e, se vuoi, un <em>Cuscino</em>) nelle impostazioni della sezione per attivare il configuratore del set.</p>
+    </div>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .bundle-builder__inner {
+    max-width: 1100px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .bundle-builder__head {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .bundle-builder__eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0.7;
+    margin: 0;
+  }
+
+  .bundle-builder__heading {
+    margin: 0;
+  }
+
+  .bundle-builder__subheading {
+    max-width: 640px;
+    margin-inline: auto;
+    opacity: 0.85;
+  }
+
+  .bundle-builder__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .bundle-builder__products {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .bundle-builder__row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 24px;
+    background: rgb(var(--color-background) / 0.6);
+    border: 1px solid rgb(var(--color-foreground) / 0.1);
+  }
+
+  .bundle-builder__row.is-unavailable {
+    opacity: 0.55;
+  }
+
+  .bundle-builder__row-media img,
+  .bundle-builder__row-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    object-fit: cover;
+    display: block;
+    background: rgb(var(--color-foreground) / 0.06);
+  }
+
+  .bundle-builder__row-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .bundle-builder__row-role {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .bundle-builder__badge {
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 600;
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgb(var(--color-foreground));
+    color: rgb(var(--color-background));
+    opacity: 1;
+  }
+
+  .bundle-builder__row-title {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bundle-builder__row-unavailable {
+    font-size: 0.8rem;
+    color: #b23c3c;
+  }
+
+  .bundle-builder__row-price {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .bundle-builder__free {
+    color: #2f8f4e;
+    font-weight: 700;
+  }
+
+  .bundle-builder__summary {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    border-radius: 28px;
+    background: rgb(var(--color-background) / 0.75);
+    border: 1px solid rgb(var(--color-foreground) / 0.12);
+    position: sticky;
+    top: 90px;
+  }
+
+  .bundle-builder__field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .bundle-builder__field-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+  }
+
+  .bundle-builder__sizes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .bundle-builder__size {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid rgb(var(--color-foreground) / 0.3);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .bundle-builder__size:hover {
+    border-color: rgb(var(--color-foreground) / 0.6);
+  }
+
+  .bundle-builder__size.is-selected {
+    background: rgb(var(--color-foreground));
+    color: rgb(var(--color-background));
+    border-color: rgb(var(--color-foreground));
+  }
+
+  .bundle-builder__size[disabled] {
+    opacity: 0.35;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+
+  .bundle-builder__qty {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid rgb(var(--color-foreground) / 0.3);
+    border-radius: 999px;
+    padding: 4px;
+    width: fit-content;
+  }
+
+  .bundle-builder__qty-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .bundle-builder__qty-btn:hover {
+    background: rgb(var(--color-foreground) / 0.08);
+  }
+
+  .bundle-builder__qty-value {
+    min-width: 28px;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .bundle-builder__totals {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-block: 8px;
+    border-top: 1px solid rgb(var(--color-foreground) / 0.12);
+  }
+
+  .bundle-builder__total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-weight: 700;
+    font-size: 1.15rem;
+    padding-top: 8px;
+  }
+
+  .bundle-builder__saving-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #2f8f4e;
+  }
+
+  .bundle-builder__add {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .bundle-builder__add[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .bundle-builder__add.is-loading {
+    opacity: 0.7;
+    cursor: progress;
+  }
+
+  .bundle-builder__note {
+    font-size: 0.85rem;
+    opacity: 0.7;
+    text-align: center;
+    margin: 0;
+  }
+
+  .bundle-builder__placeholder {
+    max-width: 640px;
+    margin-inline: auto;
+    text-align: center;
+    padding: 48px 24px;
+    border: 2px dashed rgb(var(--color-foreground) / 0.25);
+    border-radius: 24px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .bundle-builder__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .bundle-builder__summary {
+      position: static;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Bundle builder",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Set fisso Materasso + Topper + Cuscino. Il cliente sceglie una misura condivisa e aggiunge i 3 prodotti al carrello in un click. Per il cuscino in omaggio serve uno sconto automatico in admin (vedi sotto)."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "eyebrow",
+      "label": "Occhiello",
+      "default": "Il set del riposo perfetto"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titolo",
+      "default": "Componi il tuo set"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Sottotitolo",
+      "default": "<p>Materasso, topper e cuscino nella stessa misura. Aggiungi tutto in un click e ricevi il cuscino in omaggio.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Prodotti del set"
+    },
+    {
+      "type": "product",
+      "id": "mattress",
+      "label": "Materasso"
+    },
+    {
+      "type": "text",
+      "id": "mattress_label",
+      "label": "Etichetta materasso",
+      "default": "Materasso"
+    },
+    {
+      "type": "product",
+      "id": "topper",
+      "label": "Topper"
+    },
+    {
+      "type": "text",
+      "id": "topper_label",
+      "label": "Etichetta topper",
+      "default": "Topper"
+    },
+    {
+      "type": "product",
+      "id": "pillow",
+      "label": "Cuscino"
+    },
+    {
+      "type": "text",
+      "id": "pillow_label",
+      "label": "Etichetta cuscino",
+      "default": "Cuscino"
+    },
+    {
+      "type": "header",
+      "content": "Opzioni set"
+    },
+    {
+      "type": "text",
+      "id": "size_option_name",
+      "label": "Nome opzione misura",
+      "info": "Il nome esatto dell'opzione prodotto usata per la misura condivisa (es. Misure o Dimensione).",
+      "default": "Misure"
+    },
+    {
+      "type": "checkbox",
+      "id": "cushion_free",
+      "label": "Cuscino in omaggio",
+      "info": "Mostra il cuscino come Gratis ed escludilo dal totale. Ricordati di creare lo sconto automatico in admin: Sconti → Sconto automatico → Acquista Materasso e Topper, ottieni il Cuscino gratis.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Testo pulsante",
+      "default": "Aggiungi il set al carrello"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "note",
+      "label": "Nota sotto il pulsante",
+      "default": "100 notti di prova sul materasso · Consegna gratuita"
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Section width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle builder"
+    }
+  ]
+}
+{% endschema %}
