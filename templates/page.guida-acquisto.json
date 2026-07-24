@@ -408,10 +408,17 @@
         "padding-block-start": 0,
         "padding-block-end": 60
       }
+    },
+    "mattress_quick_compare_cc": {
+      "type": "mattress-quick-compare",
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
     "guide",
+    "mattress_quick_compare_cc",
     "newsletter"
   ]
 }

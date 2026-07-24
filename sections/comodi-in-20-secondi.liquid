@@ -1,0 +1,324 @@
+{%- capture icon_check -%}<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="m5 12.5 4 4 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>{%- endcapture -%}
+{%- capture icon_cross -%}<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>{%- endcapture -%}
+
+{%- liquid
+  assign pros = section.blocks | where: 'type', 'pro'
+  assign cons = section.blocks | where: 'type', 'con'
+-%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} comodi20 color-{{ section.settings.color_scheme }} spacing-style"
+  style="{% render 'spacing-style', settings: section.settings %} --c20-radius: {{ section.settings.corner_radius }}px;"
+  {% if request.visual_preview_mode %}data-shopify-visual-preview{% endif %}
+>
+  <div class="comodi20__inner">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="comodi20__header">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="comodi20__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="comodi20__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <div class="comodi20__subheading">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="comodi20__cols">
+      {%- if pros.size > 0 -%}
+        <div class="comodi20__col comodi20__col--pro">
+          {%- if section.settings.pro_title != blank -%}
+            <h3 class="comodi20__col-title">{{ section.settings.pro_title }}</h3>
+          {%- endif -%}
+          <ul class="comodi20__list" role="list">
+            {%- for block in pros -%}
+              <li class="comodi20__item" {{ block.shopify_attributes }}>
+                <span class="comodi20__icon comodi20__icon--check">{{ icon_check }}</span>
+                <span class="comodi20__item-text">{{ block.settings.text }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      {%- if cons.size > 0 -%}
+        <div class="comodi20__col comodi20__col--con">
+          {%- if section.settings.con_title != blank -%}
+            <h3 class="comodi20__col-title">{{ section.settings.con_title }}</h3>
+          {%- endif -%}
+          <ul class="comodi20__list" role="list">
+            {%- for block in cons -%}
+              <li class="comodi20__item" {{ block.shopify_attributes }}>
+                <span class="comodi20__icon comodi20__icon--cross">{{ icon_cross }}</span>
+                <span class="comodi20__item-text">{{ block.settings.text }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .comodi20 {
+    --c20-radius: 24px;
+    --c20-line: rgb(var(--color-foreground-rgb) / 0.12);
+  }
+
+  .comodi20__inner {
+    max-width: 1000px;
+    margin-inline: auto;
+  }
+
+  .comodi20__header {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .comodi20__eyebrow {
+    margin: 0 0 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .comodi20__heading {
+    margin: 0;
+  }
+
+  .comodi20__subheading {
+    margin-block-start: 0.75rem;
+    opacity: 0.8;
+    line-height: 1.5;
+  }
+
+  .comodi20__cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .comodi20__cols {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .comodi20__col {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border: 1px solid var(--c20-line);
+    border-radius: var(--c20-radius);
+  }
+
+  .comodi20__col--pro {
+    background: rgb(var(--color-foreground-rgb) / 0.03);
+  }
+
+  .comodi20__col-title {
+    margin: 0 0 1.25rem;
+    font-size: 1.2em;
+  }
+
+  .comodi20__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .comodi20__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    line-height: 1.45;
+  }
+
+  .comodi20__icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+  }
+
+  .comodi20__icon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .comodi20__icon--check {
+    background: rgb(46 160 90 / 0.15);
+    color: rgb(30 130 70);
+  }
+
+  .comodi20__icon--cross {
+    background: rgb(var(--color-foreground-rgb) / 0.1);
+    color: rgb(var(--color-foreground-rgb) / 0.6);
+  }
+
+  .comodi20__col--con .comodi20__item-text {
+    opacity: 0.8;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Comodi in 20 secondi",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sopratitolo",
+      "default": "COMODI IN 20 SECONDI"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titolo",
+      "default": "Questo materasso fa per te?"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Sottotitolo",
+      "default": "<p>In poche righe: quando è la scelta giusta e quando forse è meglio un altro modello.</p>"
+    },
+    {
+      "type": "text",
+      "id": "pro_title",
+      "label": "Titolo colonna positiva",
+      "default": "Fa per te se…"
+    },
+    {
+      "type": "text",
+      "id": "con_title",
+      "label": "Titolo colonna negativa",
+      "default": "Forse non fa per te se…"
+    },
+    {
+      "type": "header",
+      "content": "Sezione"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Raggio angoli",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Larghezza sezione",
+      "options": [
+        { "value": "page-width", "label": "Pagina" },
+        { "value": "full-width", "label": "Piena" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Schema colore",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spaziatura"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Sopra",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Sotto",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Sinistra",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Destra",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pro",
+      "name": "Motivo a favore",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Testo",
+          "default": "Cerchi un materasso che ti sostiene senza farti sprofondare."
+        }
+      ]
+    },
+    {
+      "type": "con",
+      "name": "Motivo contro",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Testo",
+          "default": "Cerchi la sensazione di avvolgimento morbido tipica del memory più spesso."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comodi in 20 secondi",
+      "blocks": [
+        { "type": "pro", "settings": { "text": "Cerchi un materasso che ti sostiene, notte dopo notte, senza farti sprofondare." } },
+        { "type": "pro", "settings": { "text": "Dormi di schiena o a pancia in giù e vuoi la colonna vertebrale allineata." } },
+        { "type": "pro", "settings": { "text": "Ti sveglivi con la schiena indolenzita su un materasso troppo morbido." } },
+        { "type": "con", "settings": { "text": "Cerchi la sensazione avvolgente e molto morbida del memory più spesso." } },
+        { "type": "con", "settings": { "text": "Dormi quasi sempre di fianco e preferisci un appoggio soffice sulle spalle." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

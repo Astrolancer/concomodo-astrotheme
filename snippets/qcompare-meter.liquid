@@ -1,0 +1,18 @@
+{%- doc -%}
+  Compact 5-notch meter for the quick comparator. @param {string} value - 0-100
+{%- enddoc -%}
+<div class="qcompare__meter" role="img" aria-label="{{ value }} su 100">
+  {%- for i in (1..5) -%}
+    {%- liquid
+      assign seg_start = i | minus: 1 | times: 20
+      assign seg_fill = value | minus: seg_start
+      if seg_fill > 20
+        assign seg_fill = 20
+      elsif seg_fill < 0
+        assign seg_fill = 0
+      endif
+      assign seg_percent = seg_fill | times: 5
+    -%}
+    <span class="qcompare__meter-seg" style="--f: {{ seg_percent }}%;"></span>
+  {%- endfor -%}
+</div>
