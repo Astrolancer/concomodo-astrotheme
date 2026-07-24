@@ -1,6 +1,31 @@
 {%- liquid
   assign cta_url = section.settings.cta_url | default: '/collections/all'
   assign quiz_url = section.settings.quiz_url | default: '/pages/quiz'
+
+  comment
+    Prezzo «a partire da»: se non è impostato un testo manuale, viene
+    calcolato dal prezzo minimo reale dei prodotti della collezione
+    scelta (o della collezione 'materassi' se presente).
+  endcomment
+  assign price_coll = section.settings.price_collection
+  if price_coll == blank
+    assign price_coll = collections['materassi']
+  endif
+  assign min_price = 0
+  if price_coll != blank
+    for p in price_coll.products limit: 50
+      if p.price_min > 0
+        if min_price == 0 or p.price_min < min_price
+          assign min_price = p.price_min
+        endif
+      endif
+    endfor
+  endif
+  assign price_label = section.settings.price_text
+  if price_label == blank and min_price > 0
+    assign formatted_price = min_price | money
+    assign price_label = 'a partire da ' | append: formatted_price
+  endif
 -%}
 
 <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,500;0,700;0,800;0,900;1,700;1,900&display=swap" rel="stylesheet">
@@ -106,6 +131,55 @@
         <span class="pdc-cloud pdc-cloud--s3" data-pdc-storm-cloud></span>
         <span class="pdc-cloud pdc-cloud--s4" data-pdc-storm-cloud></span>
       </div>
+      {%- comment -%} Il percorso a ostacoli: sentiero punteggiato con coni,
+          transenne, cartelli sconto e — in fondo — il «premio»: un materasso
+          da rimpiangere. {%- endcomment -%}
+      <svg
+        class="pdc-course"
+        data-pdc-course
+        viewBox="0 0 1200 760"
+        fill="none"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
+      >
+        <path
+          class="pdc-course__path"
+          d="M110 700 C 300 660, 430 590, 370 490 C 315 395, 500 350, 650 385 C 810 422, 920 340, 845 250 C 785 178, 940 110, 1060 140"
+        />
+        <g class="pdc-course__ob" data-pdc-obstacle transform="translate(104, 696)">
+          <path d="M0 16 V-30 M0 -30 h34 l-9 10 9 10 H0"/>
+        </g>
+        <g class="pdc-course__ob" data-pdc-obstacle transform="translate(345, 600)">
+          <path d="M-22 18 h44 M-14 18 L0 -16 L14 18 M-9 4 h18"/>
+        </g>
+        <g class="pdc-course__ob" data-pdc-obstacle transform="translate(255, 505)">
+          <path d="M-28 24 V-4 M28 24 V-4 M-34 -4 h68 v-16 h-68 z M-28 -4 l12 -16 M-8 -4 l12 -16 M12 -4 l12 -16"/>
+        </g>
+        <g class="pdc-course__ob" data-pdc-obstacle transform="translate(475, 415)">
+          <path d="M0 26 V6"/>
+          <circle cx="0" cy="-12" r="20"/>
+          <circle cx="-7" cy="-19" r="3.5"/>
+          <circle cx="7" cy="-5" r="3.5"/>
+          <path d="M8 -22 L-8 -2"/>
+        </g>
+        <g class="pdc-course__ob" data-pdc-obstacle transform="translate(690, 435)">
+          <path d="M-22 18 h44 M-14 18 L0 -16 L14 18 M-9 4 h18"/>
+        </g>
+        <g class="pdc-course__ob" data-pdc-obstacle transform="translate(870, 300)">
+          <path d="M0 26 V6"/>
+          <circle cx="0" cy="-12" r="20"/>
+          <path d="M-6 -18 a6 6 0 1 1 9 5 c-2.4 1.8 -3 3 -3 6 M0 -1 v1"/>
+        </g>
+        <g class="pdc-course__ob" data-pdc-obstacle transform="translate(790, 190)">
+          <path d="M-22 18 h44 M-14 18 L0 -16 L14 18 M-9 4 h18"/>
+        </g>
+        <g class="pdc-course__ob pdc-course__ob--prize" data-pdc-obstacle transform="translate(1060, 118)">
+          <rect x="-38" y="-8" width="76" height="30" rx="9"/>
+          <path d="M-38 7 h76"/>
+          <path d="M-30 -1.5 h8 M-12 -1.5 h8 M6 -1.5 h8 M24 -1.5 h6"/>
+          <path class="pdc-course__cross" d="M-50 -22 L50 36 M50 -22 L-50 36"/>
+        </g>
+      </svg>
       <div class="pdc-storm__step" data-pdc-storm-a>
         <h2 class="pdc-storm__title">
           Scegliere è diventato un percorso a ostacoli.
@@ -168,35 +242,39 @@
         </div>
         <div class="pdc-table__row" role="row" data-pdc-row>
           <span role="rowheader">Modelli tra cui scegliere</span>
-          <span role="cell" class="pdc-yes">Pochi e chiari</span>
-          <span role="cell" class="pdc-no">Centinaia, tutti «il migliore»</span>
+          <span role="cell" class="pdc-yes">Pochi, spiegati bene</span>
+          <span role="cell" class="pdc-no">Centinaia di varianti simili</span>
         </div>
         <div class="pdc-table__row" role="row" data-pdc-row>
           <span role="rowheader">Tecnologie</span>
-          <span role="cell" class="pdc-yes">Spiegate in italiano</span>
-          <span role="cell" class="pdc-no">Nomi spaziali™</span>
+          <span role="cell" class="pdc-yes">Materiali dichiarati, in italiano</span>
+          <span role="cell" class="pdc-no">Nomi commerciali poco chiari</span>
         </div>
         <div class="pdc-table__row" role="row" data-pdc-row>
           <span role="rowheader">Prova</span>
           <span role="cell" class="pdc-yes">100 notti a casa tua</span>
-          <span role="cell" class="pdc-no">5 minuti in negozio</span>
+          <span role="cell" class="pdc-no">Spesso solo in negozio</span>
         </div>
         <div class="pdc-table__row" role="row" data-pdc-row>
           <span role="rowheader">Garanzia</span>
           <span role="cell" class="pdc-yes">10 anni</span>
-          <span role="cell" class="pdc-no">Scritta piccola piccola</span>
+          <span role="cell" class="pdc-no">Varia, da leggere bene</span>
         </div>
         <div class="pdc-table__row" role="row" data-pdc-row>
           <span role="rowheader">Consegna</span>
           <span role="cell" class="pdc-yes">Gratuita</span>
-          <span role="cell" class="pdc-no">«Gratuita» (sorpresa al checkout)</span>
+          <span role="cell" class="pdc-no">Non sempre inclusa</span>
         </div>
         <div class="pdc-table__row" role="row" data-pdc-row>
           <span role="rowheader">Prezzo</span>
-          <span role="cell" class="pdc-yes">Giusto, tutto l'anno</span>
-          <span role="cell" class="pdc-no">−70% solo oggi! (da 4 anni)</span>
+          <span role="cell" class="pdc-yes">Lo stesso, tutto l'anno</span>
+          <span role="cell" class="pdc-no">Listini e sconti che cambiano</span>
         </div>
       </div>
+      <p class="pdc-table__note">
+        Sì, «gli altri» è una generalizzazione: esistono anche altri brand seri.
+        Ma è il quadro d'insieme di un settore che conosciamo bene.
+      </p>
     </div>
   </section>
 
@@ -213,7 +291,9 @@
         <div class="pdc-chiusa__cta" data-pdc-chiusa-item>
           <a href="{{ cta_url }}" class="pdc-btn pdc-btn--primary">
             {{ section.settings.cta_label }}
-            <span class="pdc-btn__price">{{ section.settings.price_text }}</span>
+            {%- if price_label != blank -%}
+              <span class="pdc-btn__price">{{ price_label }}</span>
+            {%- endif -%}
           </a>
           <a href="{{ quiz_url }}" class="pdc-btn pdc-btn--ghost">{{ section.settings.quiz_label }}</a>
         </div>
@@ -252,10 +332,16 @@
       "default": "Scegli Concomodo"
     },
     {
+      "type": "collection",
+      "id": "price_collection",
+      "label": "Collezione per il prezzo «a partire da»",
+      "info": "Il prezzo mostrato è il minimo reale tra i prodotti di questa collezione. Se vuota, viene usata la collezione «materassi» (se esiste)."
+    },
+    {
       "type": "text",
       "id": "price_text",
-      "label": "Testo prezzo",
-      "default": "a partire da 500€"
+      "label": "Testo prezzo manuale",
+      "info": "Se compilato, sostituisce il prezzo calcolato dalla collezione. Es: «a partire da 390€»"
     },
     {
       "type": "url",

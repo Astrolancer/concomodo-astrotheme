@@ -121,8 +121,15 @@ function init() {
       },
     })
     .from('[data-pdc-storm-a]', { opacity: 0, y: 70, duration: 0.14, ease: 'power2.out' }, 0)
+    .from('[data-pdc-course]', { opacity: 0, y: 90, duration: 0.14, ease: 'power2.out' }, 0.02)
+    .from(
+      '[data-pdc-obstacle]',
+      { scale: 0, opacity: 0, transformOrigin: '50% 100%', stagger: 0.022, duration: 0.1, ease: 'back.out(2)' },
+      0.06
+    )
     .to({}, { duration: 0.14 })
     .to('[data-pdc-storm-a]', { opacity: 0, y: -60, duration: 0.13 }, 0.3)
+    .to('[data-pdc-course]', { opacity: 0, yPercent: -26, duration: 0.24 }, 0.34)
     .to(sky, { dawn: 1, duration: 0.38, ease: 'power1.inOut' }, 0.36)
     .to(
       stormClouds,
@@ -201,6 +208,23 @@ function init() {
     .from('[data-pdc-chiusa-item]', { opacity: 0, y: 64, stagger: 0.09, duration: 0.3 }, 0.04)
     .from('.pdc-chiusa__clouds .pdc-cloud', { yPercent: 180, stagger: 0.06, duration: 0.34, ease: 'none' }, 0.08)
     .to({}, { duration: 0.5 }); // resta in scena: è la chiusa
+
+  // Fondale e canvas sono position:fixed: oltre la fine della sezione
+  // coprirebbero il footer del tema. Spegnili quando la sezione è finita.
+  const skyCanvas = q('[data-pdc-sky]');
+  ScrollTrigger.create({
+    trigger: root,
+    start: 'top bottom',
+    end: 'bottom bottom',
+    onLeave: () => {
+      gsap.set(backdrop, { autoAlpha: 0 });
+      gsap.set(skyCanvas, { visibility: 'hidden' });
+    },
+    onEnterBack: () => {
+      gsap.set(backdrop, { autoAlpha: 1 });
+      gsap.set(skyCanvas, { visibility: 'inherit' });
+    },
+  });
 
   // I font cambiano le altezze: ricalcola i trigger quando sono pronti.
   if (document.fonts?.ready) {

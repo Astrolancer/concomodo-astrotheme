@@ -377,6 +377,47 @@
 .pdc-cloud--s3 { bottom: -8%; left: -8%; width: 55vw; height: 20vh; }
 .pdc-cloud--s4 { bottom: -11%; right: -10%; width: 62vw; height: 24vh; }
 
+.pdc-course {
+  position: absolute;
+  inset: clamp(2rem, 6vh, 4rem) 0;
+  z-index: 1;
+  width: 100%;
+  height: calc(100% - clamp(4rem, 12vh, 8rem));
+  pointer-events: none;
+  opacity: 0.55;
+  will-change: transform, opacity;
+}
+
+.pdc-course__path {
+  stroke: var(--pdc-cream);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 1 16;
+  animation: pdc-course-march 26s linear infinite reverse;
+}
+
+@keyframes pdc-course-march {
+  to { stroke-dashoffset: 340; }
+}
+
+.pdc-course__ob {
+  stroke: var(--pdc-cream);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pdc-course__ob--prize .pdc-course__cross {
+  stroke-width: 3.5;
+  opacity: 0.9;
+}
+
+@media screen and (max-width: 749px) {
+  .pdc-course {
+    opacity: 0.32;
+  }
+}
+
 .pdc-storm__step {
   position: absolute;
   inset: 0;
@@ -396,6 +437,7 @@
   font-size: clamp(2rem, 5.4vw, 4rem);
   line-height: 1.04;
   letter-spacing: -0.025em;
+  text-shadow: 0 2px 34px rgb(23 26 30 / 0.65);
 }
 
 .pdc-storm__sub {
@@ -644,6 +686,15 @@
   color: var(--pdc-charcoal);
 }
 
+.pdc-table__note {
+  margin: 1.8rem auto 0;
+  max-width: 52ch;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  font-style: italic;
+  opacity: 0.55;
+}
+
 /* ═══ Scena 7 · Chiusa ═══ */
 .pdc-halo {
   position: absolute;
@@ -890,6 +941,7 @@
   .pdc-scroll-cue,
   .pdc-ring,
   .pdc-marquee__track,
+  .pdc-course__path,
   .pdc-cloud--d1,
   .pdc-cloud--d2,
   .pdc-cloud--d3,
