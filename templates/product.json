@@ -495,6 +495,28 @@
                 "group_phGmkm"
               ]
             },
+            "product_indicators_block": {
+              "type": "product-indicators",
+              "settings": {
+                "heading": "",
+                "show_firmness": true,
+                "firmness_label": "Durezza",
+                "firmness_tooltip": "",
+                "firmness_min_label": "Morbido",
+                "firmness_max_label": "Rigido",
+                "show_cooling": true,
+                "cooling_label": "Traspirabilità",
+                "cooling_tooltip": "",
+                "cooling_min_label": "Buona",
+                "cooling_max_label": "Eccezionale",
+                "show_pressure": true,
+                "pressure_label": "Scarico della pressione",
+                "pressure_tooltip": "",
+                "pressure_min_label": "Buona",
+                "pressure_max_label": "Eccezionale"
+              },
+              "blocks": {}
+            },
             "divider_VJhene": {
               "type": "_divider",
               "name": "t:names.divider",
@@ -1754,21 +1776,6 @@
                 "text_93AL6C",
                 "group_nMftf8"
               ]
-            },
-            "product_indicators_block": {
-              "type": "product-indicators",
-              "settings": {
-                "heading": "",
-                "firmness_label": "Durezza",
-                "firmness_min_label": "Morbido",
-                "firmness_max_label": "Rigido",
-                "cooling_label": "Traspirabilità",
-                "cooling_min_label": "Buona",
-                "cooling_max_label": "Eccezionale",
-                "pressure_label": "Scarico della pressione",
-                "pressure_min_label": "Buona",
-                "pressure_max_label": "Eccezionale"
-              }
             }
           },
           "block_order": [
@@ -1856,6 +1863,7 @@
       "block_order": [
         "image_XrKLYn"
       ],
+      "disabled": true,
       "name": "t:names.custom_section",
       "settings": {
         "content_direction": "column",
@@ -1915,6 +1923,7 @@
       "block_order": [
         "image_reAnKg"
       ],
+      "disabled": true,
       "name": "t:names.custom_section",
       "settings": {
         "content_direction": "row",
@@ -1942,42 +1951,6 @@
         "gradient_direction": "to top",
         "padding-block-start": 40,
         "padding-block-end": 40
-      }
-    },
-    "mattress_comparison_tYh7VN": {
-      "type": "mattress-comparison",
-      "name": "Mattress comparison",
-      "settings": {
-        "heading": "Confronta questo materasso",
-        "show_feel": true,
-        "feel_label": "Sensazione del materasso",
-        "feel_tooltip": "Quanto il materasso risulta morbido o rigido al primo contatto. Non è un voto ma una caratteristica: la sensazione giusta dipende dalle tue abitudini e dalla posizione in cui dormi.",
-        "firmness_min_label": "Morbido",
-        "firmness_max_label": "Duro",
-        "show_support": true,
-        "support_label": "Supporto ergonomico",
-        "support_tooltip": "Indica quanto il materasso sostiene il corpo e aiuta a mantenere la colonna allineata mentre dormi. Più il livello è alto, più il sostegno è strutturato e differenziato nelle diverse zone di appoggio.",
-        "support_min_label": "Essenziale",
-        "support_max_label": "Massimo",
-        "show_cooling": true,
-        "cooling_label": "Raffreddamento e traspirabilità",
-        "cooling_tooltip": "La capacità del materasso di far circolare l'aria e disperdere calore e umidità durante la notte. Un livello alto è utile soprattutto se soffri il caldo o tendi a sudare dormendo.",
-        "cooling_min_label": "Buona",
-        "cooling_max_label": "Eccellente",
-        "show_height": true,
-        "height_label": "Altezza del materasso (cm)",
-        "height_tooltip": "L'altezza della lastra interna in centimetri. Con rivestimento e imbottitura, l'altezza finita del materasso è di circa 2–3 cm in più.",
-        "show_layers": true,
-        "layers_label": "Strati del materasso",
-        "layers_tooltip": "Il numero di strati che compongono la struttura interna. Ogni strato ha un ruolo diverso — comfort, sostegno o stabilità: più strati vuol dire una struttura più ricca e differenziata.",
-        "cta_label": "Acquista quello giusto",
-        "cta_link": "",
-        "section_width": "page-width",
-        "color_scheme": "scheme-2",
-        "padding-block-start": 80,
-        "padding-block-end": 40,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
       }
     },
     "section_7KrxGG": {
@@ -2288,6 +2261,42 @@
         "gradient_direction": "to top",
         "padding-block-start": 40,
         "padding-block-end": 40
+      }
+    },
+    "mattress_comparison_tYh7VN": {
+      "type": "mattress-comparison",
+      "name": "Mattress comparison",
+      "settings": {
+        "heading": "Confronta questo materasso",
+        "show_feel": true,
+        "feel_label": "Sensazione del materasso",
+        "feel_tooltip": "Quanto il materasso risulta morbido o rigido al primo contatto. Non è un voto ma una caratteristica: la sensazione giusta dipende dalle tue abitudini e dalla posizione in cui dormi.",
+        "firmness_min_label": "Morbido",
+        "firmness_max_label": "Duro",
+        "show_support": true,
+        "support_label": "Supporto ergonomico",
+        "support_tooltip": "Indica quanto il materasso sostiene il corpo e aiuta a mantenere la colonna allineata mentre dormi. Più il livello è alto, più il sostegno è strutturato e differenziato nelle diverse zone di appoggio.",
+        "support_min_label": "Essenziale",
+        "support_max_label": "Massimo",
+        "show_cooling": true,
+        "cooling_label": "Raffreddamento e traspirabilità",
+        "cooling_tooltip": "La capacità del materasso di far circolare l'aria e disperdere calore e umidità durante la notte. Un livello alto è utile soprattutto se soffri il caldo o tendi a sudare dormendo.",
+        "cooling_min_label": "Buona",
+        "cooling_max_label": "Eccellente",
+        "show_height": true,
+        "height_label": "Altezza del materasso (cm)",
+        "height_tooltip": "L'altezza della lastra interna in centimetri. Con rivestimento e imbottitura, l'altezza finita del materasso è di circa 2–3 cm in più.",
+        "show_layers": true,
+        "layers_label": "Strati del materasso",
+        "layers_tooltip": "Il numero di strati che compongono la struttura interna. Ogni strato ha un ruolo diverso — comfort, sostegno o stabilità: più strati vuol dire una struttura più ricca e differenziata.",
+        "cta_label": "Acquista quello giusto",
+        "cta_link": "",
+        "section_width": "page-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 80,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "section_3xrTMJ": {
@@ -3577,6 +3586,33 @@
         "padding-block-end": 80
       }
     },
+    "installment_payments_tC9BhM": {
+      "type": "installment-payments",
+      "name": "Pagamenti rateizzati",
+      "settings": {
+        "eyebrow": "PAGAMENTO FLESSIBILE",
+        "heading": "Dormi ora, paga con comodo",
+        "subheading": "<p>Pagamenti rateizzati a 3, 4 o 6 rate senza interessi con Klarna e PagoLight. Scegli come pagare direttamente al checkout.</p>",
+        "show_rates": false,
+        "rates": "3, 4, 6",
+        "rate_word": "rate",
+        "show_klarna": true,
+        "show_pagolight": true,
+        "with_provider_label": true,
+        "provider_label": "Disponibile con",
+        "disclaimer": "Soggetto ad approvazione. Importi e condizioni possono variare in base al provider.",
+        "button_label": "",
+        "button_link": "",
+        "text_alignment": "center",
+        "corner_radius": 16,
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
     "section_chbtyY": {
       "type": "section",
       "blocks": {
@@ -3931,12 +3967,13 @@
     "mattress_layers_R9pXPi",
     "section_kbCGBj",
     "section_kHXYc3",
-    "mattress_comparison_tYh7VN",
     "section_7KrxGG",
+    "mattress_comparison_tYh7VN",
     "section_3xrTMJ",
     "1783587914afdecf46",
     "section_KyfGGw",
     "section_VL9fDV",
+    "installment_payments_tC9BhM",
     "section_chbtyY"
   ]
 }
