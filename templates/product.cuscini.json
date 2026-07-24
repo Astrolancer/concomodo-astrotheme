@@ -3828,10 +3828,69 @@
         "padding-block-start": 100,
         "padding-block-end": 40
       }
+    },
+    "product_section_nav_cc": {
+      "type": "product-section-nav",
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
+    },
+    "comodi_20_cc": {
+      "type": "comodi-in-20-secondi",
+      "settings": {
+        "color_scheme": "scheme-1"
+      },
+      "blocks": {
+        "pro1": {
+          "type": "pro",
+          "settings": {
+            "text": "Cerchi un materasso che ti sostiene, notte dopo notte, senza farti sprofondare."
+          }
+        },
+        "pro2": {
+          "type": "pro",
+          "settings": {
+            "text": "Dormi di schiena o a pancia in giù e vuoi la colonna vertebrale allineata."
+          }
+        },
+        "pro3": {
+          "type": "pro",
+          "settings": {
+            "text": "Ti svegliavi con la schiena indolenzita su un materasso troppo morbido."
+          }
+        },
+        "con1": {
+          "type": "con",
+          "settings": {
+            "text": "Cerchi la sensazione avvolgente e molto morbida del memory più spesso."
+          }
+        },
+        "con2": {
+          "type": "con",
+          "settings": {
+            "text": "Dormi quasi sempre di fianco e preferisci un appoggio soffice sulle spalle."
+          }
+        }
+      },
+      "block_order": [
+        "pro1",
+        "pro2",
+        "pro3",
+        "con1",
+        "con2"
+      ]
+    },
+    "prova_100_notti_quiz_cc": {
+      "type": "prova-100-notti-quiz",
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
     "main",
+    "product_section_nav_cc",
+    "comodi_20_cc",
     "section_kHXYc3",
     "section_kbCGBj",
     "section_7KrxGG",
@@ -3839,6 +3898,7 @@
     "1783587914afdecf46",
     "section_KyfGGw",
     "section_VL9fDV",
+    "prova_100_notti_quiz_cc",
     "section_chbtyY"
   ]
 }

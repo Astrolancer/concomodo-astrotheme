@@ -1,0 +1,142 @@
+{%- comment -%}
+  Sticky in-page navigation for the product page. On load, a small script
+  collects the sibling sections that follow this one and have a heading (or an
+  explicit data-nav-label), builds anchor links, and highlights the section in
+  view. No configuration needed — it adapts to whatever sections are on the page.
+{%- endcomment -%}
+
+<script src="{{ 'product-section-nav.js' | asset_url }}" type="module" fetchpriority="low"></script>
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<product-section-nav
+  class="section section--{{ section.settings.section_width }} section-nav color-{{ section.settings.color_scheme }} spacing-style"
+  data-heading-selector="{{ section.settings.heading_selector | escape }}"
+  style="{% render 'spacing-style', settings: section.settings %}"
+  {% if request.visual_preview_mode %}data-shopify-visual-preview{% endif %}
+>
+  <nav class="section-nav__bar" aria-label="{{ section.settings.aria_label | default: 'Naviga la pagina' | escape }}">
+    <ul class="section-nav__list" ref="list" role="list"></ul>
+  </nav>
+</product-section-nav>
+
+{% stylesheet %}
+  .section-nav {
+    position: sticky;
+    top: var(--header-height, 0px);
+    z-index: var(--layer-flat, 5);
+  }
+
+  .section-nav__bar {
+    border-block-end: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+    background: var(--color-background);
+  }
+
+  .section-nav__list {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2.25rem);
+    margin: 0;
+    padding: 0.25rem 0;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .section-nav__list::-webkit-scrollbar { display: none; }
+
+  /* Hidden until JS populates it, to avoid an empty bar flashing */
+  .section-nav__list:empty {
+    display: none;
+  }
+
+  .section-nav__link {
+    display: inline-block;
+    padding: 0.6rem 0;
+    border-block-end: 2px solid transparent;
+    color: inherit;
+    font-size: 0.95em;
+    text-decoration: none;
+    white-space: nowrap;
+    opacity: 0.65;
+    transition: opacity 0.2s ease, border-color 0.2s ease;
+  }
+
+  .section-nav__link:hover {
+    opacity: 1;
+  }
+
+  .section-nav__link.is-active {
+    opacity: 1;
+    border-block-end-color: currentcolor;
+    font-weight: 600;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Navigazione sezioni",
+  "tag": "section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Crea automaticamente i link alle sezioni successive della pagina che hanno un titolo. Mettila subito sotto la scheda prodotto."
+    },
+    {
+      "type": "text",
+      "id": "heading_selector",
+      "label": "Selettore titoli",
+      "info": "Elementi da usare come voci del menu (avanzato).",
+      "default": "h2"
+    },
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Etichetta accessibile",
+      "default": "Naviga la pagina"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Larghezza sezione",
+      "options": [
+        { "value": "page-width", "label": "Pagina" },
+        { "value": "full-width", "label": "Piena" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Schema colore",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Sopra",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Sotto",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Navigazione sezioni"
+    }
+  ]
+}
+{% endschema %}

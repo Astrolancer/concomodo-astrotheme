@@ -3905,10 +3905,17 @@
         "padding-block-start": 100,
         "padding-block-end": 40
       }
+    },
+    "product_section_nav_cc": {
+      "type": "product-section-nav",
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
     }
   },
   "order": [
     "main",
+    "product_section_nav_cc",
     "mattress_layers_R9pXPi",
     "section_kHXYc3",
     "section_kbCGBj",
