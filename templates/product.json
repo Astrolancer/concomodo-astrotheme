@@ -2888,33 +2888,6 @@
         "padding-block-end": 80
       }
     },
-    "installment_payments_tC9BhM": {
-      "type": "installment-payments",
-      "name": "Pagamenti rateizzati",
-      "settings": {
-        "eyebrow": "PAGAMENTO FLESSIBILE",
-        "heading": "Dormi ora, paga con comodo",
-        "subheading": "<p>Pagamenti rateizzati a 3, 4 o 6 rate senza interessi con Klarna e PagoLight. Scegli come pagare direttamente al checkout.</p>",
-        "show_rates": false,
-        "rates": "3, 4, 6",
-        "rate_word": "rate",
-        "show_klarna": true,
-        "show_pagolight": true,
-        "with_provider_label": true,
-        "provider_label": "Disponibile con",
-        "disclaimer": "Soggetto ad approvazione. Importi e condizioni possono variare in base al provider.",
-        "button_label": "",
-        "button_link": "",
-        "text_alignment": "center",
-        "corner_radius": 16,
-        "section_width": "page-width",
-        "color_scheme": "scheme-2",
-        "padding-block-start": 40,
-        "padding-block-end": 40,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
-      }
-    },
     "section_XndPc9": {
       "type": "section",
       "blocks": {
@@ -3290,6 +3263,33 @@
         "gradient_direction": "to top",
         "padding-block-start": 40,
         "padding-block-end": 40
+      }
+    },
+    "installment_payments_tC9BhM": {
+      "type": "installment-payments",
+      "name": "Pagamenti rateizzati",
+      "settings": {
+        "eyebrow": "PAGAMENTO FLESSIBILE",
+        "heading": "Dormi ora, paga con comodo",
+        "subheading": "<p>Pagamenti rateizzati a 3, 4 o 6 rate senza interessi con Klarna e PagoLight. Scegli come pagare direttamente al checkout.</p>",
+        "show_rates": false,
+        "rates": "3, 4, 6",
+        "rate_word": "rate",
+        "show_klarna": true,
+        "show_pagolight": true,
+        "with_provider_label": true,
+        "provider_label": "Disponibile con",
+        "disclaimer": "Soggetto ad approvazione. Importi e condizioni possono variare in base al provider.",
+        "button_label": "",
+        "button_link": "",
+        "text_alignment": "center",
+        "corner_radius": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     },
     "section_chbtyY": {
