@@ -1,0 +1,285 @@
+{%- liquid
+  assign cta_url = section.settings.cta_url | default: '/collections/all'
+  assign quiz_url = section.settings.quiz_url | default: '/pages/quiz'
+-%}
+
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,500;0,700;0,800;0,900;1,700;1,900&display=swap" rel="stylesheet">
+{{ 'perche-dormire-comodi.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'gsap.min.js' | asset_url }}" defer></script>
+<script src="{{ 'gsap-scrolltrigger.min.js' | asset_url }}" defer></script>
+<script
+  src="{{ 'perche-dormire-comodi.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+<div
+  class="pdc"
+  data-pdc
+  data-three-url="{{ 'three.module.min.js' | asset_url }}"
+>
+  <div class="pdc__backdrop is-cream" data-pdc-backdrop aria-hidden="true"></div>
+  <canvas class="pdc__sky" data-pdc-sky aria-hidden="true"></canvas>
+
+  {%- comment -%} ── Scena 1 · Hero ── {%- endcomment -%}
+  <section class="pdc-scene pdc-scene--hero" data-pdc-scene="hero">
+    <div class="pdc-scene__pin" data-pdc-pin>
+      <div class="pdc-hero__inner" data-pdc-hero-inner>
+        <p class="pdc-eyebrow" data-pdc-hero-item>Perché dormire comodi?</p>
+        <h1 class="pdc-hero__title" data-pdc-hero-item>
+          Comprare un materasso<br>
+          è diventato <em class="pdc-accent" data-pdc-incubo>un incubo</em>.
+        </h1>
+        <p class="pdc-hero__sub" data-pdc-hero-item>Scorri. Con comodo, ovviamente.</p>
+      </div>
+      <div class="pdc-zzz" data-pdc-zzz aria-hidden="true">
+        <span>Z</span><span>z</span><span>z</span>
+      </div>
+      <div class="pdc-scroll-cue" data-pdc-cue aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v14m0 0-6-6m6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ── Scena 2 · Gimmick / tecnologie inventate ── {%- endcomment -%}
+  <section class="pdc-scene pdc-scene--gimmick" data-pdc-scene="gimmick">
+    <div class="pdc-scene__pin" data-pdc-pin>
+      <div class="pdc-rings" data-pdc-rings aria-hidden="true">
+        <div class="pdc-ring pdc-ring--outer">
+          <span class="pdc-badge">AirGel Quantico 9000™</span>
+          <span class="pdc-badge pdc-badge--fill">NanoMolle al Grafene®</span>
+          <span class="pdc-badge">Memory Spaziale X™</span>
+          <span class="pdc-badge pdc-badge--fill">TitanCool UltraFresh©</span>
+          <span class="pdc-badge">Schiuma Lunare HD™</span>
+          <span class="pdc-badge pdc-badge--fill">OndaFlex Magnetica®</span>
+        </div>
+        <div class="pdc-ring pdc-ring--inner">
+          <span class="pdc-badge pdc-badge--fill">BioZona Cervicale Pro™</span>
+          <span class="pdc-badge">DormoTron AI™</span>
+          <span class="pdc-badge pdc-badge--fill">IperGel Polare 3.0™</span>
+          <span class="pdc-badge">EcoMolla Fotonica®</span>
+        </div>
+      </div>
+      <h2 class="pdc-gimmick__title" data-pdc-gimmick-title>
+        Là fuori è pieno di <em>«tecnologie rivoluzionarie»</em><br class="pdc-br">
+        dai nomi improbabili.
+      </h2>
+      <p class="pdc-disclaimer" data-pdc-disclaimer>
+        Tutte le tecnologie in questa pagina sono inventate. Ogni somiglianza con marchi reali è puramente casuale. <span>(Ma ci siamo capiti.)</span>
+      </p>
+    </div>
+  </section>
+
+  {%- comment -%} ── Scena 3 · Marquee dei "numeri 1" ── {%- endcomment -%}
+  <section class="pdc-scene pdc-scene--marquee" data-pdc-scene="marquee">
+    <div class="pdc-scene__pin" data-pdc-pin>
+      <div class="pdc-marquee pdc-marquee--top" data-pdc-marquee-row aria-hidden="true">
+        <div class="pdc-marquee__track">
+          <span>#1 Materasso in Italia</span><span>#1 Materasso dell'Anno</span><span>#1 Materasso per Dormire</span><span>#1 Materasso Più Premiato</span><span>#1 Materasso Vicino a Te</span><span>#1 Materasso di Sempre</span>
+          <span>#1 Materasso in Italia</span><span>#1 Materasso dell'Anno</span><span>#1 Materasso per Dormire</span><span>#1 Materasso Più Premiato</span><span>#1 Materasso Vicino a Te</span><span>#1 Materasso di Sempre</span>
+        </div>
+      </div>
+      <div class="pdc-marquee__center">
+        <h2 class="pdc-marquee__title" data-pdc-marquee-title>
+          Centinaia di marche, migliaia di modelli quasi identici<em>*</em>.
+        </h2>
+        <p class="pdc-footnote" data-pdc-marquee-note>
+          *Tutti «il migliore». Tutti con le recensioni «più verificate» del web.
+        </p>
+      </div>
+      <div class="pdc-marquee pdc-marquee--bottom" data-pdc-marquee-row aria-hidden="true">
+        <div class="pdc-marquee__track">
+          <span>#1 Materasso Più Venduto</span><span>#1 Materasso Consigliato</span><span>#1 Materasso del Web</span><span>#1 Materasso Ortopedico*</span><span>#1 Materasso Premium</span><span>#1 Materasso Sotto Casa</span>
+          <span>#1 Materasso Più Venduto</span><span>#1 Materasso Consigliato</span><span>#1 Materasso del Web</span><span>#1 Materasso Ortopedico*</span><span>#1 Materasso Premium</span><span>#1 Materasso Sotto Casa</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ── Scena 4 · La tempesta che si apre (le nuvole) ── {%- endcomment -%}
+  <section class="pdc-scene pdc-scene--storm" data-pdc-scene="storm">
+    <div class="pdc-scene__pin" data-pdc-pin>
+      <div class="pdc-storm-clouds" aria-hidden="true">
+        <span class="pdc-cloud pdc-cloud--s1" data-pdc-storm-cloud></span>
+        <span class="pdc-cloud pdc-cloud--s2" data-pdc-storm-cloud></span>
+        <span class="pdc-cloud pdc-cloud--s3" data-pdc-storm-cloud></span>
+        <span class="pdc-cloud pdc-cloud--s4" data-pdc-storm-cloud></span>
+      </div>
+      <div class="pdc-storm__step" data-pdc-storm-a>
+        <h2 class="pdc-storm__title">
+          Scegliere è diventato un percorso a ostacoli.
+        </h2>
+        <p class="pdc-storm__sub">E il premio, alla fine? Spesso un altro materasso che rimpiangerai.</p>
+      </div>
+      <div class="pdc-storm__step pdc-storm__step--b" data-pdc-storm-b>
+        <h2 class="pdc-storm__title pdc-storm__title--big">
+          E se invece bastasse…<br><em>mettersi comodi?</em>
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ── Scena 5 · La filosofia Concomodo ── {%- endcomment -%}
+  <section class="pdc-scene pdc-scene--filosofia" data-pdc-scene="filosofia">
+    <div class="pdc-drift" aria-hidden="true">
+      <span class="pdc-cloud pdc-cloud--d1"></span>
+      <span class="pdc-cloud pdc-cloud--d2"></span>
+      <span class="pdc-cloud pdc-cloud--d3"></span>
+    </div>
+    <div class="pdc-filosofia__head" data-pdc-reveal>
+      <p class="pdc-eyebrow">La filosofia Concomodo</p>
+      <h2 class="pdc-h2">Dormire comodi si sceglie con comodo.</h2>
+    </div>
+    <div class="pdc-cards">
+      <article class="pdc-card" data-pdc-card>
+        <span class="pdc-card__num">01</span>
+        <h3>Niente trucchi, niente giochetti</h3>
+        <p>Nessun nome spaziale: ti diciamo cosa c'è dentro, strato per strato, in italiano.</p>
+      </article>
+      <article class="pdc-card" data-pdc-card>
+        <span class="pdc-card__num">02</span>
+        <h3>Pochi modelli, scelti bene</h3>
+        <p>Non 400 varianti quasi uguali: solo i materassi che sceglieremmo per casa nostra.</p>
+      </article>
+      <article class="pdc-card" data-pdc-card>
+        <span class="pdc-card__num">03</span>
+        <h3>Specifiche trasparenti</h3>
+        <p>Materiali, centimetri e zone di portanza dichiarati. Sai esattamente cosa stai pagando.</p>
+      </article>
+      <article class="pdc-card" data-pdc-card>
+        <span class="pdc-card__num">04</span>
+        <h3>Qualità al prezzo giusto</h3>
+        <p>Nessun prezzo gonfiato da scontare a giorni alterni: costa quello che vale.</p>
+      </article>
+    </div>
+  </section>
+
+  {%- comment -%} ── Scena 6 · Noi e gli altri ── {%- endcomment -%}
+  <section class="pdc-scene pdc-scene--confronto" data-pdc-scene="confronto">
+    <div class="pdc-confronto__panel" data-pdc-reveal>
+      <p class="pdc-eyebrow">Noi e gli altri</p>
+      <h2 class="pdc-h2">Il confronto, senza asterischi.</h2>
+      <div class="pdc-table" role="table" aria-label="Confronto tra Concomodo e gli altri materassi">
+        <div class="pdc-table__head" role="row">
+          <span role="columnheader" class="pdc-table__spacer"></span>
+          <span role="columnheader" class="pdc-table__brand">Concomodo</span>
+          <span role="columnheader" class="pdc-table__them">Gli altri</span>
+        </div>
+        <div class="pdc-table__row" role="row" data-pdc-row>
+          <span role="rowheader">Modelli tra cui scegliere</span>
+          <span role="cell" class="pdc-yes">Pochi e chiari</span>
+          <span role="cell" class="pdc-no">Centinaia, tutti «il migliore»</span>
+        </div>
+        <div class="pdc-table__row" role="row" data-pdc-row>
+          <span role="rowheader">Tecnologie</span>
+          <span role="cell" class="pdc-yes">Spiegate in italiano</span>
+          <span role="cell" class="pdc-no">Nomi spaziali™</span>
+        </div>
+        <div class="pdc-table__row" role="row" data-pdc-row>
+          <span role="rowheader">Prova</span>
+          <span role="cell" class="pdc-yes">100 notti a casa tua</span>
+          <span role="cell" class="pdc-no">5 minuti in negozio</span>
+        </div>
+        <div class="pdc-table__row" role="row" data-pdc-row>
+          <span role="rowheader">Garanzia</span>
+          <span role="cell" class="pdc-yes">10 anni</span>
+          <span role="cell" class="pdc-no">Scritta piccola piccola</span>
+        </div>
+        <div class="pdc-table__row" role="row" data-pdc-row>
+          <span role="rowheader">Consegna</span>
+          <span role="cell" class="pdc-yes">Gratuita</span>
+          <span role="cell" class="pdc-no">«Gratuita» (sorpresa al checkout)</span>
+        </div>
+        <div class="pdc-table__row" role="row" data-pdc-row>
+          <span role="rowheader">Prezzo</span>
+          <span role="cell" class="pdc-yes">Giusto, tutto l'anno</span>
+          <span role="cell" class="pdc-no">−70% solo oggi! (da 4 anni)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ── Scena 7 · Chiusa ── {%- endcomment -%}
+  <section class="pdc-scene pdc-scene--chiusa" data-pdc-scene="chiusa">
+    <div class="pdc-scene__pin" data-pdc-pin>
+      <div class="pdc-halo" data-pdc-halo aria-hidden="true"></div>
+      <div class="pdc-chiusa__inner">
+        <p class="pdc-chiusa__lead" data-pdc-chiusa-item>Ma alla fine…</p>
+        <h2 class="pdc-chiusa__title" data-pdc-chiusa-item>
+          L'unica cosa importante<br>è <em>dormire comodi</em>.
+        </h2>
+        <p class="pdc-chiusa__sub" data-pdc-chiusa-item>Per questo è il nostro unico obiettivo.</p>
+        <div class="pdc-chiusa__cta" data-pdc-chiusa-item>
+          <a href="{{ cta_url }}" class="pdc-btn pdc-btn--primary">
+            {{ section.settings.cta_label }}
+            <span class="pdc-btn__price">{{ section.settings.price_text }}</span>
+          </a>
+          <a href="{{ quiz_url }}" class="pdc-btn pdc-btn--ghost">{{ section.settings.quiz_label }}</a>
+        </div>
+        <ul class="pdc-chips" data-pdc-chiusa-item>
+          <li>100 notti di prova</li>
+          <li>10 anni di garanzia</li>
+          <li>Consegna gratuita</li>
+        </ul>
+      </div>
+      <div class="pdc-chiusa__clouds" aria-hidden="true">
+        <span class="pdc-cloud pdc-cloud--f1"></span>
+        <span class="pdc-cloud pdc-cloud--f2"></span>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Perché dormire comodi",
+  "tag": "section",
+  "class": "pdc-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Pagina narrativa scroll-driven «Perché dormire comodi». Testi e animazioni sono curati nel codice della sezione; qui trovi solo le impostazioni della chiusa."
+    },
+    {
+      "type": "header",
+      "content": "Chiusa e call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Testo bottone principale",
+      "default": "Scegli Concomodo"
+    },
+    {
+      "type": "text",
+      "id": "price_text",
+      "label": "Testo prezzo",
+      "default": "a partire da 500€"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Link bottone principale",
+      "info": "Se vuoto: /collections/all"
+    },
+    {
+      "type": "text",
+      "id": "quiz_label",
+      "label": "Testo bottone quiz",
+      "default": "Non sai quale? Fai il quiz"
+    },
+    {
+      "type": "url",
+      "id": "quiz_url",
+      "label": "Link bottone quiz",
+      "info": "Se vuoto: /pages/quiz"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Perché dormire comodi"
+    }
+  ]
+}
+{% endschema %}
