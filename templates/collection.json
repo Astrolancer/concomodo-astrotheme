@@ -1644,57 +1644,6 @@
         "padding-block-end": 40
       }
     },
-    "vuoi_parlare_con_noi_cc": {
-      "type": "vuoi-parlare-con-noi",
-      "blocks": {
-        "card_phone": {
-          "type": "card",
-          "settings": {
-            "icon": "phone",
-            "title": "Chiamaci",
-            "text": "<p>Siamo qui per aiutarti a ritrovare il piacere di un sonno sereno e di qualità.</p>",
-            "link": "",
-            "open_in_new_tab": false
-          }
-        },
-        "card_chat": {
-          "type": "card",
-          "settings": {
-            "icon": "chat",
-            "title": "Chatta con noi",
-            "text": "<p>Apri la chat e ottieni subito l'assistenza di cui hai bisogno, senza perdite di tempo.</p>",
-            "link": "",
-            "open_in_new_tab": false
-          }
-        },
-        "card_email": {
-          "type": "card",
-          "settings": {
-            "icon": "email",
-            "title": "Inviaci un'email",
-            "text": "<p>Scrivici e ti risponderemo prima che tu possa dire \"fate Concomodo\".</p>",
-            "link": "",
-            "open_in_new_tab": false
-          }
-        }
-      },
-      "block_order": [
-        "card_phone",
-        "card_chat",
-        "card_email"
-      ],
-      "settings": {
-        "heading": "Vuoi parlare con noi?",
-        "subheading": "<p>Parla con un esperto del sonno e trova la soluzione di riposo più adatta a te.</p>",
-        "corner_radius": 24,
-        "section_width": "page-width",
-        "color_scheme": "scheme-2",
-        "padding-block-start": 48,
-        "padding-block-end": 48,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
-      }
-    },
     "section_faq": {
       "type": "section",
       "blocks": {
@@ -2084,6 +2033,57 @@
         "padding-block-end": 80
       }
     },
+    "vuoi_parlare_con_noi_cc": {
+      "type": "vuoi-parlare-con-noi",
+      "blocks": {
+        "card_phone": {
+          "type": "card",
+          "settings": {
+            "icon": "phone",
+            "title": "Chiamaci",
+            "text": "<p>Siamo qui per aiutarti a ritrovare il piacere di un sonno sereno e di qualità.</p>",
+            "link": "",
+            "open_in_new_tab": false
+          }
+        },
+        "card_chat": {
+          "type": "card",
+          "settings": {
+            "icon": "chat",
+            "title": "Chatta con noi",
+            "text": "<p>Apri la chat e ottieni subito l'assistenza di cui hai bisogno, senza perdite di tempo.</p>",
+            "link": "",
+            "open_in_new_tab": false
+          }
+        },
+        "card_email": {
+          "type": "card",
+          "settings": {
+            "icon": "email",
+            "title": "Inviaci un'email",
+            "text": "<p>Scrivici e ti risponderemo prima che tu possa dire \"fate Concomodo\".</p>",
+            "link": "",
+            "open_in_new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "card_phone",
+        "card_chat",
+        "card_email"
+      ],
+      "settings": {
+        "heading": "Vuoi parlare con noi?",
+        "subheading": "<p>Parla con un esperto del sonno e trova la soluzione di riposo più adatta a te.</p>",
+        "corner_radius": 24,
+        "section_width": "page-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 48,
+        "padding-block-end": 48,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
     "section_newsletter": {
       "type": "section",
       "blocks": {
@@ -2293,6 +2293,40 @@
         "padding-block-start": 0,
         "padding-block-end": 80
       }
+    },
+    "mattress_quick_compare_7RTFVm": {
+      "type": "mattress-quick-compare",
+      "disabled": true,
+      "name": "Comparatore materassi",
+      "settings": {
+        "heading": "Confronta i nostri materassi",
+        "subheading": "<p>Quattro modelli, una sola cosa in comune: dormire meglio. Trova quello giusto per te.</p>",
+        "product_1": "compatto",
+        "product_2": "morbido",
+        "product_3": "cc-completo-molle",
+        "product_4": "materasso-1",
+        "show_firmness": true,
+        "firmness_label": "Durezza",
+        "show_support": true,
+        "support_label": "Supporto",
+        "show_cooling": true,
+        "cooling_label": "Traspirabilità",
+        "show_height": true,
+        "height_label": "Altezza",
+        "show_layers": false,
+        "layers_label": "Strati",
+        "price_prefix": "da",
+        "cta_label": "Scopri",
+        "highlight": 0,
+        "highlight_badge": "",
+        "corner_radius": 26,
+        "section_width": "full-width",
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
     }
   },
   "order": [
@@ -2303,6 +2337,7 @@
     "section_promo",
     "section_faq",
     "vuoi_parlare_con_noi_cc",
-    "section_newsletter"
+    "section_newsletter",
+    "mattress_quick_compare_7RTFVm"
   ]
 }
