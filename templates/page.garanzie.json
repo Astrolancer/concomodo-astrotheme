@@ -1,0 +1,63 @@
+{
+  "sections": {
+    "main": {
+      "type": "garanzie",
+      "blocks": {
+        "g_prova": {
+          "type": "guarantee",
+          "settings": {
+            "anchor": "prova-100-notti",
+            "icon": "moon",
+            "tag": "La prova",
+            "title": "100 notti di prova",
+            "text": "<p>Un materasso si giudica dormendoci, non premendolo con una mano in negozio. Per questo hai 100 notti a casa tua per capire se è quello giusto: il tempo del rodaggio, più tutto quello che serve per un giudizio onesto.</p>",
+            "points": "Parte dalla consegna, nessuna registrazione richiesta\nVale per dormirci davvero, non per tenerlo nel cellophane\nSe non ti convince, reso gratuito e rimborso completo",
+            "link_label": "Come funzionano le 100 notti",
+            "link": "/pages/100-notti"
+          }
+        },
+        "g_garanzia": {
+          "type": "guarantee",
+          "settings": {
+            "anchor": "garanzia-10-anni",
+            "icon": "shield",
+            "tag": "La durata",
+            "title": "10 anni di garanzia",
+            "text": "<p>I nostri materassi sono fatti per durare, e ce ne prendiamo la responsabilità: la garanzia copre i difetti di conformità e i cedimenti strutturali dei materiali per 10 anni dall'acquisto.</p>",
+            "points": "Copre difetti di produzione e cedimenti anomali degli strati interni\nNon copre la normale usura o l'uso su una base non adeguata\nPer attivarla basta il numero d'ordine: niente moduli infiniti"
+          }
+        },
+        "g_consegna": {
+          "type": "guarantee",
+          "settings": {
+            "anchor": "consegna-gratuita",
+            "icon": "truck",
+            "tag": "La consegna",
+            "title": "Consegna gratuita",
+            "text": "<p>Il prezzo che vedi è il prezzo che paghi: la consegna a casa tua è inclusa, senza sorprese al checkout.</p>",
+            "points": "Nessun costo aggiunto all'ordine\nIl materasso arriva compresso in scatola, facile da portare in camera\nTi aggiorniamo noi sui tempi di consegna previsti"
+          }
+        },
+        "g_cambio": {
+          "type": "guarantee",
+          "settings": {
+            "anchor": "cambio-modello",
+            "icon": "swap",
+            "tag": "Il ripensamento",
+            "title": "Cambio modello durante la prova",
+            "text": "<p>A volte il materasso è buono, ma la durezza non è quella giusta per te. Se durante le 100 notti capisci che ti serve un modello diverso, organizziamo la sostituzione invece del reso.</p>",
+            "points": "Ti aiutiamo a scegliere il modello più adatto in base alla prova\nRitiro del materasso e consegna del nuovo, senza ricominciare da zero",
+            "link_label": "Come funziona il reso",
+            "link": "/pages/resi"
+          }
+        }
+      },
+      "block_order": ["g_prova", "g_garanzia", "g_consegna", "g_cambio"],
+      "settings": {}
+    },
+    "parla": {
+      "type": "vuoi-parlare-con-noi"
+    }
+  },
+  "order": ["main", "parla"]
+}

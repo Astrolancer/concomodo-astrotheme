@@ -503,17 +503,6 @@
     box-shadow: 0 10px 25px rgb(0 0 0 / 8%);
   }
 
-  @media screen and (min-width: 750px) {
-    .guide-article__product {
-      flex-direction: row;
-      align-items: stretch;
-    }
-
-    .guide-article__product-image {
-      width: 45%;
-    }
-  }
-
   .guide-article__product-image {
     display: block;
     object-fit: cover;
@@ -522,12 +511,27 @@
     height: auto;
   }
 
+  /* la media query deve stare DOPO la regola base dell'immagine: a parità
+     di specificità vince l'ultima, e width: 100% annullerebbe il 45% */
+  @media screen and (min-width: 750px) {
+    .guide-article__product {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .guide-article__product-image {
+      width: 45%;
+      flex: 0 0 45%;
+    }
+  }
+
   .guide-article__product-body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 0.25rem;
     padding: 1.25rem;
+    min-width: 0;
   }
 
   .guide-article__product-tagline {

@@ -1,0 +1,446 @@
+{%- comment -%}
+  Pagina «Garanzie» stile boring.co/pages/guarantees: elenco delle garanzie
+  Concomodo in sezioni ancorabili (es. /pages/garanzie#garanzia-10-anni),
+  con navigazione laterale sticky che evidenzia la sezione attiva.
+{%- endcomment -%}
+
+{%- capture icon_moon -%}<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M25 19.5A10.5 10.5 0 0 1 12.5 7 10.5 10.5 0 1 0 25 19.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M21 5.5h5M23.5 3v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>{%- endcapture -%}
+{%- capture icon_shield -%}<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 3.5 26 7v8c0 6.2-4.2 10.9-10 13-5.8-2.1-10-6.8-10-13V7l10-3.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m11.5 15.5 3.2 3.2 6-6.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>{%- endcapture -%}
+{%- capture icon_truck -%}<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M3 8h15v13H3zM18 12h6l4 4v5h-10" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="8.5" cy="23.5" r="2.5" stroke="currentColor" stroke-width="1.8"/><circle cx="22.5" cy="23.5" r="2.5" stroke="currentColor" stroke-width="1.8"/></svg>{%- endcapture -%}
+{%- capture icon_swap -%}<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M8 12h16m0 0-4.5-4.5M24 12l-4.5 4.5M24 20H8m0 0 4.5-4.5M8 20l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>{%- endcapture -%}
+{%- capture icon_heart -%}<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 26.5C10 22 4.5 17.7 4.5 12.4 4.5 8.9 7.2 6 10.7 6c2.1 0 4 1 5.3 2.7C17.2 7 19.2 6 21.3 6c3.5 0 6.2 2.9 6.2 6.4 0 5.3-5.5 9.6-11.5 14.1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>{%- endcapture -%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--page-width garanzie color-{{ section.settings.color_scheme }} spacing-style"
+  style="{% render 'spacing-style', settings: section.settings %}"
+  {% if request.visual_preview_mode %}data-shopify-visual-preview{% endif %}
+>
+  <header class="garanzie__header">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="garanzie__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    {%- if section.settings.title != blank -%}
+      <h1 class="garanzie__title">{{ section.settings.title }}</h1>
+    {%- endif -%}
+    {%- if section.settings.intro != blank -%}
+      <div class="garanzie__intro rte">{{ section.settings.intro }}</div>
+    {%- endif -%}
+  </header>
+
+  <div class="garanzie__layout">
+    <nav class="garanzie__nav" aria-label="Indice delle garanzie">
+      <ul role="list">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'guarantee' -%}
+            {%- assign anchor = block.settings.anchor | default: block.settings.title | handleize -%}
+            <li>
+              <a href="#{{ anchor }}" data-garanzie-link="{{ anchor }}">{{ block.settings.title }}</a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="garanzie__list">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'guarantee' -%}
+          {%- liquid
+            assign anchor = block.settings.anchor | default: block.settings.title | handleize
+            assign icon_markup = icon_shield
+            case block.settings.icon
+              when 'moon'
+                assign icon_markup = icon_moon
+              when 'truck'
+                assign icon_markup = icon_truck
+              when 'swap'
+                assign icon_markup = icon_swap
+              when 'heart'
+                assign icon_markup = icon_heart
+            endcase
+          -%}
+          <section id="{{ anchor }}" class="garanzie__item" data-garanzie-item="{{ anchor }}" {{ block.shopify_attributes }}>
+            <div class="garanzie__item-head">
+              <span class="garanzie__icon" aria-hidden="true">{{ icon_markup }}</span>
+              <div>
+                {%- if block.settings.tag != blank -%}
+                  <p class="garanzie__tag">{{ block.settings.tag }}</p>
+                {%- endif -%}
+                <h2 class="garanzie__item-title">{{ block.settings.title }}</h2>
+              </div>
+            </div>
+            {%- if block.settings.text != blank -%}
+              <div class="garanzie__text rte">{{ block.settings.text }}</div>
+            {%- endif -%}
+            {%- assign points = block.settings.points | newline_to_br | split: '<br />' -%}
+            {%- if block.settings.points != blank -%}
+              <ul class="garanzie__points" role="list">
+                {%- for point in points -%}
+                  {%- assign trimmed = point | strip -%}
+                  {%- if trimmed != blank -%}
+                    <li>{{ trimmed }}</li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+            {%- if block.settings.link_label != blank and block.settings.link != blank -%}
+              <a class="garanzie__link" href="{{ block.settings.link }}">{{ block.settings.link_label }} →</a>
+            {%- endif -%}
+          </section>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<script>
+  // evidenzia nella nav sticky la garanzia attualmente in vista
+  (function () {
+    const links = document.querySelectorAll('[data-garanzie-link]');
+    const items = document.querySelectorAll('[data-garanzie-item]');
+    if (!links.length || !items.length || !('IntersectionObserver' in window)) return;
+
+    const byAnchor = {};
+    links.forEach((link) => (byAnchor[link.dataset.garanzieLink] = link));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            links.forEach((l) => l.classList.remove('is-active'));
+            const link = byAnchor[entry.target.dataset.garanzieItem];
+            if (link) link.classList.add('is-active');
+          }
+        });
+      },
+      { rootMargin: '-30% 0px -55% 0px' }
+    );
+    items.forEach((item) => observer.observe(item));
+  })();
+</script>
+
+{% stylesheet %}
+  .garanzie__header {
+    max-width: 720px;
+    margin: 0 auto clamp(2.5rem, 6vh, 4.5rem);
+    text-align: center;
+  }
+
+  .garanzie__eyebrow {
+    margin: 0 0 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .garanzie__title {
+    margin: 0 0 1rem;
+  }
+
+  .garanzie__intro {
+    opacity: 0.8;
+    line-height: 1.6;
+  }
+
+  .garanzie__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1050px;
+    margin-inline: auto;
+  }
+
+  @media screen and (min-width: 900px) {
+    .garanzie__layout {
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 3rem;
+      align-items: start;
+    }
+  }
+
+  .garanzie__nav {
+    display: none;
+  }
+
+  @media screen and (min-width: 900px) {
+    .garanzie__nav {
+      display: block;
+      position: sticky;
+      top: calc(var(--header-height, 64px) + 2rem);
+    }
+  }
+
+  .garanzie__nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .garanzie__nav a {
+    display: block;
+    padding: 0.55rem 1rem;
+    border-left: 2px solid rgb(var(--color-foreground-rgb) / 0.15);
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.95rem;
+    opacity: 0.6;
+    transition: opacity 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .garanzie__nav a:hover {
+    opacity: 1;
+  }
+
+  .garanzie__nav a.is-active {
+    opacity: 1;
+    font-weight: 600;
+    border-left-color: var(--color-foreground);
+    background: rgb(var(--color-foreground-rgb) / 0.05);
+    border-radius: 0 10px 10px 0;
+  }
+
+  .garanzie__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+  }
+
+  .garanzie__item {
+    padding: clamp(1.5rem, 3.5vw, 2.5rem);
+    background: rgb(255 255 255 / 0.75);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 24px;
+    scroll-margin-top: calc(var(--header-height, 64px) + 1.5rem);
+  }
+
+  .garanzie__item-head {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .garanzie__icon {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgb(178 200 209 / 0.35);
+    color: var(--color-foreground);
+  }
+
+  .garanzie__icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .garanzie__tag {
+    margin: 0 0 0.2rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+
+  .garanzie__item-title {
+    margin: 0;
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  }
+
+  .garanzie__text {
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  .garanzie__text > :first-child { margin-block-start: 0; }
+  .garanzie__text > :last-child { margin-block-end: 0; }
+
+  .garanzie__points {
+    margin: 1.1rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .garanzie__points li {
+    position: relative;
+    padding-left: 1.9rem;
+    line-height: 1.5;
+  }
+
+  .garanzie__points li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    display: grid;
+    place-items: center;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 50%;
+    background: rgb(178 200 209 / 0.5);
+    font-size: 0.7rem;
+    font-weight: 800;
+  }
+
+  .garanzie__link {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-weight: 600;
+    color: inherit;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Garanzie",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etichetta",
+      "default": "Le nostre garanzie"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titolo",
+      "default": "Poche garanzie, ma vere"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Introduzione",
+      "default": "<p>Niente asterischi in corpo quattro: quello che promettiamo sta in questa pagina, scritto in italiano. Ogni garanzia ha il suo link diretto, così puoi citarcela quando vuoi.</p>"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Schema colore",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "Spaziatura"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Sopra",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Sotto",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Sinistra",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Destra",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "guarantee",
+      "name": "Garanzia",
+      "settings": [
+        {
+          "type": "text",
+          "id": "anchor",
+          "label": "Ancora (per il link diretto)",
+          "info": "Es. «garanzia-10-anni» → /pages/garanzie#garanzia-10-anni. Se vuota, viene generata dal titolo."
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icona",
+          "options": [
+            { "value": "moon", "label": "Luna (prova)" },
+            { "value": "shield", "label": "Scudo (garanzia)" },
+            { "value": "truck", "label": "Furgone (consegna)" },
+            { "value": "swap", "label": "Frecce (cambio)" },
+            { "value": "heart", "label": "Cuore" }
+          ],
+          "default": "shield"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Etichetta piccola"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titolo",
+          "default": "La garanzia"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Testo"
+        },
+        {
+          "type": "textarea",
+          "id": "points",
+          "label": "Punti chiave (uno per riga)"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Testo link"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Garanzie",
+      "blocks": [
+        { "type": "guarantee" }
+      ]
+    }
+  ]
+}
+{% endschema %}
