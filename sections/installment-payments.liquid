@@ -1,0 +1,418 @@
+{%- liquid
+  assign rates = section.settings.rates | default: '3, 4, 6' | split: ','
+  assign layout_class = 'installment-payments--' | append: section.settings.text_alignment
+-%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="section section--{{ section.settings.section_width }} installment-payments color-{{ section.settings.color_scheme }} spacing-style {{ layout_class }}"
+  style="
+    {%- render 'spacing-style', settings: section.settings %}
+    --ip-radius: {{ section.settings.corner_radius }}px;
+  "
+  {% if request.visual_preview_mode %}data-shopify-visual-preview{% endif %}
+>
+  <div class="installment-payments__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="installment-payments__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="installment-payments__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <div class="installment-payments__subheading">{{ section.settings.subheading }}</div>
+    {%- endif -%}
+
+    {%- if section.settings.show_rates -%}
+      <ul class="installment-payments__rates" role="list">
+        {%- for rate in rates -%}
+          {%- assign n = rate | strip -%}
+          {%- if n != blank -%}
+            <li class="installment-payments__rate">
+              <span class="installment-payments__rate-number">{{ n }}</span>
+              <span class="installment-payments__rate-label">{{ section.settings.rate_word }}</span>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if section.settings.show_klarna or section.settings.show_pagolight -%}
+      <div class="installment-payments__providers">
+        {%- if section.settings.with_provider_label and section.settings.provider_label != blank -%}
+          <span class="installment-payments__providers-label">{{ section.settings.provider_label }}</span>
+        {%- endif -%}
+        <div class="installment-payments__logos">
+          {%- if section.settings.show_klarna -%}
+            <span class="installment-payments__logo installment-payments__logo--klarna" aria-label="Klarna">
+              <svg viewBox="0 0 90 34" role="img" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                <rect width="90" height="34" rx="6" fill="#FFB3C7"/>
+                <text x="45" y="23" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#0B051D" letter-spacing="0.2">Klarna</text>
+              </svg>
+            </span>
+          {%- endif -%}
+          {%- if section.settings.show_pagolight -%}
+            <span class="installment-payments__logo installment-payments__logo--pagolight" aria-label="PagoLight">
+              <svg viewBox="0 0 110 34" role="img" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                <rect width="110" height="34" rx="6" fill="#00A88E"/>
+                <text x="55" y="23" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" letter-spacing="0.2">PagoLight</text>
+              </svg>
+            </span>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.disclaimer != blank -%}
+      <p class="installment-payments__disclaimer">{{ section.settings.disclaimer }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <a
+        class="installment-payments__button"
+        {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+      >
+        {{ section.settings.button_label }}
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .installment-payments {
+    --ip-radius: 16px;
+
+    display: grid;
+    grid-template-columns: var(--full-page-grid-with-margins);
+  }
+
+  .installment-payments__inner {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
+    border-radius: var(--ip-radius);
+    background: rgb(from currentcolor r g b / 4%);
+  }
+
+  .installment-payments--start .installment-payments__inner {
+    align-items: flex-start;
+    text-align: start;
+  }
+
+  .installment-payments__eyebrow {
+    margin: 0;
+    font-size: 0.85em;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .installment-payments__heading {
+    margin: 0;
+    max-width: 24ch;
+  }
+
+  .installment-payments__subheading {
+    margin: 0;
+    max-width: 60ch;
+    opacity: 0.85;
+    line-height: 1.5;
+  }
+
+  .installment-payments__subheading > :first-child { margin-block-start: 0; }
+  .installment-payments__subheading > :last-child { margin-block-end: 0; }
+
+  .installment-payments__rates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0.25rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .installment-payments--start .installment-payments__rates {
+    justify-content: flex-start;
+  }
+
+  .installment-payments__rate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 88px;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgb(from currentcolor r g b / 15%);
+    border-radius: calc(var(--ip-radius) * 0.6);
+    background: var(--color-background, transparent);
+  }
+
+  .installment-payments__rate-number {
+    font-size: 1.9em;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .installment-payments__rate-label {
+    margin-block-start: 0.15rem;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.7;
+  }
+
+  .installment-payments__providers {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem 0.9rem;
+    margin-block-start: 0.25rem;
+  }
+
+  .installment-payments--start .installment-payments__providers {
+    justify-content: flex-start;
+  }
+
+  .installment-payments__providers-label {
+    font-size: 0.9em;
+    opacity: 0.7;
+  }
+
+  .installment-payments__logos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .installment-payments__logo {
+    display: inline-flex;
+  }
+
+  .installment-payments__logo svg {
+    display: block;
+    height: 30px;
+    width: auto;
+  }
+
+  .installment-payments__disclaimer {
+    margin: 0;
+    max-width: 60ch;
+    font-size: 0.8em;
+    opacity: 0.6;
+    line-height: 1.4;
+  }
+
+  .installment-payments__button {
+    margin-block-start: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.6rem;
+    border-radius: calc(var(--ip-radius) * 0.5);
+    background: var(--color-primary, currentcolor);
+    color: var(--color-primary-contrast, var(--color-background));
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .installment-payments__button:hover {
+    opacity: 0.88;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Pagamenti rateizzati",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sopratitolo",
+      "default": "PAGAMENTO FLESSIBILE"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titolo",
+      "default": "Dormi ora, paga con comodo"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Testo",
+      "default": "<p>Pagamenti rateizzati a 3, 4 o 6 rate senza interessi con Klarna e PagoLight. Scegli come pagare direttamente al checkout.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Rate"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rates",
+      "label": "Mostra le rate",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rates",
+      "label": "Numero di rate (separate da virgola)",
+      "default": "3, 4, 6"
+    },
+    {
+      "type": "text",
+      "id": "rate_word",
+      "label": "Parola sotto il numero",
+      "default": "rate"
+    },
+    {
+      "type": "header",
+      "content": "Provider"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_klarna",
+      "label": "Mostra Klarna",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pagolight",
+      "label": "Mostra PagoLight",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "with_provider_label",
+      "label": "Mostra etichetta prima dei loghi",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "provider_label",
+      "label": "Etichetta provider",
+      "default": "Disponibile con"
+    },
+    {
+      "type": "header",
+      "content": "Extra"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Nota / disclaimer",
+      "default": "Soggetto ad approvazione. Importi e condizioni possono variare in base al provider."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Testo pulsante (opzionale)"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link pulsante"
+    },
+    {
+      "type": "header",
+      "content": "Aspetto"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Allineamento",
+      "options": [
+        { "value": "center", "label": "Centrato" },
+        { "value": "start", "label": "A sinistra" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Raggio angoli",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Larghezza sezione",
+      "options": [
+        { "value": "page-width", "label": "Pagina" },
+        { "value": "full-width", "label": "Piena" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Schema colore",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spaziatura"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Sopra",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Sotto",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Sinistra",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Destra",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pagamenti rateizzati"
+    }
+  ]
+}
+{% endschema %}
