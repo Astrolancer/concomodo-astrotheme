@@ -1,12 +1,27 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "perche-dormire-comodi",
       "settings": {
         "cta_label": "Scegli Concomodo",
-        "quiz_label": "Non sai quale? Fai il quiz"
+        "price_collection": "",
+        "price_text": "",
+        "cta_url": "shopify://collections/materassi",
+        "quiz_label": "Non sai quale? Scegli il più adatto in 5 step",
+        "quiz_url": "shopify://pages/quiz"
       }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
