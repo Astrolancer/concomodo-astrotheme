@@ -3857,8 +3857,39 @@
         "padding-block-end": 0
       }
     },
-    "parla_con_noi_cc": {
-      "type": "parla-con-noi",
+    "vuoi_parlare_con_noi_cc": {
+      "type": "vuoi-parlare-con-noi",
+      "blocks": {
+        "card_phone": {
+          "type": "card",
+          "settings": {
+            "icon": "phone",
+            "title": "Chiamaci",
+            "text": "<p>Siamo qui per aiutarti a ritrovare il piacere di un sonno sereno e di qualità.</p>"
+          }
+        },
+        "card_chat": {
+          "type": "card",
+          "settings": {
+            "icon": "chat",
+            "title": "Chatta con noi",
+            "text": "<p>Apri la chat e ottieni subito l'assistenza di cui hai bisogno, senza perdite di tempo.</p>"
+          }
+        },
+        "card_email": {
+          "type": "card",
+          "settings": {
+            "icon": "email",
+            "title": "Inviaci un'email",
+            "text": "<p>Scrivici e ti risponderemo prima che tu possa dire \"fate Concomodo\".</p>"
+          }
+        }
+      },
+      "block_order": [
+        "card_phone",
+        "card_chat",
+        "card_email"
+      ],
       "settings": {
         "color_scheme": "scheme-1"
       }
@@ -3878,6 +3909,6 @@
     "installment_payments_aUaDcf",
     "section_EpVhwi",
     "section_TVqEJg",
-    "parla_con_noi_cc"
+    "vuoi_parlare_con_noi_cc"
   ]
 }

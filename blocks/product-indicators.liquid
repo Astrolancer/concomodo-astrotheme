@@ -1,0 +1,372 @@
+{%- comment -%}
+  Product performance indicators, rendered as a theme block so it can live
+  inside the product details column (next to the "100 notti / Riposo / Qualità"
+  tags). Values (0-100) are read from the product's `custom.comparison`
+  metaobject — the same source as the "Mattress comparison" section:
+    · Durezza / Rigidità      → firmness_value
+    · Traspirabilità          → cooling_value
+    · Scarico della pressione → pressure_value   (add this field to the metaobject)
+  A row is hidden automatically when its value is blank.
+{%- endcomment -%}
+
+{%- liquid
+  assign spec = closest.product.metafields.custom.comparison.value
+
+  assign firmness_value = spec.firmness_value
+  assign cooling_value = spec.cooling_value
+  assign pressure_value = spec.pressure_value
+
+  assign has_firmness = false
+  assign has_cooling = false
+  assign has_pressure = false
+  if block.settings.show_firmness and firmness_value != blank
+    assign has_firmness = true
+  endif
+  if block.settings.show_cooling and cooling_value != blank
+    assign has_cooling = true
+  endif
+  if block.settings.show_pressure and pressure_value != blank
+    assign has_pressure = true
+  endif
+
+  assign has_any = false
+  if has_firmness or has_cooling or has_pressure
+    assign has_any = true
+  endif
+-%}
+
+{%- if has_any -%}
+  <div class="product-indicators product-indicators--block" {{ block.shopify_attributes }}>
+    {%- if block.settings.heading != blank -%}
+      <div class="product-indicators__block-heading">{{ block.settings.heading }}</div>
+    {%- endif -%}
+
+    <div class="product-indicators__list">
+      {%- if has_firmness -%}
+        {% render 'product-indicator-row',
+          icon: block.settings.firmness_icon,
+          label: block.settings.firmness_label,
+          tooltip: block.settings.firmness_tooltip,
+          value: firmness_value,
+          min_label: block.settings.firmness_min_label,
+          max_label: block.settings.firmness_max_label
+        %}
+      {%- endif -%}
+
+      {%- if has_cooling -%}
+        {% render 'product-indicator-row',
+          icon: block.settings.cooling_icon,
+          label: block.settings.cooling_label,
+          tooltip: block.settings.cooling_tooltip,
+          value: cooling_value,
+          min_label: block.settings.cooling_min_label,
+          max_label: block.settings.cooling_max_label
+        %}
+      {%- endif -%}
+
+      {%- if has_pressure -%}
+        {% render 'product-indicator-row',
+          icon: block.settings.pressure_icon,
+          label: block.settings.pressure_label,
+          tooltip: block.settings.pressure_tooltip,
+          value: pressure_value,
+          min_label: block.settings.pressure_min_label,
+          max_label: block.settings.pressure_max_label
+        %}
+      {%- endif -%}
+    </div>
+  </div>
+{%- elsif request.design_mode -%}
+  <div class="product-indicators__placeholder" {{ block.shopify_attributes }}>
+    Aggiungi al metaobject <code>custom.comparison</code> i valori 0–100
+    (<code>firmness_value</code>, <code>cooling_value</code>,
+    <code>pressure_value</code>) per mostrare gli indicatori.
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .product-indicators--block {
+    --pi-line: rgb(var(--color-foreground-rgb) / 0.12);
+    --pi-fill: rgb(var(--color-foreground-rgb) / 0.55);
+    width: 100%;
+  }
+
+  .product-indicators__block-heading {
+    font-weight: 600;
+    margin-block-end: 0.75rem;
+  }
+
+  .product-indicators__list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .product-indicators--block .product-indicators__row + .product-indicators__row {
+    border-block-start: 1px solid var(--pi-line);
+    padding-block-start: 1rem;
+  }
+
+  .product-indicators__head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-block-end: 0.5rem;
+  }
+
+  .product-indicators__icon {
+    display: inline-flex;
+    flex: none;
+    width: 24px;
+    height: 24px;
+  }
+
+  .product-indicators__icon img,
+  .product-indicators__icon svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .product-indicators__label {
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .product-indicators__tip {
+    position: relative;
+    margin-inline-start: auto;
+    display: inline-flex;
+  }
+
+  .product-indicators__tip-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(var(--color-foreground-rgb) / 0.5);
+    color: var(--color-background);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: help;
+  }
+
+  .product-indicators__tip-btn:focus-visible {
+    outline: 2px solid currentcolor;
+    outline-offset: 2px;
+  }
+
+  .product-indicators__tip-bubble {
+    position: absolute;
+    inset-block-start: calc(100% + 8px);
+    inset-inline-end: 0;
+    z-index: 5;
+    width: max-content;
+    max-width: min(240px, 70vw);
+    padding: 0.6rem 0.8rem;
+    border-radius: 10px;
+    background: rgb(var(--color-foreground-rgb) / 0.92);
+    color: var(--color-background);
+    font-size: 0.85em;
+    font-weight: 400;
+    line-height: 1.4;
+    text-align: start;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    box-shadow: 0 10px 30px rgb(var(--color-foreground-rgb) / 0.25);
+  }
+
+  .product-indicators__tip:hover .product-indicators__tip-bubble,
+  .product-indicators__tip:focus-within .product-indicators__tip-bubble {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .product-indicators__meter {
+    display: flex;
+    gap: 5px;
+  }
+
+  .product-indicators__meter-seg {
+    position: relative;
+    flex: 1;
+    height: 8px;
+    border-radius: 999px;
+    background: rgb(var(--color-foreground-rgb) / 0.12);
+    overflow: hidden;
+  }
+
+  .product-indicators__meter-seg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: var(--f, 0%);
+    border-radius: inherit;
+    background: var(--pi-fill);
+  }
+
+  .product-indicators__ends {
+    display: flex;
+    justify-content: space-between;
+    margin-block-start: 0.4rem;
+    font-size: 0.85em;
+    opacity: 0.65;
+  }
+
+  .product-indicators__placeholder {
+    padding: 1rem;
+    border: 1px dashed rgb(var(--color-foreground-rgb) / 0.3);
+    border-radius: 10px;
+    font-size: 0.9em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product-indicators__tip-bubble {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Indicatori prodotto",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Valori (0–100) letti dal metaobject 'custom.comparison' del prodotto: firmness_value (durezza), cooling_value (traspirabilità), pressure_value (scarico pressione). Ogni riga si nasconde se il valore è vuoto."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titolo (opzionale)"
+    },
+    {
+      "type": "header",
+      "content": "Riga · Durezza / Rigidità"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_firmness",
+      "label": "Mostra riga",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "firmness_label",
+      "label": "Etichetta",
+      "default": "Durezza"
+    },
+    {
+      "type": "image_picker",
+      "id": "firmness_icon",
+      "label": "Icona"
+    },
+    {
+      "type": "textarea",
+      "id": "firmness_tooltip",
+      "label": "Testo info (tooltip)"
+    },
+    {
+      "type": "text",
+      "id": "firmness_min_label",
+      "label": "Etichetta sinistra",
+      "default": "Morbido"
+    },
+    {
+      "type": "text",
+      "id": "firmness_max_label",
+      "label": "Etichetta destra",
+      "default": "Rigido"
+    },
+    {
+      "type": "header",
+      "content": "Riga · Traspirabilità"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cooling",
+      "label": "Mostra riga",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cooling_label",
+      "label": "Etichetta",
+      "default": "Traspirabilità"
+    },
+    {
+      "type": "image_picker",
+      "id": "cooling_icon",
+      "label": "Icona"
+    },
+    {
+      "type": "textarea",
+      "id": "cooling_tooltip",
+      "label": "Testo info (tooltip)"
+    },
+    {
+      "type": "text",
+      "id": "cooling_min_label",
+      "label": "Etichetta sinistra",
+      "default": "Buona"
+    },
+    {
+      "type": "text",
+      "id": "cooling_max_label",
+      "label": "Etichetta destra",
+      "default": "Eccezionale"
+    },
+    {
+      "type": "header",
+      "content": "Riga · Scarico della pressione"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pressure",
+      "label": "Mostra riga",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "pressure_label",
+      "label": "Etichetta",
+      "default": "Scarico della pressione"
+    },
+    {
+      "type": "image_picker",
+      "id": "pressure_icon",
+      "label": "Icona"
+    },
+    {
+      "type": "textarea",
+      "id": "pressure_tooltip",
+      "label": "Testo info (tooltip)"
+    },
+    {
+      "type": "text",
+      "id": "pressure_min_label",
+      "label": "Etichetta sinistra",
+      "default": "Buona"
+    },
+    {
+      "type": "text",
+      "id": "pressure_max_label",
+      "label": "Etichetta destra",
+      "default": "Eccezionale"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Indicatori prodotto"
+    }
+  ]
+}
+{% endschema %}

@@ -17,7 +17,7 @@
           "static": true,
           "settings": {
             "media_presentation": "grid",
-            "media_columns": "two",
+            "media_columns": "one",
             "image_gap": 10,
             "large_first_image": true,
             "icons_style": "none",
@@ -52,7 +52,7 @@
             "height": "fit",
             "details_position": "flex-start",
             "gap": 20,
-            "sticky_details_desktop": false,
+            "sticky_details_desktop": true,
             "inherit_color_scheme": true,
             "color_scheme": "scheme-1",
             "background_media": "none",
