@@ -406,12 +406,14 @@
                 <button type="button" class="cq__skip" data-cq-skip-email>Salta e vedi il risultato</button>
               </div>
             {% endform %}
-            <p class="cq__privacy">
-              {{ section.settings.email_privacy }}
-              {%- if section.settings.privacy_link != blank %}
-                <a href="{{ section.settings.privacy_link }}">Privacy Policy</a>.
-              {%- endif %}
-            </p>
+            {%- if section.settings.email_privacy != blank or section.settings.privacy_link != blank -%}
+              <p class="cq__privacy">
+                {{ section.settings.email_privacy }}
+                {%- if section.settings.privacy_link != blank %}
+                  Maggiori informazioni nella <a href="{{ section.settings.privacy_link }}">Privacy Policy</a>.
+                {%- endif %}
+              </p>
+            {%- endif -%}
           </div>
         </section>
       {%- endif -%}
@@ -617,7 +619,8 @@
       "type": "textarea",
       "id": "email_privacy",
       "label": "Nota privacy",
-      "default": "Iscrivendoti accetti di ricevere comunicazioni da Con comodo. Puoi disiscriverti quando vuoi. Maggiori informazioni nella"
+      "info": "Se imposti il link qui sotto, alla nota viene aggiunto automaticamente «Maggiori informazioni nella Privacy Policy».",
+      "default": "Iscrivendoti accetti di ricevere comunicazioni da Con comodo. Puoi disiscriverti quando vuoi."
     },
     {
       "type": "url",

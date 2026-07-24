@@ -1,0 +1,87 @@
+{
+  "sections": {
+    "guide": {
+      "type": "guide-article",
+      "blocks": {
+        "step_1": {
+          "type": "chapter",
+          "settings": {
+            "heading": "Scrivici (senza spiegazioni obbligatorie)",
+            "content": "<p>Se entro le 100 notti di prova capisci che il materasso non fa per te, contattaci via email o dalla pagina contatti indicando il numero d'ordine. Non devi convincerci di niente: una riga basta.</p><p>Ti risponderemo per organizzare tutto — di solito entro un paio di giorni lavorativi.</p>",
+            "link_label": "Vai ai contatti",
+            "link": "/pages/contact"
+          }
+        },
+        "step_2": {
+          "type": "chapter",
+          "settings": {
+            "heading": "Organizziamo il ritiro a casa tua",
+            "content": "<p>Concordiamo insieme giorno e modalità del ritiro: non devi procurarti scatoloni né riportare il materasso da nessuna parte. Se possibile tienilo protetto con il suo coprimaterasso nel periodo di prova: va restituito in condizioni igieniche adeguate.</p><p>I materassi resi in buone condizioni non vengono buttati: dove possibile, vengono donati o avviati al recupero.</p>"
+          }
+        },
+        "step_3": {
+          "type": "chapter",
+          "settings": {
+            "heading": "Ricevi il rimborso completo",
+            "content": "<p>Una volta ritirato il materasso, avviamo il rimborso dell'intero importo pagato, sullo stesso metodo di pagamento dell'ordine. Nessun costo di ritiro, nessuna trattenuta, nessun buono al posto dei soldi.</p>"
+          }
+        },
+        "faq_head": {
+          "type": "faq_heading",
+          "settings": {
+            "heading": "Domande frequenti sui resi"
+          }
+        },
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "Devo conservare l'imballo originale?",
+            "answer": "<p>No. Una volta aperto, il materasso non rientra nella scatola (è normale: è compresso solo per il trasporto). Al ritiro ci pensiamo noi.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "Posso fare il reso se ho usato il materasso?",
+            "answer": "<p>Certo: le 100 notti servono proprio a dormirci davvero. Chiediamo solo che il materasso sia in condizioni igieniche adeguate — l'uso di un coprimaterasso durante la prova aiuta.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "Vale anche per topper e cuscini?",
+            "answer": "<p>Le condizioni di reso degli accessori possono differire da quelle dei materassi per ragioni igieniche. Trovi il dettaglio nelle condizioni di vendita, oppure scrivici: ti rispondiamo volentieri.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "E se voglio cambiare modello invece di farmi rimborsare?",
+            "answer": "<p>Si può fare: se durante la prova capisci che ti serve un modello più rigido o più morbido, contattaci e organizziamo la sostituzione invece del reso.</p>"
+          }
+        },
+        "cta_finale": {
+          "type": "cta",
+          "settings": {
+            "heading": "Provalo con comodo, decidi con calma",
+            "text": "<p>100 notti a casa tua, reso gratuito e rimborso completo. L'unico rischio è dormire meglio.</p>",
+            "button_label": "Scopri i materassi",
+            "button_link": "/collections/materassi"
+          }
+        }
+      },
+      "block_order": ["step_1", "step_2", "step_3", "faq_head", "faq_1", "faq_2", "faq_3", "faq_4", "cta_finale"],
+      "settings": {
+        "eyebrow": "Resi e rimborsi",
+        "title": "Rendere un materasso non deve essere un'impresa",
+        "intro": "<p>Hai 100 notti per provare il tuo materasso Concomodo a casa tua. Se non è quello giusto, il reso è semplice, gratuito e senza domande scomode: ecco come funziona, in tre passi.</p>",
+        "show_toc": true,
+        "toc_title": "Come funziona"
+      }
+    },
+    "parla": {
+      "type": "vuoi-parlare-con-noi"
+    }
+  },
+  "order": ["guide", "parla"]
+}

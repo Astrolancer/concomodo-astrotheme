@@ -322,6 +322,12 @@
       this.resultCards.forEach((card) => {
         card.classList.toggle('is-visible', card.dataset.key === winner);
       });
+      // se nessuna card corrisponde al vincitore (blocco non configurato),
+      // mostra la prima disponibile invece di una schermata vuota
+      const hasWinnerCard = this.resultCards.some((card) => card.dataset.key === winner);
+      if (!hasWinnerCard && this.resultCards.length > 0) {
+        this.resultCards[0].classList.add('is-visible');
+      }
 
       let anyXsell = false;
       this.xsellCards.forEach((card) => {
