@@ -2263,6 +2263,383 @@
         "padding-block-end": 40
       }
     },
+    "section_XndPc9": {
+      "type": "section",
+      "blocks": {
+        "group_AAUJkq": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "stretch",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 20,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "group_Q8NrrY": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "stretch",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "space-between",
+                "gap": 14,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": false,
+                "color_scheme": "scheme-1",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 30,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 48,
+                "padding-block-end": 48,
+                "padding-inline-start": 40,
+                "padding-inline-end": 40
+              },
+              "blocks": {
+                "text_tVHnej": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>PROVALO A CASA TUA</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "font": "var(--font-body--family)",
+                    "weight": "600",
+                    "font_size": "0.9rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_7HqVWr": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<h3>100 notti di prova</h3>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h3",
+                    "font": "var(--font-body--family)",
+                    "weight": "",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_kHnDR9": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Dormi sul tuo nuovo materasso per 100 notti. Se non è quello giusto per te, lo ritiriamo e ti rimborsiamo — senza costi.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "font": "var(--font-body--family)",
+                    "weight": "",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "button_4kWyG4": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "Come funziona la prova",
+                    "link": "/pages/100-notti",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "weight": "600",
+                    "font_size_desktop": "",
+                    "font_size_mobile": "",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fill",
+                    "custom_width_mobile": 100
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_tVHnej",
+                "text_7HqVWr",
+                "text_kHnDR9",
+                "button_4kWyG4"
+              ]
+            },
+            "group_KfykW6": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "stretch",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "space-between",
+                "gap": 14,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": false,
+                "color_scheme": "scheme-4",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 30,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 48,
+                "padding-block-end": 48,
+                "padding-inline-start": 40,
+                "padding-inline-end": 40
+              },
+              "blocks": {
+                "text_eHtmGa": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>NON SAI QUALE SCEGLIERE?</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "font": "var(--font-body--family)",
+                    "weight": "600",
+                    "font_size": "0.9rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_dNXGLr": {
+                  "type": "text",
+                  "name": "t:names.heading",
+                  "settings": {
+                    "text": "<h3>Trova il materasso perfetto</h3>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h3",
+                    "font": "var(--font-body--family)",
+                    "weight": "",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "text_MFNTcE": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Rispondi a poche domande sul tuo modo di dormire: in un minuto ti consigliamo il materasso più adatto a te.</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "font": "var(--font-body--family)",
+                    "weight": "",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "button_QXqUyz": {
+                  "type": "button",
+                  "name": "t:names.button",
+                  "settings": {
+                    "label": "Inizia il quiz",
+                    "link": "/pages/quiz",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "weight": "600",
+                    "font_size_desktop": "",
+                    "font_size_mobile": "",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fill",
+                    "custom_width_mobile": 100
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_eHtmGa",
+                "text_dNXGLr",
+                "text_MFNTcE",
+                "button_QXqUyz"
+              ]
+            }
+          },
+          "block_order": [
+            "group_Q8NrrY",
+            "group_KfykW6"
+          ]
+        }
+      },
+      "block_order": [
+        "group_AAUJkq"
+      ],
+      "custom_css": [
+        "> div {max-width: 1100px; margin: auto;}",
+        ".group-block-content {height: 100%;}",
+        "a.button {text-decoration: none;}"
+      ],
+      "name": "Prova 100 notti + Quiz",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 20,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-2",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
     "mattress_comparison_tYh7VN": {
       "type": "mattress-comparison",
       "name": "Mattress comparison",
@@ -2886,6 +3263,381 @@
         "gradient_direction": "to top",
         "padding-block-start": 80,
         "padding-block-end": 80
+      }
+    },
+    "installment_payments_tC9BhM": {
+      "type": "installment-payments",
+      "name": "Pagamenti rateizzati",
+      "settings": {
+        "eyebrow": "PAGAMENTO FLESSIBILE",
+        "heading": "Dormi ora, paga con comodo",
+        "subheading": "<p>Pagamenti rateizzati a 3, 4 o 6 rate senza interessi con Klarna e PagoLight. Scegli come pagare direttamente al checkout.</p>",
+        "show_rates": false,
+        "rates": "3, 4, 6",
+        "rate_word": "rate",
+        "show_klarna": true,
+        "show_pagolight": true,
+        "with_provider_label": true,
+        "provider_label": "Disponibile con",
+        "disclaimer": "Soggetto ad approvazione. Importi e condizioni possono variare in base al provider.",
+        "button_label": "",
+        "button_link": "",
+        "text_alignment": "center",
+        "corner_radius": 16,
+        "section_width": "page-width",
+        "color_scheme": "scheme-2",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
+      }
+    },
+    "section_chbtyY": {
+      "type": "section",
+      "blocks": {
+        "group_BTcAXz": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 60,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "background_media": "none",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_9KQaTd": {
+              "type": "text",
+              "name": "t:names.heading",
+              "settings": {
+                "text": "<p>Domande frequenti</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "h2",
+                "font": "var(--font-body--family)",
+                "weight": "",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "group_nbiPNA": {
+              "type": "group",
+              "name": "t:names.group",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
+                "background_media": "none",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 40,
+                "padding-block-end": 80,
+                "padding-inline-start": 30,
+                "padding-inline-end": 30
+              },
+              "blocks": {
+                "accordion_VW39WC": {
+                  "type": "accordion",
+                  "name": "t:names.accordion",
+                  "settings": {
+                    "icon": "caret",
+                    "dividers": true,
+                    "type_preset": "h4",
+                    "inherit_color_scheme": false,
+                    "color_scheme": "scheme-58084d4c-a86e-4d0a-855e-a0966e5043f7",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "accordion_row_7AjxBK": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "Cosa rende diversi i materassi Concomodo?",
+                        "open_by_default": false,
+                        "icon": "none",
+                        "width": 30
+                      },
+                      "blocks": {
+                        "text_rb8PnR": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Il nostro obiettivo è la totale soddisfazione di ogni cliente. In caso contrario, contattaci e faremo del nostro meglio per trovare una soluzione insieme a te.</p>",
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "rte",
+                            "font": "var(--font-body--family)",
+                            "weight": "",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "color": "var(--color-foreground)",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "text_rb8PnR"
+                      ]
+                    },
+                    "accordion_row_q8WmUg": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "Quanto tempo impiega un materasso Concomodo ad espandersi?",
+                        "open_by_default": false,
+                        "icon": "none",
+                        "width": 30
+                      },
+                      "blocks": {
+                        "text_wUpPUY": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>I nostri prodotti sono realizzati sia a livello locale che globale. Selezioniamo attentamente i nostri partner di produzione per garantire prodotti di alta qualità a un prezzo equo.</p>",
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "rte",
+                            "font": "var(--font-body--family)",
+                            "weight": "",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "color": "var(--color-foreground)",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "text_wUpPUY"
+                      ]
+                    },
+                    "accordion_row_kUgjtd": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "Quanto durerà il mio materasso Concomodo?",
+                        "open_by_default": false,
+                        "icon": "none",
+                        "width": 30
+                      },
+                      "blocks": {
+                        "text_KGkUtJ": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>Lavoreremo rapidamente per spedire il tuo ordine il prima possibile. Una volta spedito l'ordine, riceverai un'email con ulteriori informazioni. I tempi di consegna variano a seconda della tua posizione.</p>",
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "rte",
+                            "font": "var(--font-body--family)",
+                            "weight": "",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "color": "var(--color-foreground)",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "text_KGkUtJ"
+                      ]
+                    },
+                    "accordion_row_Eew7wc": {
+                      "type": "_accordion-row",
+                      "settings": {
+                        "heading": "Avvertenze",
+                        "open_by_default": false,
+                        "icon": "none",
+                        "width": 30
+                      },
+                      "blocks": {
+                        "text_e3JkYt": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>I nostri prodotti sono realizzati sia a livello locale che globale. Selezioniamo attentamente i nostri partner di produzione per garantire prodotti di alta qualità a un prezzo equo.</p>",
+                            "width": "100%",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "rte",
+                            "font": "var(--font-body--family)",
+                            "weight": "",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "color": "var(--color-foreground)",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "text_e3JkYt"
+                      ]
+                    }
+                  },
+                  "block_order": [
+                    "accordion_row_7AjxBK",
+                    "accordion_row_q8WmUg",
+                    "accordion_row_kUgjtd",
+                    "accordion_row_Eew7wc"
+                  ]
+                }
+              },
+              "block_order": [
+                "accordion_VW39WC"
+              ]
+            }
+          },
+          "block_order": [
+            "text_9KQaTd",
+            "group_nbiPNA"
+          ]
+        }
+      },
+      "block_order": [
+        "group_BTcAXz"
+      ],
+      "custom_css": [
+        "> div {max-width: 1000px; margin: auto;}",
+        "summary .svg-wrapper {width: 24px;}",
+        ".accordion .details__header {padding: 30px 0;}",
+        ".accordion--dividers accordion-custom .details {border-block-end: 2px solid #cbc4bc;}",
+        ".accordion--dividers accordion-custom:last-child .details {border-block-end: none;}"
+      ],
+      "name": "FAQ",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 20,
+        "section_width": "full-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-2",
+        "background_media": "none",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_radius": 0,
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 100,
+        "padding-block-end": 40
       }
     },
     "section_VL9fDV": {
@@ -3570,7 +4322,7 @@
         "section_width": "page-width",
         "section_height": "medium",
         "section_height_custom": 50,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-2",
         "background_media": "none",
         "video_position": "cover",
         "background_image_position": "cover",
@@ -3586,418 +4338,34 @@
         "padding-block-end": 80
       }
     },
-    "installment_payments_tC9BhM": {
-      "type": "installment-payments",
-      "name": "Pagamenti rateizzati",
-      "settings": {
-        "eyebrow": "PAGAMENTO FLESSIBILE",
-        "heading": "Dormi ora, paga con comodo",
-        "subheading": "<p>Pagamenti rateizzati a 3, 4 o 6 rate senza interessi con Klarna e PagoLight. Scegli come pagare direttamente al checkout.</p>",
-        "show_rates": false,
-        "rates": "3, 4, 6",
-        "rate_word": "rate",
-        "show_klarna": true,
-        "show_pagolight": true,
-        "with_provider_label": true,
-        "provider_label": "Disponibile con",
-        "disclaimer": "Soggetto ad approvazione. Importi e condizioni possono variare in base al provider.",
-        "button_label": "",
-        "button_link": "",
-        "text_alignment": "center",
-        "corner_radius": 16,
-        "section_width": "page-width",
-        "color_scheme": "",
-        "padding-block-start": 40,
-        "padding-block-end": 40,
-        "padding-inline-start": 0,
-        "padding-inline-end": 0
-      }
-    },
-    "section_chbtyY": {
-      "type": "section",
-      "blocks": {
-        "group_BTcAXz": {
-          "type": "group",
-          "name": "t:names.group",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "center",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 60,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "text_9KQaTd": {
-              "type": "text",
-              "name": "t:names.heading",
-              "settings": {
-                "text": "<p>Domande frequenti</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "center",
-                "type_preset": "h2",
-                "font": "var(--font-body--family)",
-                "weight": "",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "group_nbiPNA": {
-              "type": "group",
-              "name": "t:names.group",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "inherit_color_scheme": true,
-                "color_scheme": "",
-                "background_media": "none",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 40,
-                "padding-block-end": 80,
-                "padding-inline-start": 30,
-                "padding-inline-end": 30
-              },
-              "blocks": {
-                "accordion_VW39WC": {
-                  "type": "accordion",
-                  "name": "t:names.accordion",
-                  "settings": {
-                    "icon": "caret",
-                    "dividers": true,
-                    "type_preset": "h4",
-                    "inherit_color_scheme": false,
-                    "color_scheme": "scheme-58084d4c-a86e-4d0a-855e-a0966e5043f7",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {
-                    "accordion_row_7AjxBK": {
-                      "type": "_accordion-row",
-                      "settings": {
-                        "heading": "Cosa rende diversi i materassi Concomodo?",
-                        "open_by_default": false,
-                        "icon": "none",
-                        "width": 30
-                      },
-                      "blocks": {
-                        "text_rb8PnR": {
-                          "type": "text",
-                          "settings": {
-                            "text": "<p>Il nostro obiettivo è la totale soddisfazione di ogni cliente. In caso contrario, contattaci e faremo del nostro meglio per trovare una soluzione insieme a te.</p>",
-                            "width": "100%",
-                            "max_width": "normal",
-                            "alignment": "left",
-                            "type_preset": "rte",
-                            "font": "var(--font-body--family)",
-                            "weight": "",
-                            "font_size": "1rem",
-                            "line_height": "normal",
-                            "letter_spacing": "normal",
-                            "case": "none",
-                            "wrap": "pretty",
-                            "color": "var(--color-foreground)",
-                            "background": false,
-                            "background_color": "#00000026",
-                            "corner_radius": 0,
-                            "padding-block-start": 0,
-                            "padding-block-end": 0,
-                            "padding-inline-start": 0,
-                            "padding-inline-end": 0
-                          },
-                          "blocks": {}
-                        }
-                      },
-                      "block_order": [
-                        "text_rb8PnR"
-                      ]
-                    },
-                    "accordion_row_q8WmUg": {
-                      "type": "_accordion-row",
-                      "settings": {
-                        "heading": "Quanto tempo impiega un materasso Concomodo ad espandersi?",
-                        "open_by_default": false,
-                        "icon": "none",
-                        "width": 30
-                      },
-                      "blocks": {
-                        "text_wUpPUY": {
-                          "type": "text",
-                          "settings": {
-                            "text": "<p>I nostri prodotti sono realizzati sia a livello locale che globale. Selezioniamo attentamente i nostri partner di produzione per garantire prodotti di alta qualità a un prezzo equo.</p>",
-                            "width": "100%",
-                            "max_width": "normal",
-                            "alignment": "left",
-                            "type_preset": "rte",
-                            "font": "var(--font-body--family)",
-                            "weight": "",
-                            "font_size": "1rem",
-                            "line_height": "normal",
-                            "letter_spacing": "normal",
-                            "case": "none",
-                            "wrap": "pretty",
-                            "color": "var(--color-foreground)",
-                            "background": false,
-                            "background_color": "#00000026",
-                            "corner_radius": 0,
-                            "padding-block-start": 0,
-                            "padding-block-end": 0,
-                            "padding-inline-start": 0,
-                            "padding-inline-end": 0
-                          },
-                          "blocks": {}
-                        }
-                      },
-                      "block_order": [
-                        "text_wUpPUY"
-                      ]
-                    },
-                    "accordion_row_kUgjtd": {
-                      "type": "_accordion-row",
-                      "settings": {
-                        "heading": "Quanto durerà il mio materasso Concomodo?",
-                        "open_by_default": false,
-                        "icon": "none",
-                        "width": 30
-                      },
-                      "blocks": {
-                        "text_KGkUtJ": {
-                          "type": "text",
-                          "settings": {
-                            "text": "<p>Lavoreremo rapidamente per spedire il tuo ordine il prima possibile. Una volta spedito l'ordine, riceverai un'email con ulteriori informazioni. I tempi di consegna variano a seconda della tua posizione.</p>",
-                            "width": "100%",
-                            "max_width": "normal",
-                            "alignment": "left",
-                            "type_preset": "rte",
-                            "font": "var(--font-body--family)",
-                            "weight": "",
-                            "font_size": "1rem",
-                            "line_height": "normal",
-                            "letter_spacing": "normal",
-                            "case": "none",
-                            "wrap": "pretty",
-                            "color": "var(--color-foreground)",
-                            "background": false,
-                            "background_color": "#00000026",
-                            "corner_radius": 0,
-                            "padding-block-start": 0,
-                            "padding-block-end": 0,
-                            "padding-inline-start": 0,
-                            "padding-inline-end": 0
-                          },
-                          "blocks": {}
-                        }
-                      },
-                      "block_order": [
-                        "text_KGkUtJ"
-                      ]
-                    },
-                    "accordion_row_Eew7wc": {
-                      "type": "_accordion-row",
-                      "settings": {
-                        "heading": "Avvertenze",
-                        "open_by_default": false,
-                        "icon": "none",
-                        "width": 30
-                      },
-                      "blocks": {
-                        "text_e3JkYt": {
-                          "type": "text",
-                          "settings": {
-                            "text": "<p>I nostri prodotti sono realizzati sia a livello locale che globale. Selezioniamo attentamente i nostri partner di produzione per garantire prodotti di alta qualità a un prezzo equo.</p>",
-                            "width": "100%",
-                            "max_width": "normal",
-                            "alignment": "left",
-                            "type_preset": "rte",
-                            "font": "var(--font-body--family)",
-                            "weight": "",
-                            "font_size": "1rem",
-                            "line_height": "normal",
-                            "letter_spacing": "normal",
-                            "case": "none",
-                            "wrap": "pretty",
-                            "color": "var(--color-foreground)",
-                            "background": false,
-                            "background_color": "#00000026",
-                            "corner_radius": 0,
-                            "padding-block-start": 0,
-                            "padding-block-end": 0,
-                            "padding-inline-start": 0,
-                            "padding-inline-end": 0
-                          },
-                          "blocks": {}
-                        }
-                      },
-                      "block_order": [
-                        "text_e3JkYt"
-                      ]
-                    }
-                  },
-                  "block_order": [
-                    "accordion_row_7AjxBK",
-                    "accordion_row_q8WmUg",
-                    "accordion_row_kUgjtd",
-                    "accordion_row_Eew7wc"
-                  ]
-                }
-              },
-              "block_order": [
-                "accordion_VW39WC"
-              ]
-            }
-          },
-          "block_order": [
-            "text_9KQaTd",
-            "group_nbiPNA"
-          ]
-        }
-      },
-      "block_order": [
-        "group_BTcAXz"
-      ],
-      "custom_css": [
-        "> div {max-width: 1000px; margin: auto;}",
-        "summary .svg-wrapper {width: 24px;}",
-        ".accordion .details__header {padding: 30px 0;}",
-        ".accordion--dividers accordion-custom .details {border-block-end: 2px solid #cbc4bc;}",
-        ".accordion--dividers accordion-custom:last-child .details {border-block-end: none;}"
-      ],
-      "name": "FAQ",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 20,
-        "section_width": "full-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-2",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 100,
-        "padding-block-end": 40
-      }
-    },
-    "product_section_nav_cc": {
-      "type": "product-section-nav",
-      "settings": {
-        "color_scheme": "scheme-1"
-      }
-    },
-    "comodi_20_cc": {
+    "comodi_in_20_secondi_QBfaTJ": {
       "type": "comodi-in-20-secondi",
-      "settings": {
-        "color_scheme": "scheme-1"
-      },
       "blocks": {
-        "pro1": {
+        "pro_DzEQtA": {
           "type": "pro",
           "settings": {
             "text": "Cerchi un materasso che ti sostiene, notte dopo notte, senza farti sprofondare."
           }
         },
-        "pro2": {
+        "pro_8ndPGU": {
           "type": "pro",
           "settings": {
             "text": "Dormi di schiena o a pancia in giù e vuoi la colonna vertebrale allineata."
           }
         },
-        "pro3": {
+        "pro_bJwMci": {
           "type": "pro",
           "settings": {
-            "text": "Ti svegliavi con la schiena indolenzita su un materasso troppo morbido."
+            "text": "Ti sveglivi con la schiena indolenzita su un materasso troppo morbido."
           }
         },
-        "con1": {
+        "con_YPApyE": {
           "type": "con",
           "settings": {
             "text": "Cerchi la sensazione avvolgente e molto morbida del memory più spesso."
           }
         },
-        "con2": {
+        "con_xAXaTh": {
           "type": "con",
           "settings": {
             "text": "Dormi quasi sempre di fianco e preferisci un appoggio soffice sulle spalle."
@@ -4005,35 +4373,44 @@
         }
       },
       "block_order": [
-        "pro1",
-        "pro2",
-        "pro3",
-        "con1",
-        "con2"
-      ]
-    },
-    "prova_100_notti_quiz_cc": {
-      "type": "prova-100-notti-quiz",
+        "pro_DzEQtA",
+        "pro_8ndPGU",
+        "pro_bJwMci",
+        "con_YPApyE",
+        "con_xAXaTh"
+      ],
+      "disabled": true,
+      "name": "Comodi in 20 secondi",
       "settings": {
-        "color_scheme": "scheme-1"
+        "eyebrow": "COMODI IN 20 SECONDI",
+        "heading": "Questo materasso fa per te?",
+        "subheading": "<p>In poche righe: quando è la scelta giusta e quando forse è meglio un altro modello.</p>",
+        "pro_title": "Fa per te se…",
+        "con_title": "Forse non fa per te se…",
+        "corner_radius": 24,
+        "section_width": "page-width",
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0
       }
     }
   },
   "order": [
     "main",
-    "product_section_nav_cc",
-    "comodi_20_cc",
     "mattress_layers_R9pXPi",
     "section_kbCGBj",
     "section_kHXYc3",
     "section_7KrxGG",
+    "section_XndPc9",
     "mattress_comparison_tYh7VN",
     "section_3xrTMJ",
     "1783587914afdecf46",
     "section_KyfGGw",
-    "section_VL9fDV",
     "installment_payments_tC9BhM",
-    "prova_100_notti_quiz_cc",
-    "section_chbtyY"
+    "section_chbtyY",
+    "section_VL9fDV",
+    "comodi_in_20_secondi_QBfaTJ"
   ]
 }
